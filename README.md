@@ -1,2 +1,2 @@
-# nerdy-delivery
+# Nerdy Delivery
 NerdyGadgets is een importeur en groothandel die producten levert aan verschillende warenhuizen en supermarkten in de Verenigde Staten. Door de succesvolle oplevering aan World Wide Importeurs van de NerdyGadgets webshop is de beloofde conversieverhoging van 5% ruimschoots gehaald en is deze tak van het bedrijf een zelfstandig onderdeel geworden. Deze groei zorgt er echter ook voor een paar noodzakelijke aanpassingen aan de processen binnen het bedrijf. In dit project zullen wij daarom bezig gaan met het verbeteren van het bedrijfsproces, administratie, het kunnen volgen van bestellingen, verbeteren van logistiek en het ondersteunen van de processen.
