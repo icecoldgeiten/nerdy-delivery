@@ -9,7 +9,6 @@ public class Bestelling {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bestellingID;
-
     private double prijs;
     private int hoeveelheid;
 
