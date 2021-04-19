@@ -3,15 +3,15 @@ package com.route.entity;
 import javax.persistence.*;
 
 import java.util.ArrayList;
-@Entity
-@Table(name = "orders", schema = "nerdygadgets")
+//@Entity
+//@Table(name = "orders", schema = "nerdygadgets")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "OrderId", updatable = false, nullable = false)
+    @Column(name = "OrderID", updatable = false, nullable = false)
     private int id;
 
-    @Column(name = "RouteId")
+    @Column(name = "RouteID")
     private int routeID;
 
     @Column(name = "DeliveryInstructions")
