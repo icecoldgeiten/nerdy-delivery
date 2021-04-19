@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/persistence/persistence_2_1.xsd">
+    <persistence-unit name="ice-unit">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.route.entity.Driver</class>
+        <class>com.route.entity.Order</class>
+
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://nerdyd.mysql.database.azure.com:3306/nerdygadgets?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.serverTimezone" value="UTC"/>
+            <property name="javax.persistence.jdbc.user" value="icecoldgeiten@nerdyd"/>
+            <property name="javax.persistence.jdbc.password" value="Nerdyneven12"/>
+        </properties>
+    </persistence-unit>
+</persistence>

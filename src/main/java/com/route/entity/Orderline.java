@@ -1,4 +1,4 @@
-package com.route;
+package com.route.entity;
 
 public class Orderline {
     private String description;
