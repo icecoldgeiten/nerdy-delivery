@@ -14,7 +14,7 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://nerdyd.mysql.database.azure.com:3306/nerdygadgets?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
             <property name="javax.persistence.jdbc.serverTimezone" value="UTC"/>
             <property name="javax.persistence.jdbc.user" value="icecoldgeiten@nerdyd"/>
-            <property name="javax.persistence.jdbc.password" value="Nerdyneven12"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
         </properties>
     </persistence-unit>
 </persistence>
