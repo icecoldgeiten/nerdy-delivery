@@ -23,6 +23,10 @@ public class Route {
     private Set<Order> orders;
 
     //Getters
+    public Long getId() {
+        return id;
+    }
+
     public int getDuration() {
         return duration;
     }

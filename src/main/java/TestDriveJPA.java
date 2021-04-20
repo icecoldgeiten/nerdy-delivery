@@ -6,7 +6,6 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -21,11 +20,12 @@ public class TestDriveJPA {
         EntityManager em = session.createEntityManager();
 
         em.getTransaction().begin();
-        Route r = em.find(Route.class, 2L);
+        Route r = em.find(Route.class, 3L);
 
         Driver d = r.getDriver();
         Set<Order> o = r.getOrders();
 
+        System.out.println("route nummer" + r.getId());
         System.out.println(d.getName() + "gaat bezorgen");
         for (Order e : o) {
             System.out.println(e.getId());
