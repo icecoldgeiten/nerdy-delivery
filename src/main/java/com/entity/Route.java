@@ -1,4 +1,4 @@
-package com.route.entity;
+package com.entity;
 
 import javax.persistence.*;
 import java.util.Set;

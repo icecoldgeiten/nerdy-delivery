@@ -1,6 +1,6 @@
-import com.route.entity.Driver;
-import com.route.entity.Order;
-import com.route.entity.Route;
+import com.entity.Driver;
+import com.entity.Order;
+import com.entity.Route;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
