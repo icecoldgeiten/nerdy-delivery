@@ -1,7 +1,6 @@
 package com.route.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
@@ -10,7 +9,7 @@ public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RouteID", updatable = false, nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name = "Duration")
     private int duration;
@@ -19,6 +18,20 @@ public class Route {
     @JoinColumn(name = "DriverID")
     private Driver driver;
 
-    @OneToMany(mappedBy = "route")
+    @OneToMany
+    @JoinColumn(name = "RouteID")
     private Set<Order> orders;
+
+    //Getters
+    public int getDuration() {
+        return duration;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
 }

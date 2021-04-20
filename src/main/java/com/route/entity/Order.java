@@ -1,7 +1,6 @@
 package com.route.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
@@ -12,11 +11,13 @@ public class Order {
     @Column(name = "OrderID", updatable = false, nullable = false)
     private int id;
 
-    @Column(name ="CustomerID")
-    private int custumerID;
+    @ManyToOne
+    @JoinColumn(name ="CustomerID", insertable = false, updatable = false)
+    private Customer customer;
 
     @ManyToOne
-    private int routeID;
+    @JoinColumn(name = "RouteID",insertable = false, updatable = false)
+    private Route route;
 
     @Column(name = "DeliveryInstructions")
     private String deliveryInstructions;
@@ -30,12 +31,8 @@ public class Order {
     @Column(name = "Nothome")
     private int notHome;
 
-    @ManyToOne
-    @JoinColumn(name = "CustomerID", referencedColumnName = "CustomerID")
-    private Customer customer;
-
-    @ManyToOne
-    @JoinColumn(name = "RouteID", nullable = false)
+    @OneToMany
+    @JoinColumn(name = "OrderID")
     private Set<Orderline> orderlines;
 
     //Getters
@@ -43,8 +40,8 @@ public class Order {
         return id;
     }
 
-    public int getRouteID() {
-        return routeID;
+    public Route getRouteID() {
+        return route;
     }
 
     public String getComments() {
@@ -59,7 +56,7 @@ public class Order {
         return notHome;
     }
 
-    public int getCustumerID() {
-        return custumerID;
+    public Customer getCustumer() {
+        return customer;
     }
 }

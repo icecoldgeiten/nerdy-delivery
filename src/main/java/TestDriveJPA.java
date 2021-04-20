@@ -1,11 +1,13 @@
 import com.route.entity.Driver;
 import com.route.entity.Order;
+import com.route.entity.Route;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class TestDriveJPA {
@@ -19,13 +21,16 @@ public class TestDriveJPA {
         EntityManager em = session.createEntityManager();
 
         em.getTransaction().begin();
-        Order d = em.find(Order.class, 1L);
-        System.out.println(d.getComments());
-//        List<Driver> result = em.createQuery("from driver", Driver.class).getResultList();
-//        for (Driver d : result) {
-//            System.out.println(d.getId());
-//        }
+        Route r = em.find(Route.class, 2L);
 
+        Driver d = r.getDriver();
+        Set<Order> o = r.getOrders();
+
+        System.out.println(d.getName() + "gaat bezorgen");
+        for (Order e : o) {
+            System.out.println(e.getId());
+            System.out.println(e.getCustumer());
+        }
 
         em.getTransaction().commit();
         em.close();

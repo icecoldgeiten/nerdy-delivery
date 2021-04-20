@@ -20,4 +20,13 @@ public class Customer {
     @OneToMany
     @JoinColumn(name = "OrderID")
     private Set<Order> order;
+
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", addres='" + addres + '\'' +
+                ", postal='" + postal + '\'';
+    }
 }
