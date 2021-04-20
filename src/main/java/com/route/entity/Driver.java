@@ -2,14 +2,19 @@ package com.route.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
-@Table(name = "driver", schema = "nerdygadgets")
+@Table(name = "driver")
 public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "DriverID", updatable = false, nullable = false)
     private int id;
+
+    @OneToMany
+    @JoinColumn(name = "DriverID")
+    private Set<Route> routes;
 
     @Column(name = "Name", nullable = false)
     private String name;

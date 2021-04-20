@@ -1,4 +1,5 @@
 import com.route.entity.Driver;
+import com.route.entity.Order;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
@@ -18,10 +19,14 @@ public class TestDriveJPA {
         EntityManager em = session.createEntityManager();
 
         em.getTransaction().begin();
-        List<Driver> result = em.createQuery("from Driver", Driver.class).getResultList();
-        for (Driver d : result) {
-            System.out.println(d.getId() + " " + d.getName());
-        }
+        Order d = em.find(Order.class, 1L);
+        System.out.println(d.getComments());
+//        List<Driver> result = em.createQuery("from driver", Driver.class).getResultList();
+//        for (Driver d : result) {
+//            System.out.println(d.getId());
+//        }
+
+
         em.getTransaction().commit();
         em.close();
     }

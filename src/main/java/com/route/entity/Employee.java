@@ -1,14 +1,17 @@
 package com.route.entity;
 
-import java.time.LocalDate;
+import javax.persistence.*;
 
+@Entity
 public abstract class Employee extends Person {
-    //This either will be an encrypted string
-    //Or te vars will be unnecessary
-    private String username;
-    private String password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "EmployeeID", updatable = false, nullable = false)
+    private int id;
 
-    public Employee(String name, String inserts, String sirname, LocalDate birthdate, int phonenumber) {
-        super(name, inserts, sirname, birthdate, phonenumber);
-    }
+    @Column(name = "Username")
+    private String username;
+
+    @Column(name = "Password")
+    private String password;
 }

@@ -1,19 +1,23 @@
 package com.route.entity;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDate;
 
+@MappedSuperclass
 public abstract class Person {
+    @Column(name = "Name")
     private String name;
-    private String inserts;
-    private String sirname;
-    private LocalDate birthdate;
-    private int phonenumber;
 
-    public Person(String name, String inserts, String sirname, LocalDate birthdate, int phonenumber) {
-        this.name = name;
-        this.inserts = inserts;
-        this.sirname = sirname;
-        this.birthdate = birthdate;
-        this.phonenumber = phonenumber;
-    }
+    @Column(name = "Inserts")
+    private String inserts;
+
+    @Column(name = "Sirname")
+    private String sirname;
+
+    @Column(name = "Birthdate")
+    private LocalDate birthdate;
+
+    @Column(name = "Phonenumber")
+    private int phonenumber;
 }

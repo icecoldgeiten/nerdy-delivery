@@ -1,17 +1,21 @@
 package com.route.entity;
 
 import javax.persistence.*;
-
 import java.util.ArrayList;
-//@Entity
-//@Table(name = "orders", schema = "nerdygadgets")
+import java.util.Set;
+
+@Entity
+@Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "OrderID", updatable = false, nullable = false)
     private int id;
 
-    @Column(name = "RouteID")
+    @Column(name ="CustomerID")
+    private int custumerID;
+
+    @ManyToOne
     private int routeID;
 
     @Column(name = "DeliveryInstructions")
@@ -26,9 +30,13 @@ public class Order {
     @Column(name = "Nothome")
     private int notHome;
 
-    //Dit moet mooi geregeld worden
+    @ManyToOne
+    @JoinColumn(name = "CustomerID", referencedColumnName = "CustomerID")
     private Customer customer;
-    private ArrayList<Orderline> orderlines;
+
+    @ManyToOne
+    @JoinColumn(name = "RouteID", nullable = false)
+    private Set<Orderline> orderlines;
 
     //Getters
     public int getId() {
@@ -49,5 +57,9 @@ public class Order {
 
     public int getNotHome() {
         return notHome;
+    }
+
+    public int getCustumerID() {
+        return custumerID;
     }
 }
