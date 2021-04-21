@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="unnamed">
+    <output-path>$PROJECT_DIR$/out/artifacts/unnamed</output-path>
+    <root id="root">
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:win:16" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:win:16" />
+    </root>
+  </artifact>
+</component>
