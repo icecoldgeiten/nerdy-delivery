@@ -22,13 +22,12 @@ public class LoginController {
     @FXML
     public void initialize() {
         admin = new AdminDao();
-
     }
 
     @FXML
     public void handleLoginButton(ActionEvent actionEvent) throws IOException {
         if (admin.validate(username.getText(), password.getText())) {
-            App.setRoot("secondary");
+            App.setRoot("routes");
         }
     }
 }

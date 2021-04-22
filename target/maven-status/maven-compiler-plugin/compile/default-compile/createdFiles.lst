@@ -1,3 +1,7 @@
+com\dao\RouteDao.class
+org\openjfx\RouteController$1$1.class
 com\dao\AdminDao.class
+org\openjfx\RouteController.class
 com\helpers\AES256.class
 org\openjfx\LoginController.class
+org\openjfx\RouteController$1.class

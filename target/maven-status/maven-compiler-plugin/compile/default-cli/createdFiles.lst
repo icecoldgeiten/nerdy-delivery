@@ -8,5 +8,4 @@ com\entity\Orderline.class
 TestDriveJPA.class
 com\entity\Administrator.class
 org\openjfx\SecondaryController.class
-com\entity\Person.class
 org\openjfx\App.class
