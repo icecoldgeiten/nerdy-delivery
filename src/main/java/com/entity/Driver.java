@@ -51,7 +51,7 @@ public class Driver {
     //constructor
     public Driver(String name, String ins, String sn, int phone, LocalDate bd){
         this.name = name;
-        this.inserts = inserts;
+        this.inserts = ins;
         this.sirname = sn;
         this.phone = phone;
         this.birthdate = bd;
@@ -72,35 +72,13 @@ public class Driver {
         return userName;
     }
 
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setInserts(String inserts) {
-        this.inserts = inserts;
-    }
-
-    public void setSirname(String sirname) {
-        this.sirname = sirname;
-    }
-
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
     //METHOD
     public void newDriver(String naam, String inserts, String sirname, int phone, String birthdate){
         LocalDate gb;
         try {
             gb = LocalDate.parse(birthdate);
         } catch (DateTimeParseException ex){
-            gb = "00-00-0000";
-
+            gb = LocalDate.now();
         }
 
         EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
