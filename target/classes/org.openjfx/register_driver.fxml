@@ -9,35 +9,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<!--<FlowPane  xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">-->
-<!--   <padding>-->
-<!--      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>-->
-<!--   </padding>-->
-<!--         <Label layoutX="203.0" layoutY="49.0" text="Registreren Bezorger">-->
-<!--            <font>-->
-<!--               <Font size="18.0" />-->
-<!--            </font>-->
-<!--         </Label>-->
-<!--</FlowPane>-->
-<!--   <VBox alignment="CENTER" prefHeight="234.0" prefWidth="407.0" spacing="20.0" xmlns="http://javafx.com/javafx/16"-->
-<!--         xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.Register_driverController">-->
-<!--      <padding>-->
-<!--         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>-->
-<!--      </padding>-->
-<!--      <Label layoutX="203.0" layoutY="49.0" text="Registreren Bezorger">-->
-<!--         <font>-->
-<!--            <Font size="18.0" />-->
-<!--         </font>-->
-<!--      </Label>-->
-<!--      <Button fx:id="bTerug" cache="true" layoutX="23.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Terug" onAction="#handleCloseButtonAction" />-->
-<!--      <Button fx:id="bGereed" layoutX="489.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Gereed" onAction="#handleCloseButtonAction"/>-->
-<!--   </VBox>-->
-
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:controller="org.openjfx.Register_driverController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
 <!--   <children>-->
-      <Button fx:id="bBack" layoutX="27.0" layoutY="352.0" mnemonicParsing="false" text="Terug" />
-      <Button fx:id="bReady" layoutX="518.0" layoutY="352.0" mnemonicParsing="false" text="Gereed" />
+      <Button fx:id="bBack" layoutX="27.0" layoutY="352.0" mnemonicParsing="false" text="Terug" onAction="#handleCloseButtonAction" />
+      <Button fx:id="bReady" layoutX="518.0" layoutY="352.0" mnemonicParsing="false" text="Gereed" onAction="#handleCloseButtonAction" />
+      <Label fx:id="lErrorGegevens" layoutX="340.0" layoutY="358.0" text=""/>
       <Label layoutX="211.0" layoutY="31.0" text="Bezorger aanmaken">
          <font>
             <Font name="System Bold" size="19.0" />
@@ -61,13 +37,13 @@
             <Label text="Achternaam" GridPane.columnIndex="2" />
             <Label text="Telefoonnummer" GridPane.rowIndex="2" />
             <Label text="Geboortedatum" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Email" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <TextField fx:id="tfName" GridPane.rowIndex="1" />
+<!--            <Label text="Email" GridPane.columnIndex="2" GridPane.rowIndex="2" />-->
+            <TextField fx:id="tfName" text="yyyy-mm-dd" GridPane.rowIndex="1" />
             <TextField fx:id="tfInserts" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="tfSirname" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <TextField fx:id="tfPhone" prefHeight="25.0" prefWidth="148.0" GridPane.rowIndex="3" />
             <TextField fx:id="tfBirthdate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="tfEmail" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+<!--            <TextField fx:id="tfEmail" GridPane.columnIndex="2" GridPane.rowIndex="3" />-->
 <!--         </children>-->
       </GridPane>
 <!--   </children>-->

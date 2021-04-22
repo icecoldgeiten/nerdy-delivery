@@ -50,12 +50,18 @@ public class Driver {
 
     //constructor
     public Driver(String name, String ins, String sn, int phone, LocalDate bd){
-        this.name = name;
+        this(name,sn,phone,bd);
         this.inserts = ins;
+    }
+    public Driver(String name, String sn, int phone, LocalDate bd){
+
+
+
+        this.name = name;
+        this.inserts = "";
         this.sirname = sn;
         this.phone = phone;
         this.birthdate = bd;
-
     }
 
 
