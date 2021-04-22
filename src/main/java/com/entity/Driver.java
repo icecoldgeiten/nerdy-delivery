@@ -1,7 +1,10 @@
 package com.entity;
 
+import org.hibernate.hql.internal.ast.tree.IsNullLogicOperatorNode;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Set;
 
 @Entity
@@ -43,6 +46,19 @@ public class Driver {
     @Column(name = "LicenseNr")
     private int lincenseNr;
 
+    private EntityManager em;
+
+    //constructor
+    public Driver(String name, String ins, String sn, int phone, LocalDate bd){
+        this.name = name;
+        this.inserts = inserts;
+        this.sirname = sn;
+        this.phone = phone;
+        this.birthdate = bd;
+
+    }
+
+
     //Getters
     public int getId() {
         return this.id;
@@ -54,5 +70,43 @@ public class Driver {
 
     public String getUserName() {
         return userName;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setInserts(String inserts) {
+        this.inserts = inserts;
+    }
+
+    public void setSirname(String sirname) {
+        this.sirname = sirname;
+    }
+
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
+
+    //METHOD
+    public void newDriver(String naam, String inserts, String sirname, int phone, String birthdate){
+        LocalDate gb;
+        try {
+            gb = LocalDate.parse(birthdate);
+        } catch (DateTimeParseException ex){
+            gb = "00-00-0000";
+
+        }
+
+        EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
+        em = session.createEntityManager();
+        Driver driver = new Driver(naam,inserts,sirname,phone,gb);
+        em.persist(driver);
+
     }
 }

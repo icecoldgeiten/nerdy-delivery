@@ -1,33 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.VBox?>
-   <VBox alignment="CENTER" prefHeight="234.0" prefWidth="407.0" spacing="20.0" xmlns="http://javafx.com/javafx/16"
-         xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.Register_driverController">
-      <padding>
-         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-      </padding>
-      <Label layoutX="203.0" layoutY="49.0" text="Registreren Bezorger">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="25.0" layoutY="111.0" text="Voornaam" />
-      <Label layoutX="212.0" layoutY="111.0" text="Tussenvoegsels" />
-      <Label layoutX="409.0" layoutY="111.0" text="Achternaam" />
-      <Label layoutX="25.0" layoutY="193.0" text="E-mail" />
-      <Label layoutX="212.0" layoutY="193.0" text="Telefoonnummer" />
-      <Label layoutX="409.0" layoutY="192.0" text="Geboortedatum" />
-      <TextField fx:id="tfVoornaam" layoutX="25.0" layoutY="128.0" />
-      <TextField fx:id="tfTussenvoegstels" layoutX="212.0" layoutY="128.0" />
-      <TextField fx:id="tfAchternaam"   layoutX="409.0" layoutY="128.0" />
-      <TextField fx:id="tfEmail" layoutX="25.0" layoutY="213.0" />
-      <TextField fx:id= "tfTelefoonnummer" layoutX="212.0" layoutY="213.0" />
-      <TextField fx:id= "tfGeboorteDatum" layoutX="409.0" layoutY="213.0" />
-      <Button fx:id="bTerug" cache="true" layoutX="23.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Terug" onAction="#handleCloseButtonAction" />
-      <Button fx:id="bGereed" layoutX="489.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Gereed" onAction="#handleCloseButtonAction"/>
-   </VBox>
+
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<!--<FlowPane  xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">-->
+<!--   <padding>-->
+<!--      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>-->
+<!--   </padding>-->
+<!--         <Label layoutX="203.0" layoutY="49.0" text="Registreren Bezorger">-->
+<!--            <font>-->
+<!--               <Font size="18.0" />-->
+<!--            </font>-->
+<!--         </Label>-->
+<!--</FlowPane>-->
+<?import javafx.scene.control.Button?>
+<GridPane fx:controller="org.openjfx.Register_driverController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<padding>
+   <Insets top="25" right="25" bottom="10" left="25"/>
+</padding>
+   <Label layoutX="25.0" layoutY="111.0" text="Voornaam" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+   <Label layoutX="212.0" layoutY="111.0" text="Tussenvoegsels" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+   <Label layoutX="409.0" layoutY="111.0" text="Achternaam" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+   <TextField fx:id="tfVoornaam" layoutX="25.0" layoutY="128.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+   <TextField fx:id="tfTussenvoegstels" layoutX="212.0" layoutY="128.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+   <TextField fx:id="tfAchternaam"   layoutX="409.0" layoutY="128.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+<!--   <Label layoutX="25.0" layoutY="193.0" text="E-mail" GridPane.columnIndex="0" GridPane.rowIndex="2" />-->
+   <Label layoutX="212.0" layoutY="193.0" text="Telefoonnummer" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+   <Label layoutX="409.0" layoutY="192.0" text="Geboortedatum" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+<!--         <TextField fx:id="tfEmail" layoutX="25.0" layoutY="213.0" GridPane.columnIndex="0" GridPane.rowIndex="3" />-->
+    <TextField fx:id= "tfTelefoonnummer" layoutX="212.0" layoutY="213.0" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <TextField fx:id= "tfGeboorteDatum" layoutX="409.0" layoutY="213.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+    <Button fx:id="bTerug" cache="true" layoutX="23.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Terug" onAction="#handleCloseButtonAction" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <Label fx:id="lErrorGegevens" layoutX="212.0" layoutY="193.0" text="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    <Button fx:id="bGereed" layoutX="489.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Gereed" onAction="#handleCloseButtonAction" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+</GridPane>
+
+
+
+
+<!--   <VBox alignment="CENTER" prefHeight="234.0" prefWidth="407.0" spacing="20.0" xmlns="http://javafx.com/javafx/16"-->
+<!--         xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.Register_driverController">-->
+<!--      <padding>-->
+<!--         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>-->
+<!--      </padding>-->
+<!--      <Label layoutX="203.0" layoutY="49.0" text="Registreren Bezorger">-->
+<!--         <font>-->
+<!--            <Font size="18.0" />-->
+<!--         </font>-->
+<!--      </Label>-->
+
+<!--      <Button fx:id="bTerug" cache="true" layoutX="23.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Terug" onAction="#handleCloseButtonAction" />-->
+<!--      <Button fx:id="bGereed" layoutX="489.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Gereed" onAction="#handleCloseButtonAction"/>-->
+<!--   </VBox>-->
+
