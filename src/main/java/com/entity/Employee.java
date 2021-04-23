@@ -1,17 +1,41 @@
 package com.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
-@Entity
-public abstract class Employee extends Person {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "EmployeeID", updatable = false, nullable = false)
-    private int id;
+@MappedSuperclass
+public abstract class Employee {
+    @Column(name = "Name")
+    private String name;
 
-    @Column(name = "Username")
+    @Column(name = "Inserts")
+    private String inserts;
+
+    @Column(name = "Sirname")
+    private String sirname;
+
+    @Column(name = "Birthdate")
+    private LocalDate birthdate;
+
+    @Column(name = "Phonenumber")
+    private Integer phonenumber;
+
+    @Column(name = "Username", nullable = false)
     private String username;
 
-    @Column(name = "Password")
+    @Column(name = "Password", nullable = false)
     private String password;
+
+    //Getters
+    public String getName() {
+        return this.name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
