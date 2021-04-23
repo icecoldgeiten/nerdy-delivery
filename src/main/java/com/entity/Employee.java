@@ -1,17 +1,70 @@
 package com.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
-@Entity
-public abstract class Employee extends Person {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "EmployeeID", updatable = false, nullable = false)
-    private int id;
+@MappedSuperclass
+public abstract class Employee {
+    @Column(name = "Name")
+    private String name;
 
-    @Column(name = "Username")
+    @Column(name = "Inserts")
+    private String inserts;
+
+    @Column(name = "Sirname")
+    private String sirname;
+
+    @Column(name = "Birthdate")
+    private LocalDate birthdate;
+
+    @Column(name = "Phonenumber")
+    private int phonenumber;
+
+    @Column(name = "Username", nullable = false)
     private String username;
 
-    @Column(name = "Password")
+    @Column(name = "Password", nullable = false)
     private String password;
+
+    //Getters
+    public String getName() {
+        return this.name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Employee() {
+    }
+
+    //Setters
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setInserts(String inserts) {
+        this.inserts = inserts;
+    }
+    public void setSirname(String sirname) {
+        this.sirname = sirname;
+    }
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public void setPhonenumber(int phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
