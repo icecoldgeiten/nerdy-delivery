@@ -1,6 +1,11 @@
 import com.entity.Driver;
 import com.entity.Order;
 import com.entity.Route;
+import com.google.CalculateRoute;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.model.DirectionsLeg;
+import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DirectionsStep;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
@@ -18,18 +23,17 @@ public class TestDriveJPA {
 
         EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
         EntityManager em = session.createEntityManager();
+        CalculateRoute re = new CalculateRoute();
 
         em.getTransaction().begin();
-        Route r = em.find(Route.class, 3L);
+        Route r = em.find(Route.class, 2L);
 
-        Driver d = r.getDriver();
-        Set<Order> o = r.getOrders();
-
-        System.out.println("route nummer" + r.getId());
-        System.out.println(d.getName() + "gaat bezorgen");
-        for (Order e : o) {
-            System.out.println(e.getId());
-            System.out.println(e.getCustumer());
+        DirectionsRoute mark = re.RouteMaker(r.getOrders());
+        for (DirectionsLeg w : mark.legs) {
+            for (DirectionsStep s : w.steps) {
+                System.out.println(s.startLocation);
+                System.out.println(s.endLocation);
+            }
         }
 
         em.getTransaction().commit();
