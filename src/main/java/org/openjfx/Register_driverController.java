@@ -6,10 +6,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -21,11 +25,12 @@ public class Register_driverController {
     public TextField tfName;
     public TextField tfInserts;
     public TextField tfSirname;
-    public TextField tfEmail;
     public TextField tfPhone;
     public TextField tfBirthdate;
     public Label lErrorGegevens;
-    public Driver driver;
+    public EntityManager em;
+    public DatePicker dpBirthday;
+    public TextField tfEmail;
 
 
 
@@ -42,8 +47,19 @@ public class Register_driverController {
                     telefoonnr = Integer.parseInt(tfPhone.getText());
                 }
                 try {
-                    LocalDate bd = LocalDate.parse(tfBirthdate.getText());
-                    this.driver = new Driver(tfName.getText(),tfInserts.getText(),tfSirname.getText(),telefoonnr,bd);
+                    LocalDate bd = dpBirthday.getValue();
+
+                    // String to LocalDate
+//                    LocalDate bd = LocalDate.parse(tfBirthdate.getText());
+                    //new session -  adding new driver.
+                    EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
+                    em = session.createEntityManager();
+                    Driver driver = new Driver(tfName.getText(),tfInserts.getText(),tfSirname.getText(),telefoonnr,bd);
+                    em.persist(driver);
+                    System.out.println("Driver added");
+                    //close session
+                    session.close();
+                    //close screen
                     stage.close();
                 }catch (Exception e){
                     System.out.println(e);
@@ -51,7 +67,7 @@ public class Register_driverController {
                 }
         } else if (event.getSource() == bBack) {
             Stage stage = (Stage) bBack.getScene().getWindow();
-
+            stage.close();
         }
     }
 }
