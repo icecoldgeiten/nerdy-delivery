@@ -12,19 +12,23 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
-
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("login"));
+        scene = new Scene(loadFXML("routes"));
 
+        stage.setTitle("Nerdy Delivery");
         stage.setScene(scene);
         stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
+    }
+
+    public static Scene getScene() {
+        return scene;
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

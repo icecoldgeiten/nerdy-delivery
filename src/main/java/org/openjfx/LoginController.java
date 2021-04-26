@@ -1,8 +1,6 @@
 package org.openjfx;
 
 import com.dao.AdminDao;
-import com.entity.Administrator;
-import com.entity.Employee;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
@@ -27,7 +25,7 @@ public class LoginController {
     @FXML
     public void handleLoginButton(ActionEvent actionEvent) throws IOException {
         if (admin.validate(username.getText(), password.getText())) {
-            App.setRoot("secondary");
+            App.setRoot("routes");
         }
     }
 }

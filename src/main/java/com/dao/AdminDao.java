@@ -23,10 +23,11 @@ public class AdminDao {
                 return true;
             }
             em.getTransaction().commit();
+            em.close();
         } catch (Exception e) {
-            if (em.getTransaction() != null) {
-                em.getTransaction().rollback();
-            }
+//            if (em.getTransaction() != null) {
+////                em.getTransaction().rollback();
+//            }
             e.printStackTrace();
         }
         return false;

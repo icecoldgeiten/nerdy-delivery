@@ -38,4 +38,12 @@ public class Route {
     public Driver getDriver() {
         return driver;
     }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "id=" + id +
+                ", driver=" + driver.getName() +
+                '}';
+    }
 }
