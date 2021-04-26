@@ -25,7 +25,7 @@ public class LoginController {
     @FXML
     public void handleLoginButton(ActionEvent actionEvent) throws IOException {
         if (admin.validate(username.getText(), password.getText())) {
-            App.setRoot("routes");
+            App.setRoot("admin");
         }
     }
 }
