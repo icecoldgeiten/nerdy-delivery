@@ -7,11 +7,11 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.BezorgerbeherenController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.BezorgerBeherenController">
    <children>
-      <ListView layoutX="9.0" layoutY="56.0" prefHeight="288.0" prefWidth="582.0" />
-      <Button fx:id="bBACK" onAction="#buttonB" layoutX="9.0" layoutY="355.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="Terug" textAlignment="CENTER" />
-      <Button fx:id="bOK" onAction="#buttonP" layoutX="519.0" layoutY="355.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Gereed" textAlignment="CENTER" />
+      <ListView fx:id="lvDrivers" layoutX="9.0" layoutY="56.0" prefHeight="288.0" prefWidth="582.0" />
+      <Button layoutX="9.0" layoutY="355.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="Terug" textAlignment="CENTER" />
+      <Button layoutX="519.0" layoutY="355.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Gereed" textAlignment="CENTER" />
       <Button layoutX="89.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="27.0" text="+" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
