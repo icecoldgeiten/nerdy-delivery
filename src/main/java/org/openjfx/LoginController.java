@@ -22,7 +22,6 @@ public class LoginController {
     @FXML
     public void initialize() {
         admin = new AdminDao();
-
     }
 
     @FXML

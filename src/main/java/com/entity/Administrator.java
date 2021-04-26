@@ -1,6 +1,7 @@
 package com.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "administrator")

@@ -56,7 +56,7 @@ public class Order {
         return notHome;
     }
 
-    public Customer getCustumer() {
+    public Customer getCustomer() {
         return customer;
     }
 }
