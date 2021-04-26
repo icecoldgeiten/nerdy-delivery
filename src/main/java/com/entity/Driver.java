@@ -1,7 +1,6 @@
 package com.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -11,18 +10,12 @@ public class Driver extends Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DriverID", updatable = false, nullable = false)
     private int id;
-
     @OneToMany
     @JoinColumn(name = "DriverID")
     private Set<Route> routes;
-
     @Column(name = "Vehicle")
     private int vehicle;
-
     @Column(name = "LicenseNr")
     private int lincenseNr;
-
-    public Driver() {
-    }
 
 }

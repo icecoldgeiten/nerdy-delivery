@@ -9,22 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 
-public class Register_driverController {
+public class RegisterDriverController {
 
     @FXML
-    public Button bReady;
-    public Button bBack;
-    public TextField tfName;
-    public TextField tfInserts;
-    public TextField tfSirname;
-    public TextField tfPhone;
+    public Button bReady, bBack;
+    public TextField tfName, tfInserts, tfSirname, tfPhone, tfEmail;
     public Label lErrorGegevens;
-    public EntityManager em;
     public DatePicker dpBirthday;
-    public TextField tfEmail;
     private DriverDao driver;
 
     @FXML

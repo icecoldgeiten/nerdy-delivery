@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.Register_driverController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.RegisterDriverController">
 <!--   <children>-->
       <Button fx:id="bBack" layoutX="27.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Terug" />
       <Button fx:id="bReady" layoutX="518.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleReadyButtonAction" text="Gereed" />

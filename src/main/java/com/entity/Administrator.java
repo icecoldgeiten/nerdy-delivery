@@ -10,6 +10,4 @@ public class Administrator extends Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "AdminID", updatable = false, nullable = false)
     private int id;
-
-    public Administrator(){}
 }

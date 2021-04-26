@@ -2,3 +2,4 @@ com\dao\DriverDao.class
 com\dao\AdminDao.class
 com\helpers\AES256.class
 org\openjfx\LoginController.class
+org\openjfx\RegisterDriverController.class

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 public class DriverDao {
     EntityManager em;
+    Driver driver;
 
     public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ice-unit");
@@ -15,7 +16,7 @@ public class DriverDao {
         try {
 
             em.getTransaction().begin();
-            Driver driver = new Driver();
+            driver = new Driver();
 
             driver.setName(name);
             driver.setInserts(sn);
