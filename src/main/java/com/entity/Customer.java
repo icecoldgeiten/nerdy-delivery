@@ -21,12 +21,8 @@ public class Customer {
     @JoinColumn(name = "OrderID")
     private Set<Order> order;
 
-
     @Override
     public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", addres='" + addres + '\'' +
-                ", postal='" + postal + '\'';
+        return addres + ", " + postal;
     }
 }

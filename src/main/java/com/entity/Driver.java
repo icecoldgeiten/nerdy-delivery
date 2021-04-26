@@ -7,17 +7,15 @@ import java.util.Set;
 @Table(name = "driver")
 public class Driver extends Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DriverID", updatable = false, nullable = false)
     private int id;
-
     @OneToMany
     @JoinColumn(name = "DriverID")
     private Set<Route> routes;
-
     @Column(name = "Vehicle")
     private int vehicle;
-
     @Column(name = "LicenseNr")
     private int lincenseNr;
+
 }
