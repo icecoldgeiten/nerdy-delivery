@@ -47,12 +47,16 @@ public class Driver {
     public int getId() {
         return this.id;
     }
-
     public String getName() {
         return this.name;
     }
-
     public String getUserName() {
         return userName;
     }
+    public String getInserts() {return inserts;}
+    public String getSirname() {return sirname;}
+    public LocalDate getBirthdate() {return birthdate;}
+    public int getPhone() {return phone;}
+    public int getVehicle() {return vehicle;}
+    public int getLincenseNr() {return lincenseNr; }
 }
