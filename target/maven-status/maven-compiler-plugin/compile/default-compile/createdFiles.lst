@@ -5,6 +5,7 @@ com\entity\Order.class
 com\entity\Route.class
 org\openjfx\PrimaryController.class
 com\entity\Employee.class
+org\openjfx\BezorgerBeherenController$1.class
 com\entity\Customer.class
 com\entity\Orderline.class
 TestDriveJPA.class
