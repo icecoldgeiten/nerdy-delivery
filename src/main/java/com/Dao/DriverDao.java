@@ -1,4 +1,4 @@
-package com.dao;
+package com.Dao;
 
 import com.entity.Driver;
 import org.hibernate.Session;

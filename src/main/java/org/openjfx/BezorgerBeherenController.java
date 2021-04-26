@@ -2,7 +2,6 @@ package org.openjfx;
 
 import java.net.URL;
 
-import java.sql.SQLOutput;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -14,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import com.dao.DriverDao;
+import com.Dao.DriverDao;
 import com.entity.Driver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
