@@ -1,8 +1,6 @@
 package org.openjfx;
 
 import com.dao.AdminDao;
-import com.entity.Administrator;
-import com.entity.Employee;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;

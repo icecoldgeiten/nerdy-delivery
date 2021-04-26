@@ -1,14 +1,10 @@
 package com.dao;
 
 import com.entity.Route;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import org.junit.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RouteDao {
