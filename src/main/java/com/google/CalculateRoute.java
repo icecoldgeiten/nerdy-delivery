@@ -41,7 +41,7 @@ public class CalculateRoute {
         int index = 0;
 
         for (Order o : orders) {
-            String a = (o.getCustumer().toString());
+            String a = (o.getCustomer().toString());
             addresses[index] = a;
             index = index + 1;
         }

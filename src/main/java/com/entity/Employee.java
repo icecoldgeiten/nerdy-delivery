@@ -14,13 +14,13 @@ public abstract class Employee {
     @Column(name = "Birthdate")
     private LocalDate birthdate;
     @Column(name = "Phonenumber")
-    private int phonenumber;
+    private Integer phonenumber;
     @Column(name = "Username", nullable = false)
     private String username;
     @Column(name = "Password", nullable = false)
     private String password;
 
-    //GETTER
+    //GETTERS
     public String getName() {
         return this.name;
     }
@@ -31,7 +31,7 @@ public abstract class Employee {
         return password;
     }
 
-    //SETTER
+    //SETTERS
     public void setName(String name) {
         this.name = name;
     }
