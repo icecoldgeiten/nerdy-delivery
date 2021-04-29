@@ -44,8 +44,6 @@ public class BezorgerBeherenController implements Initializable {
     private void loadDrivers() {
         ObservableList<Driver> observableList = FXCollections.observableList(driverDao.listviewDrivers());
         lvDrivers.setItems(observableList);
-
-
         lvDrivers.setCellFactory(new Callback<>() {
             @Override
             public ListCell<Driver> call(ListView<Driver> p) {
@@ -60,6 +58,14 @@ public class BezorgerBeherenController implements Initializable {
                 };
             }
         });
+        //Before clicking on mouse labels are empty
+        lName.setText("");
+        lInserts.setText("");
+        lSirname.setText("");
+        lBirthday.setText("");
+        lPhone.setText("");
+        lVehicle.setText("");
+        lLicense.setText("");
     }
 
     // When mouse clicked on list show details of driver!
