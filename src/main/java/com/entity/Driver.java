@@ -43,7 +43,7 @@ public class Driver {
     @Column(name = "LicenseNr")
     private int lincenseNr;
 
-    //Getters
+    //GETTERS
     public int getId() {
         return this.id;
     }
@@ -59,4 +59,13 @@ public class Driver {
     public int getPhone() {return phone;}
     public int getVehicle() {return vehicle;}
     public int getLincenseNr() {return lincenseNr; }
+
+    //SETTERS
+    public void setName(String name) {this.name = name;}
+    public void setInserts(String inserts) {this.inserts = inserts;}
+    public void setSirname(String sirname) {this.sirname = sirname;}
+    public void setBirthdate(LocalDate birthdate) {this.birthdate = birthdate;}
+    public void setPhone(int phone) {this.phone = phone;}
+    public void setVehicle(int vehicle) {this.vehicle = vehicle;}
+    public void setLincenseNr(int lincenseNr) {this.lincenseNr = lincenseNr;}
 }
