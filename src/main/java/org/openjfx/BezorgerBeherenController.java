@@ -1,23 +1,23 @@
 package org.openjfx;
 
-import java.net.URL;
-
-import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
-
-import com.dialog.DriverChangeDialog;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import com.Dao.DriverDao;
+import com.dialog.DriverChangeDialog;
 import com.entity.Driver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+
+import java.net.URL;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class BezorgerBeherenController implements Initializable {
     DriverDao driverDao;
@@ -28,6 +28,7 @@ public class BezorgerBeherenController implements Initializable {
     @FXML
     public Label lName, lInserts, lSirname, lBirthday, lPhone, lVehicle, lLicense;
     private int clickedDriver;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -105,4 +106,25 @@ public class BezorgerBeherenController implements Initializable {
     public int getClickedDriver() {
         return clickedDriver;
     }
+
+    public void rowDelete(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Verwijderen");
+        alert.setHeaderText("Verwijder Bezorger!");
+        alert.setContentText("Wilt u zeker dit verwijderen?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            // ... user chose OK
+            driverDao.rowDelete(clickedDriver);
+
+        }
+        else {
+            /* ... user chose CANCEL or closed the dialog */
+
+        }
+        updateDrivers();
+    }
+
+
 }

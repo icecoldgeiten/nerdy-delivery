@@ -1,10 +1,10 @@
 package com.Dao;
 
 import com.entity.Driver;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -61,4 +61,29 @@ public class DriverDao {
             return driver = null;
         }
     }
+
+
+
+    public void rowDelete(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ice-unit");
+        em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            driver = em.find(Driver.class,id);
+//            assertThat(driver, notNullValue());
+            em.remove(driver);
+            System.out.println("Bezorger is verwijderd");
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Niet gelukt");
+        }
+
+
+    }
 }
+
+
+
+
+
