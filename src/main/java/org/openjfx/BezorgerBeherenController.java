@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -133,4 +134,7 @@ public class BezorgerBeherenController implements Initializable {
     }
 
 
+    public void newBezorger() throws IOException {
+        App.setRoot("register_driver");
+    }
 }
