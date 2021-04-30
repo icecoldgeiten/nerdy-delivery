@@ -59,4 +59,9 @@ public class Order {
     public Customer getCustomer() {
         return customer;
     }
+
+    //SETTERS
+    public void setDelivered(int delivered) {this.delivered = delivered;}
+    public void setNotHome(int notHome) {this.notHome = notHome; }
+
 }

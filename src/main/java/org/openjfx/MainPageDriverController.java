@@ -3,22 +3,32 @@ package org.openjfx;
 import com.dao.DriverDao;
 import com.entity.Customer;
 import com.entity.Route;
+import com.google.CalculateRoute;
+import com.google.maps.model.DirectionsLeg;
+import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DirectionsStep;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
+
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainPageDriverController {
     DriverDao driverDao;
+    CalculateRoute calculateRoute;
     @FXML TableView<Customer> tvDeliveries;
     @FXML TableColumn<Customer, String> tcAdress, tcPostalcode, tcLocation;
     @FXML TableColumn<Customer, Button> tcDelivered,tcNotHome;
     @FXML Label lDuration,lETA;
     @FXML ComboBox<Route> cbRoutes;
-    @FXML ListView<Route> lvDirections;
+    @FXML ListView<DirectionsRoute> lvDirectionsRoute;
+
 
 
     public MainPageDriverController() {
@@ -27,6 +37,7 @@ public class MainPageDriverController {
     public void initialize() {
         this.driverDao = new DriverDao();
         loadComboBoxRoute();
+        calculateRoute = new CalculateRoute();
 //        this.loadDeliveries();
     }
 
@@ -61,9 +72,33 @@ public class MainPageDriverController {
     public void loadRouteAfterChangeComboBoxRoute(){
         //Change labels when clicking a route.
         lDuration.setText(Integer.toString(cbRoutes.getValue().getDuration()) + " min");
-        lETA.setText("onbekend");
+        lETA.setText(Integer.toString(calculateRoute.RouteMaker(cbRoutes.getValue().getOrders()).legs.length));
 
         //Get the directions of the selected route.
+        List<DirectionsRoute> list = Arrays.asList(calculateRoute.RouteMaker(cbRoutes.getValue().getOrders()));
+        ObservableList<DirectionsRoute> directionsRoutes = FXCollections.observableList(list);
+        lvDirectionsRoute.setItems(directionsRoutes);
+        lvDirectionsRoute.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<DirectionsRoute> call(ListView<DirectionsRoute> p) {
+                return new ListCell<>() {
+                    @Override
+                    protected void updateItem(DirectionsRoute t, boolean bln) {
+                        super.updateItem(t, bln);
+                        if (t != null) {
+                            setText(t.toString());
+                        }
+                    }
+                };
+            }
+        });
     }
 
+    public void onActionButtonDelivered(){
+
+    }
+
+    public void onActionButtonNotHome(){
+
+    }
 }
