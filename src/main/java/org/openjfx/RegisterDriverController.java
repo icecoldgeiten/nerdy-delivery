@@ -1,6 +1,7 @@
 package org.openjfx;
 
 import com.dao.DriverDao;
+import com.helpers.AES256;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,11 +29,11 @@ public class RegisterDriverController {
     @FXML
     public void handleReadyButtonAction(ActionEvent event) {
         try {
+            driver = new DriverDao();
             LocalDate bd = dpBirthday.getValue();
             String ph = tfPhone.getText();
             int tel = Integer.parseInt(ph);
-            System.out.println(tfPhone.getText());
-            driver.addDriver(tfName.getText(), tfInserts.getText(), tfSirname.getText(), tel, bd, tfEmail.getText());
+            driver.addDriver(tfName.getText(), tfInserts.getText(), tfSirname.getText(), tel, bd, tfEmail.getText(),AES256.encrypt(driver.randomPassword(8)));
             lErrorGegevens.setText("Bezorger is toegevoegd!");
         } catch (Exception e) {
             lErrorGegevens.setText("Gegevens niet correct ingevuld!");
