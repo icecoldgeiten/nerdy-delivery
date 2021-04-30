@@ -1,7 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
 
 package com.dao;
 
@@ -17,7 +13,7 @@ import javax.persistence.Persistence;
 public class DriverDao {
     EntityManager em;
     Driver driver;
-    Driver ingelogdeDriver;
+    private static Driver ingelogdeDriver;
 
     public DriverDao() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ice-unit");
@@ -66,21 +62,21 @@ public class DriverDao {
         } catch (Exception var9) {
             System.out.println();
         }
-
     }
 
     public boolean validate(String username, String password) {
         try {
-            this.em.getTransaction().begin();
-            Driver d = (Driver)this.em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
-            this.ingelogdeDriver = (Driver)this.em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
+            em.getTransaction().begin();
+            Driver d = em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
             if (d != null && d.getPassword().equals(AES256.encrypt(password))) {
+                System.out.println(d.toString());
                 System.out.println("Validate succes");
+                ingelogdeDriver = d;
+                System.out.println(ingelogdeDriver.toString());
                 return true;
             }
-
-            this.em.getTransaction().commit();
-            this.em.close();
+            em.getTransaction().commit();
+            em.close();
         } catch (Exception var4) {
             System.out.println("Validate error: " + var4);
             var4.printStackTrace();
@@ -97,11 +93,10 @@ public class DriverDao {
             int rand = (int)(Math.random() * (double)passwordSet.length());
             password[i] = passwordSet.charAt(rand);
         }
-
         return new String(password);
     }
 
-    public Driver getIngelogdeDriver() {
-        return this.ingelogdeDriver;
+    public static Driver getIngelogdeDriver() {
+        return ingelogdeDriver;
     }
 }

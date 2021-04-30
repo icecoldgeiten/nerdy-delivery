@@ -1,51 +1,69 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package org.openjfx;
 
 import com.dao.DriverDao;
 import com.entity.Customer;
-import javafx.beans.property.ReadOnlyStringWrapper;
+import com.entity.Route;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.util.StringConverter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainPageDriverController {
     DriverDao driverDao;
-    @FXML
-    TableView<Customer> tvDeliveries;
-    @FXML
-    TableColumn<Customer, String> tcAdress;
-    @FXML
-    TableColumn<Customer, String> tcPostalcode;
-    @FXML
-    TableColumn<Customer, String> tcLocation;
-    @FXML
-    TableColumn<Customer, Button> tcDelivered;
-    @FXML
-    TableColumn<Customer, Button> tcNotHome;
-    ObservableList<Customer> lijstCustomers;
+    @FXML TableView<Customer> tvDeliveries;
+    @FXML TableColumn<Customer, String> tcAdress, tcPostalcode, tcLocation;
+    @FXML TableColumn<Customer, Button> tcDelivered,tcNotHome;
+    @FXML Label lDuration,lETA;
+    @FXML ComboBox<Route> cbRoutes;
+    @FXML ListView<Route> lvDirections;
+
 
     public MainPageDriverController() {
     }
 
     public void initialize() {
         this.driverDao = new DriverDao();
-        this.lijstCustomers = FXCollections.observableList(this.driverDao.listCustomers());
-        this.loadDeliveries();
+        loadComboBoxRoute();
+//        this.loadDeliveries();
     }
 
     public void loadDeliveries() {
-////        this.tcAdress.setCellValueFactory((cellData) -> {
-////            String rowIndex = ((Customer)cellData.getValue()).getAddres();
-////            return new ReadOnlyStringWrapper(rowIndex);
-//        });
-////        this.tvDeliveries.getItems().addAll(new Customer[0]);
-//    }
+
     }
+
+    public void loadComboBoxRoute() {
+        //convert Set Routes to List routes
+        List<Route> routelist = new ArrayList<>(DriverDao.getIngelogdeDriver().getRoutes());
+        //add list to observableList.
+        ObservableList<Route> routes = FXCollections.observableList(routelist);
+        //add observablelist to combobox.
+        cbRoutes.setItems(routes);
+        //Get values out of combobox and display them correctly:
+        cbRoutes.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Route route) {
+                if (route != null) {
+                    return "Route: " + route.getId() + " | Duratie: " + route.getDuration() + "min";
+                }
+                return "";
+            }
+            @Override
+            public Route fromString(String string) {
+                return null;
+            }
+        });
+    }
+
+    //Load in screen the selected route in combobox.
+    public void loadRouteAfterChangeComboBoxRoute(){
+        //Change labels when clicking a route.
+        lDuration.setText(Integer.toString(cbRoutes.getValue().getDuration()) + " min");
+        lETA.setText("onbekend");
+
+        //Get the directions of the selected route.
+    }
+
 }

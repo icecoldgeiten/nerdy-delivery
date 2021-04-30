@@ -15,8 +15,6 @@ public class LoginAdministratorController {
     public Button primaryButton;
     public Button bBack;
 
-    public LoginAdministratorController() {
-    }
 
     @FXML
     public void initialize() {
@@ -28,7 +26,6 @@ public class LoginAdministratorController {
         if (this.admin.validate(this.username.getText(), this.password.getText())) {
             App.setRoot("routes");
         }
-
     }
 
     public void OnActionButtonBack() throws IOException {

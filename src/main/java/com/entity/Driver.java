@@ -18,4 +18,7 @@ public class Driver extends Employee {
     @Column(name = "LicenseNr")
     private int lincenseNr;
 
+    public Set<Route> getRoutes() {
+        return routes;
+    }
 }

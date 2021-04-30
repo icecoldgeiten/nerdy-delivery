@@ -23,10 +23,6 @@ public class Route {
     private Set<Order> orders;
 
     //Getters
-    public Long getId() {
-        return id;
-    }
-
     public int getDuration() {
         return duration;
     }
@@ -39,6 +35,10 @@ public class Route {
         return driver;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "Route{" +
@@ -46,4 +46,6 @@ public class Route {
                 ", driver=" + driver.getName() +
                 '}';
     }
+
+
 }
