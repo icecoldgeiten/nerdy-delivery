@@ -18,4 +18,5 @@ public class Driver extends Employee {
     @Column(name = "LicenseNr")
     private int lincenseNr;
 
+
 }

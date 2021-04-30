@@ -1,24 +1,27 @@
 package org.openjfx;
 
 import com.dao.RouteDao;
-import com.entity.Driver;
 import com.entity.Route;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
+
 public class RouteController {
-    public Button back;
-    public Button done;
-    public Button new_route;
+    @FXML
     public ListView<Route> list;
 
     public RouteDao route;
@@ -46,7 +49,7 @@ public class RouteController {
                     protected void updateItem(Route t, boolean bln) {
                         super.updateItem(t, bln);
                         if (t != null) {
-                            setText(t.getId() + ":" + t.getDriver().getName());
+                            setText("Route nummer: " + t.getId() + ", bestuurder: " + t.getDriver().getName());
                         }
                     }
                 };
@@ -56,11 +59,14 @@ public class RouteController {
 
     @FXML
     public void handleMouseClick() {
-        list.setOnMouseClicked(event -> System.out.println("clicked on " + list.getSelectionModel().getSelectedItem()));
+        try {
+            Route route = list.getSelectionModel().getSelectedItem();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @FXML
-    public void handBackButton() {
-        System.out.println("yeet");
+    public void handleNewRoute(ActionEvent event) throws IOException {
+        App.setRoot("add_route");
     }
 }
