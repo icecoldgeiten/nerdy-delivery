@@ -6,10 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.LoginController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.LoginAdministratorController">
    <TextField fx:id="username"  layoutX="225.0" layoutY="160.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
    <Text layoutX="225.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gebruikersnaam:" wrappingWidth="149.60000000000014"/>
    <Text layoutX="225.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wachtwoord:" wrappingWidth="149.60000000000014" />
    <Button fx:id="primaryButton" layoutX="268.0" layoutY="274.0" onAction="#handleLoginButton" text="Inloggen" textAlignment="CENTER" AnchorPane.topAnchor="274.0" />
+   <Button fx:id="bBack" layoutX="200.0" layoutY="200.0" onAction="#OnActionButtonBack" text="Terug" textAlignment="CENTER" AnchorPane.topAnchor="274.0" />
    <PasswordField fx:id="password" layoutX="225.0" layoutY="215.0" />
 </AnchorPane>

@@ -1,96 +1,107 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 package com.dao;
 
-import com.entity.Administrator;
 import com.entity.Customer;
 import com.entity.Driver;
-import com.entity.Route;
 import com.helpers.AES256;
-
+import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.time.LocalDate;
-import java.util.List;
 
 public class DriverDao {
     EntityManager em;
     Driver driver;
+    Driver ingelogdeDriver;
 
-    public DriverDao(){
+    public DriverDao() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ice-unit");
-        em = emf.createEntityManager();
+        this.em = emf.createEntityManager();
     }
 
-
-    public List<Customer> listDrivers() {
-
+    public List<Driver> listDrivers() {
         try {
-            em.getTransaction().begin();
-            List<Customer> customers = em.createQuery("FROM Customer", Customer.class).getResultList();
-
-            return customers;
-        }catch (Exception e){
-            System.out.println("Hier komt de exception:"+ e);
+            this.em.getTransaction().begin();
+            List<Driver> drivers = this.em.createQuery("FROM Driver", Driver.class).getResultList();
+            this.em.getTransaction().commit();
+            return drivers;
+        } catch (Exception var2) {
+            System.out.println("Hier komt de exception:" + var2);
+            return null;
         }
-        return null;
     }
 
-
-
-    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un, String pw){
+    public List<Customer> listCustomers() {
         try {
+            this.em.getTransaction().begin();
+            List<Customer> customers = this.em.createQuery("FROM Customer", Customer.class).getResultList();
+            this.em.getTransaction().commit();
+            return customers;
+        } catch (Exception var2) {
+            System.out.println("Hier komt de exception:" + var2);
+            return null;
+        }
+    }
 
-            em.getTransaction().begin();
-            driver = new Driver();
-
-            driver.setName(name);
-            driver.setInserts(sn);
-            driver.setInserts(ins);
-            driver.setSirname(sn);
-            driver.setPhonenumber(phone);
-            driver.setBirthdate(bd);
-            driver.setUsername(un);
-            driver.setPassword(pw);
-
-            em.persist(driver);
-            em.getTransaction().commit();
-
+    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un, String pw) {
+        try {
+            this.em.getTransaction().begin();
+            this.driver = new Driver();
+            this.driver.setName(name);
+            this.driver.setInserts(sn);
+            this.driver.setInserts(ins);
+            this.driver.setSirname(sn);
+            this.driver.setPhonenumber(phone);
+            this.driver.setBirthdate(bd);
+            this.driver.setUsername(un);
+            this.driver.setPassword(pw);
+            this.em.persist(this.driver);
+            this.em.getTransaction().commit();
             System.out.println("Driver added");
-        }catch (Exception e){
+        } catch (Exception var9) {
             System.out.println();
         }
+
     }
 
     public boolean validate(String username, String password) {
         try {
-            em.getTransaction().begin();
-            Driver d = em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
+            this.em.getTransaction().begin();
+            Driver d = (Driver)this.em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
+            this.ingelogdeDriver = (Driver)this.em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
             if (d != null && d.getPassword().equals(AES256.encrypt(password))) {
                 System.out.println("Validate succes");
                 return true;
-
             }
-            em.getTransaction().commit();
-            em.close();
 
-        } catch (Exception e) {
-//            if (em.getTransaction() != null) {
-////                em.getTransaction().rollback();
-//            }
-            System.out.println("Validate error: "+ e);
-            e.printStackTrace();
+            this.em.getTransaction().commit();
+            this.em.close();
+        } catch (Exception var4) {
+            System.out.println("Validate error: " + var4);
+            var4.printStackTrace();
         }
+
         return false;
     }
 
-    public String randomPassword(int length){
+    public String randomPassword(int length) {
         String passwordSet = "ABCDEFGHIJKLMOPQRSRUVWXYZ0123456789!@#$%";
         char[] password = new char[length];
-        for(int i= 0 ; i<length ;i++){
-            int rand = (int) (Math.random() * passwordSet.length());
+
+        for(int i = 0; i < length; ++i) {
+            int rand = (int)(Math.random() * (double)passwordSet.length());
             password[i] = passwordSet.charAt(rand);
         }
+
         return new String(password);
     }
 
+    public Driver getIngelogdeDriver() {
+        return this.ingelogdeDriver;
+    }
 }
