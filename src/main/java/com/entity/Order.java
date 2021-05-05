@@ -31,6 +31,9 @@ public class Order {
     @Column(name = "Nothome")
     private int notHome;
 
+    @Column(name = "Status")
+    private String status;
+
     @OneToMany
     @JoinColumn(name = "OrderID")
     private Set<Orderline> orderlines;
@@ -39,29 +42,26 @@ public class Order {
     public int getId() {
         return id;
     }
-
     public Route getRouteID() {
         return route;
     }
-
     public String getComments() {
         return comments;
     }
-
     public int getDelivered() {
         return delivered;
     }
-
     public int getNotHome() {
         return notHome;
     }
-
     public Customer getCustomer() {
         return customer;
     }
+    public String getStatus() { return status; }
 
     //SETTERS
     public void setDelivered(int delivered) {this.delivered = delivered;}
     public void setNotHome(int notHome) {this.notHome = notHome; }
+    public void setStatus(String status) { this.status = status; }
 
 }

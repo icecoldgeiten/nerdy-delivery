@@ -4,8 +4,13 @@ package com.dao;
 import com.entity.Customer;
 import com.entity.Driver;
 import com.entity.Order;
+import com.entity.Route;
 import com.helpers.AES256;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,30 +28,26 @@ public class DriverDao {
         this.em = emf.createEntityManager();
     }
 
-    //Returns a list of drivers
-    public List<Driver> listDrivers() {
-        try {
-            this.em.getTransaction().begin();
-            List<Driver> drivers = this.em.createQuery("FROM Driver", Driver.class).getResultList();
-            this.em.getTransaction().commit();
-            return drivers;
-        } catch (Exception var2) {
-            System.out.println("Hier komt de exception:" + var2);
-            return null;
-        }
-    }
-    //Returns a list of customers.
-    public List<Customer> listCustomers() {
-        try {
-            this.em.getTransaction().begin();
-            List<Customer> customers = this.em.createQuery("FROM Customer", Customer.class).getResultList();
-            this.em.getTransaction().commit();
-            return customers;
-        } catch (Exception var2) {
-            System.out.println("Hier komt de exception:" + var2);
-            return null;
-        }
-    }
+    //get observable list with customers of drivers order.
+//    public List<Order> getDriverOrders(){
+////
+////        // search thru the routes with the same driver and put them in a list.
+////        List<Route> driverRoutes = new ArrayList<>();
+////        List<Route> routes =
+////        if(route.getDriver().equals(ingelogdeDriver)){
+////            driverRoutes.add(route);
+////        }
+////        // search thru the routes and find the orders that belong to the route and put them in a list.
+////        List<Order> driverOrders = new ArrayList<>();
+////        for(Route r : driverRoutes){
+////
+////        }
+////        // search thru the orders and find the orders
+////
+////
+////
+////        return driverOrders;
+//    }
 
     //Adds a new driver
     public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un, String pw) {
@@ -115,9 +116,36 @@ public class DriverDao {
         em.getTransaction().commit();
     }
 
+    //Update order status
+    public void updateOrderStatus(Route route, String status,Customer customer){
+        em.getTransaction().begin();
+        List<Order> ordersroute = em.createQuery("from Order O where O.route = :route", Order.class).setParameter("route", route).getResultList();
+        List<Order> orderscustomer = em.createQuery("from Order O where O.customer = :customer", Order.class).setParameter("customer", customer).getResultList();
+        //Change status of all the orders of the customer
+        for(Order or : ordersroute){
+            for(Order oc : orderscustomer){
+                if(or.getCustomer().equals(oc.getCustomer())){
+                    or.setStatus(status);
+                    em.merge(or);
+                }
+            }
+        }
+        //Change deliverystatus of customer
+//        Customer c = em.createQuery("from Customer c where c.id = :id", Customer.class).setParameter("id", customer.getId()).getSingleResult();
+//        c.setDeliverystatus(status);
+//        em.merge(c);
+//        System.out.println("Status aangepast bij klant: " + c.getId() + c.getDeliverystatus());
+
+        em.getTransaction().commit();
+
+    }
+
+
+
 
     //GETTER
     public static Driver getIngelogdeDriver() {
         return ingelogdeDriver;
     }
+
 }

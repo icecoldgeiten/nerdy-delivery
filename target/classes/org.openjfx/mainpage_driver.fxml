@@ -39,19 +39,18 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <TableView fx:id="tvDeliveries" layoutX="33.0" layoutY="272.0" prefHeight="127.0" prefWidth="532.0">
+        <TableView fx:id="tvDeliveries" layoutX="33.0" layoutY="272.0" prefHeight="127.0" prefWidth="532.0" onMouseClicked="#OnMouseClickedCustomer">
             <columns>
-                <TableColumn fx:id="tcAdress" prefWidth="216.0" text="Adres" />
-                <TableColumn fx:id="tcPostalcode" prefWidth="71.0" text="Postcode" />
-                <TableColumn fx:id="tcLocation" prefWidth="95.0" text="Plaatsnaam" />
-                <TableColumn fx:id="tcDelivered" prefWidth="75.0" text="Bezorgd" />
-                <TableColumn fx:id="tcNotHome" prefWidth="74.0" text="Niet thuis" />
+                <TableColumn fx:id="tcCustomerID" prefWidth="216.0" text="ID" />
+                <TableColumn fx:id="tcCustomerAdress" prefWidth="71.0" text="Adres" />
+                <TableColumn fx:id="tcPostalCode" prefWidth="95.0" text="Postcode" />
+                <TableColumn fx:id="tcStatus" prefWidth="95.0" text="Status" />
             </columns>
         </TableView>
         <Line endX="-71.0" layoutX="242.0" layoutY="223.0" startX="-71.0" startY="-15.0" />
-      <ComboBox fx:id="cbRoutes" layoutX="119.0" layoutY="20.0" onAction="#loadRouteAfterChangeComboBoxRoute" prefHeight="25.0" prefWidth="188.0" />
+      <ComboBox fx:id="cbRoutes" layoutX="119.0" layoutY="20.0" onAction="#loadRouteAfterChangeComboBoxRoute" prefHeight="25.0" prefWidth="188.0"  />
       <ListView fx:id="lvDirectionsRoute" layoutX="33.0" layoutY="86.0" prefHeight="118.0" prefWidth="532.0" />
-      <Button fx:id="bDelivered" layoutX="339.0" layoutY="20.0" mnemonicParsing="false" text="Bezorgd" />
-      <Button fx:id="bNotHome" layoutX="421.0" layoutY="20.0" mnemonicParsing="false" text="NietThuis" />
+      <Button fx:id="bDelivered" layoutX="339.0" layoutY="20.0" mnemonicParsing="false" text="Bezorgd" onAction="#onActionButtonDelivered"/>
+      <Button fx:id="bNotHome" layoutX="421.0" layoutY="20.0" mnemonicParsing="false" text="NietThuis" onAction="#onActionButtonNotHome"/>
     </children>
 </Pane>
