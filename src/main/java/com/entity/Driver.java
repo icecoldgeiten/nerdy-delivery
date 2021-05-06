@@ -1,6 +1,7 @@
 package com.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,5 +19,16 @@ public class Driver extends Employee {
     @Column(name = "LicenseNr")
     private int lincenseNr;
 
+    //Getters
+    public int getId() {
+        return id;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Driver driver = (Driver) o;
+        return id == driver.id;
+    }
 }

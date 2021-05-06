@@ -3,26 +3,24 @@ package org.openjfx;
 import com.dao.RouteDao;
 import com.entity.Route;
 
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.util.Callback;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 
 import java.io.IOException;
 
 public class RouteController {
     @FXML
-    public ListView<Route> list;
+    public TableView<Route> tableView;
+    public TableColumn<Route, String> ID;
+    public TableColumn<Route, String> Driver;
+    public TableColumn<Route, String> Status;
 
     public RouteDao route;
 
@@ -30,37 +28,29 @@ public class RouteController {
     public void initialize() {
         route = new RouteDao();
         updateRoutes();
+
+        //set default values
+        tableView.getSortOrder().add(ID);
+        tableView.setPlaceholder(new Label("Er zijn geen openstaande routes"));
     }
 
     public void updateRoutes() {
-        list.getItems().clear();
+        tableView.getItems().clear();
         loadRoutes();
     }
 
     public void loadRoutes() {
-        ObservableList<Route> observableList = FXCollections.observableList(route.getAllRoutes());
-        list.setItems(observableList);
-
-        list.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<Route> call(ListView<Route> p) {
-                return new ListCell<>() {
-                    @Override
-                    protected void updateItem(Route t, boolean bln) {
-                        super.updateItem(t, bln);
-                        if (t != null) {
-                            setText("Route nummer: " + t.getId() + ", bestuurder: " + t.getDriver().getName());
-                        }
-                    }
-                };
-            }
-        });
+        ID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        Driver.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getDriver().toString()));
+//        St.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getAddres()));
+        tableView.getItems().setAll(route.getAllRoutes());
     }
 
     @FXML
     public void handleMouseClick() {
         try {
-            Route route = list.getSelectionModel().getSelectedItem();
+            EditRouteController.setRoute(tableView.getSelectionModel().getSelectedItem());
+            App.setRoot("edit_route");
         } catch (Exception e) {
             e.printStackTrace();
         }

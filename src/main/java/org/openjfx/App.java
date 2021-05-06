@@ -1,5 +1,6 @@
 package org.openjfx;
 
+import com.entity.Route;
 import com.sun.istack.Nullable;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("login", null));
+        scene = new Scene(loadFXML("routes"));
 
         stage.setTitle("Nerdy Delivery");
         stage.setScene(scene);
@@ -25,24 +26,20 @@ public class App extends Application {
     }
 
     static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml, null));
-    }
-
-    static void setRoot(String fxml, Object data) throws IOException {
-        scene.setRoot(loadFXML(fxml, data));
+        scene.setRoot(loadFXML(fxml));
     }
 
     public static Scene getScene() {
         return scene;
     }
 
-    private static Parent loadFXML(String fxml, @Nullable Object data) throws IOException {
+    private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/org.openjfx/" + fxml + ".fxml"));
+
         return fxmlLoader.load();
     }
 
     public static void main(String[] args) {
         launch();
     }
-
 }

@@ -9,15 +9,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
 
-public class AddRouteDialogController {
+public class AddRouteController {
     DriverDao d;
     OrderDao o;
 
@@ -25,6 +23,7 @@ public class AddRouteDialogController {
     private ComboBox<Driver> combo;
     public ListView<Order> list;
     public Button generate;
+    public Button back;
 
     @FXML
     private void initialize() {
@@ -90,5 +89,9 @@ public class AddRouteDialogController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void handleBackButton(ActionEvent event) throws IOException {
+        App.setRoot("routes");
     }
 }

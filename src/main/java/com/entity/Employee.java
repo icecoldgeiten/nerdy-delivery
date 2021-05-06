@@ -56,6 +56,6 @@ public abstract class Employee {
 
     @Override
     public String toString() {
-        return name + sirname;
+        return name + " " + sirname;
     }
 }
