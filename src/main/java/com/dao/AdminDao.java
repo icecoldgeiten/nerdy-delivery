@@ -30,7 +30,9 @@ public class AdminDao {
 //            }
             e.printStackTrace();
         }
+        em.getTransaction().commit();
         return false;
+
     }
 }
 

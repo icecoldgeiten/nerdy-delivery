@@ -13,17 +13,17 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.MainPageDriverController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5f5f5" height="43.0" layoutX="23.0" layoutY="11.0" smooth="false" stroke="BLACK" strokeType="INSIDE" width="296.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f5f5f5" height="43.0" layoutX="23.0" layoutY="11.0" smooth="false" stroke="BLACK" strokeType="INSIDE" width="318.0" />
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITESMOKE" height="161.0" layoutX="23.0" layoutY="64.0" smooth="false" stroke="BLACK" strokeType="INSIDE" width="555.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITESMOKE" height="168.0" layoutX="23.0" layoutY="244.0" smooth="false" stroke="BLACK" strokeType="INSIDE" width="555.0" />
-        <Label layoutX="34.0" layoutY="22.0" text="Mijn routes">
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITESMOKE" height="173.0" layoutX="23.0" layoutY="232.0" smooth="false" stroke="BLACK" strokeType="INSIDE" width="555.0" />
+        <Label layoutX="35.0" layoutY="23.0" prefHeight="20.0" prefWidth="102.0" text="Mijn routes:">
             <font>
-                <Font size="14.0" />
+                <Font name="System Bold" size="14.0" />
             </font>
         </Label>
         <Label layoutX="34.0" layoutY="66.0" text="Route">
             <font>
-                <Font size="14.0" />
+                <Font name="System Bold" size="14.0" />
             </font>
         </Label>
         <Label layoutX="33.0" layoutY="207.0" text="Totale duur: ">
@@ -32,25 +32,41 @@
             </font>
         </Label>
         <Label fx:id="lDuration" layoutX="108.0" layoutY="207.0" text="Label" />
-        <Label layoutX="174.0" layoutY="207.0" text="Verwachte tijd:" />
+        <Label layoutX="168.0" layoutY="207.0" text="Verwachte tijd:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
         <Label fx:id="lETA" layoutX="256.0" layoutY="207.0" text="Label" />
-        <Label layoutX="32.0" layoutY="252.0" text="Bezorgingen">
+        <Label layoutX="32.0" layoutY="239.0" text="Bezorgingen">
             <font>
-                <Font size="14.0" />
+                <Font name="System Bold" size="14.0" />
             </font>
         </Label>
-        <TableView fx:id="tvDeliveries" layoutX="33.0" layoutY="272.0" prefHeight="127.0" prefWidth="532.0" onMouseClicked="#OnMouseClickedCustomer">
+        <TableView fx:id="tvDeliveries" layoutX="32.0" layoutY="265.0" onMouseClicked="#OnMouseClickedCustomer" prefHeight="127.0" prefWidth="364.0">
             <columns>
-                <TableColumn fx:id="tcCustomerID" prefWidth="216.0" text="ID" />
-                <TableColumn fx:id="tcCustomerAdress" prefWidth="71.0" text="Adres" />
-                <TableColumn fx:id="tcPostalCode" prefWidth="95.0" text="Postcode" />
-                <TableColumn fx:id="tcStatus" prefWidth="95.0" text="Status" />
+                <TableColumn fx:id="tcOrderID" editable="false" prefWidth="57.0" text="OrderID"  />
+                <TableColumn fx:id="tcCustomerID" editable="false" prefWidth="58.0" text="KlantID" />
+                <TableColumn fx:id="tCustomerAdress" editable="false" prefWidth="168.0" text="Klantadres" />
+                <TableColumn fx:id="tcStatus" editable="false" text="Order Status" />
             </columns>
         </TableView>
-        <Line endX="-71.0" layoutX="242.0" layoutY="223.0" startX="-71.0" startY="-15.0" />
-      <ComboBox fx:id="cbRoutes" layoutX="119.0" layoutY="20.0" onAction="#loadRouteAfterChangeComboBoxRoute" prefHeight="25.0" prefWidth="188.0"  />
+        <Line endX="-71.0" layoutX="227.0" layoutY="223.0" startX="-71.0" startY="-15.0" />
+      <ComboBox fx:id="cbRoutes" layoutX="147.0" layoutY="21.0" onAction="#loadRouteAfterChangeComboBoxRoute" prefHeight="25.0" prefWidth="188.0" />
       <ListView fx:id="lvDirectionsRoute" layoutX="33.0" layoutY="86.0" prefHeight="118.0" prefWidth="532.0" />
-      <Button fx:id="bDelivered" layoutX="339.0" layoutY="20.0" mnemonicParsing="false" text="Bezorgd" onAction="#onActionButtonDelivered"/>
-      <Button fx:id="bNotHome" layoutX="421.0" layoutY="20.0" mnemonicParsing="false" text="NietThuis" onAction="#onActionButtonNotHome"/>
+      <Button fx:id="bDelivered" layoutX="418.0" layoutY="265.0" mnemonicParsing="false" onAction="#onActionButtonDelivered" prefHeight="25.0" prefWidth="72.0" text="Bezorgd">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button fx:id="bNotHome" layoutX="494.0" layoutY="265.0" mnemonicParsing="false" onAction="#onActionButtonNotHome" prefHeight="25.0" prefWidth="72.0" text="Niet thuis">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Label layoutX="418.0" layoutY="239.0" prefHeight="20.0" prefWidth="130.0" text="Status bestelling:">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Line endX="-100.0" endY="146.0" layoutX="505.0" layoutY="245.0" startX="-100.0" stroke="#00000052" />
+      <Line endX="-97.0" endY="45.0" layoutX="515.0" layoutY="255.0" startX="55.0" startY="45.0" stroke="#00000052" />
     </children>
 </Pane>

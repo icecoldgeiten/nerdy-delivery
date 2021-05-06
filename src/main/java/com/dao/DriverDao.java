@@ -1,17 +1,9 @@
-
 package com.dao;
 
-import com.entity.Customer;
 import com.entity.Driver;
 import com.entity.Order;
-import com.entity.Route;
 import com.helpers.AES256;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -19,7 +11,6 @@ import javax.persistence.Persistence;
 public class DriverDao {
     EntityManager em;
     Driver driver;
-    Order order;
     private static Driver ingelogdeDriver;
 
     //Constructor
@@ -27,27 +18,6 @@ public class DriverDao {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ice-unit");
         this.em = emf.createEntityManager();
     }
-
-    //get observable list with customers of drivers order.
-//    public List<Order> getDriverOrders(){
-////
-////        // search thru the routes with the same driver and put them in a list.
-////        List<Route> driverRoutes = new ArrayList<>();
-////        List<Route> routes =
-////        if(route.getDriver().equals(ingelogdeDriver)){
-////            driverRoutes.add(route);
-////        }
-////        // search thru the routes and find the orders that belong to the route and put them in a list.
-////        List<Order> driverOrders = new ArrayList<>();
-////        for(Route r : driverRoutes){
-////
-////        }
-////        // search thru the orders and find the orders
-////
-////
-////
-////        return driverOrders;
-//    }
 
     //Adds a new driver
     public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un, String pw) {
@@ -85,9 +55,10 @@ public class DriverDao {
             System.out.println("Validate error: " + var4);
             var4.printStackTrace();
         }
-
+        em.getTransaction().commit();
         return false;
     }
+
     //Generates random password
     public String randomPassword(int length) {
         String passwordSet = "ABCDEFGHIJKLMOPQRSRUVWXYZ0123456789!@#$%";
@@ -99,49 +70,14 @@ public class DriverDao {
         return new String(password);
     }
 
-    //Change notHome
-    public void changeNothome(int orderid, int i){
-        em.getTransaction().begin();
-        order = em.find(Order.class, orderid);
-        order.setNotHome(i);
-        em.merge(order);
-        em.getTransaction().commit();
-    }
-    //Change delivered
-    public void changeDelivered(int orderid, int i){
-        em.getTransaction().begin();
-        order = em.find(Order.class, orderid);
-        order.setDelivered(i);
-        em.merge(order);
-        em.getTransaction().commit();
-    }
-
     //Update order status
-    public void updateOrderStatus(Route route, String status,Customer customer){
+    public void updateOrderStatus(String status,Order order){
         em.getTransaction().begin();
-        List<Order> ordersroute = em.createQuery("from Order O where O.route = :route", Order.class).setParameter("route", route).getResultList();
-        List<Order> orderscustomer = em.createQuery("from Order O where O.customer = :customer", Order.class).setParameter("customer", customer).getResultList();
-        //Change status of all the orders of the customer
-        for(Order or : ordersroute){
-            for(Order oc : orderscustomer){
-                if(or.getCustomer().equals(oc.getCustomer())){
-                    or.setStatus(status);
-                    em.merge(or);
-                }
-            }
-        }
-        //Change deliverystatus of customer
-//        Customer c = em.createQuery("from Customer c where c.id = :id", Customer.class).setParameter("id", customer.getId()).getSingleResult();
-//        c.setDeliverystatus(status);
-//        em.merge(c);
-//        System.out.println("Status aangepast bij klant: " + c.getId() + c.getDeliverystatus());
-
+        order.setStatus(status);
+        em.merge(order);
         em.getTransaction().commit();
 
     }
-
-
-
 
     //GETTER
     public static Driver getIngelogdeDriver() {
