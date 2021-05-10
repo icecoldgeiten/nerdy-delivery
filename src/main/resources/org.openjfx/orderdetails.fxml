@@ -7,20 +7,25 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.OrderDetailsController">
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="359.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.OrderDetailsController">
    <children>
-      <Label layoutX="39.0" layoutY="14.0" text="Orderdetails">
+      <Label layoutX="14.0" layoutY="21.0" text="Orderdetails">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TableView fx:id="tvOrderLines" layoutX="39.0" layoutY="57.0" prefHeight="263.0" prefWidth="522.0">
+      <TableView fx:id="tvOrderLines" layoutX="14.0" layoutY="70.0" prefHeight="232.0" prefWidth="381.0">
         <columns>
-          <TableColumn prefWidth="137.0" text="Productnr" />
-          <TableColumn prefWidth="302.0" text="Omschrijving" />
-            <TableColumn minWidth="0.0" prefWidth="82.0" text="Aantal" />
+          <TableColumn fx:id="tcStockItemID" prefWidth="98.0" text="Artikelnummer" />
+          <TableColumn fx:id="tcDescription" prefWidth="225.0" text="Omschrijving" />
+            <TableColumn fx:id="tcQuantity" prefWidth="57.0" text="Aantal" />
         </columns>
       </TableView>
-      <Button layoutX="39.0" layoutY="347.0" mnemonicParsing="false" text="Terug" />
+      <Button fx:id="bBack" layoutX="16.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleBackButton" text="Terug">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

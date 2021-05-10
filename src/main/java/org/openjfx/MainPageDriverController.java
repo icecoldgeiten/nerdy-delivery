@@ -9,9 +9,15 @@ import com.google.maps.model.DirectionsRoute;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import java.io.IOException;
@@ -26,6 +32,7 @@ public class MainPageDriverController implements Initializable {
     CalculateRoute calculateRoute;
     Route selectedRoute;
     Order selectedOrder;
+    static Order doubleClickedOrder;
 
     @FXML TableView<Order> tvDeliveries;
     @FXML TableColumn<Order, String> tcOrderID, tcStatus;
@@ -150,6 +157,27 @@ public class MainPageDriverController implements Initializable {
         updateDeliveries();
     }
 
+    private void showWindow() throws IOException {
+//        URL url = getClass().getResource("src/main/resources/org.openjfx/orderdetails.fxml"); = null!
+//        URL url = getClass().getResource("D:\\Java Project\\nerdy-delivery\\src\\main\\resources\\org.openjfx\\orderdetails.fxml"); = null!
+//        URL url = getClass().getResource("orderdetails.fxml"); = null!
+//        URL url = getClass().getResource("src/main/resources/org.openjfx/orderdetails.fxml"); = null!
+//        URL url = getClass().getResource("org.openjfx/orderdetails.fxml"); = null
+//        URL url = getClass().getResource("src/main/resources/org.openjfx/orderdetails.fxml"); = null!
+//        URL url = getClass().getResource("/orderdetails.fxml"); = null
+//        URL url = getClass().getResource("jetbrains://idea/navigate/reference?project=NerdyDelivery&path=org.openjfx/orderdetails.fxml"); = null
+//        URL url = getClass().getResource("orderdetails"); = null
+//        System.out.println(url);
+//        final FXMLLoader loader = new FXMLLoader(url);
+//        final Parent root = loader.load();
+//        final Scene scene = new Scene(root, 250, 150);
+//        Stage stage = new Stage();
+//        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.initStyle(StageStyle.UNDECORATED);
+//        stage.setScene(scene);
+//        stage.show();
+    }
+
     // When mouse clicked on list show details of driver!
     @FXML
     public void OnMouseClickedCustomer() {
@@ -172,8 +200,9 @@ public class MainPageDriverController implements Initializable {
         tvDeliveries.setOnMouseClicked(event -> {
                     //Check wich list index is selected then set txtContent value for that index
                     if (event.getClickCount() == 2) {
+                        doubleClickedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
                         try {
-                            App.setRoot("orderdetails");
+                            showWindow();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
