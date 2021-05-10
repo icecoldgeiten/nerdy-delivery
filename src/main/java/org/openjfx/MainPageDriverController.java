@@ -14,7 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +41,7 @@ public class MainPageDriverController implements Initializable {
         loadComboBoxRoute();
         calculateRoute = new CalculateRoute();
         updateDeliveries();
+
         //Buttons disabled because route and customer is not yet selected
         bDelivered.setDisable(true);
         bNotHome.setDisable(true);
@@ -166,11 +167,39 @@ public class MainPageDriverController implements Initializable {
                 bDelivered.setDisable(false);
             }
         });
+
+        //Detecting mouse clicked
+        tvDeliveries.setOnMouseClicked(event -> {
+                    //Check wich list index is selected then set txtContent value for that index
+                    if (event.getClickCount() == 2) {
+                        try {
+                            App.setRoot("orderdetails");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+//                        try {
+//                            FXMLLoader fxmlLoader = new FXMLLoader();
+//                            fxmlLoader.setLocation(getClass().getResource("start_screen.fxml"));
+//                            System.out.println(getClass().getResource("start_screen.fxml"));
+//                            /*
+//                             * if "fx:controller" is not set in fxml
+//                             * fxmlLoader.setController(NewWindowController);
+//                             */
+//                            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+//                            Stage stage = new Stage();
+//                            stage.setTitle("New Window");
+//                            stage.setScene(scene);
+//                            stage.show();
+//                        } catch (Exception e) {
+//                            System.out.println(e);
+//                        }
+                    }
+                });
     }
 
     //when clicking button 'Geleverd' change status and disable buttons so the status can't be changed.
     public void onActionButtonDelivered() {
-        driverDao.updateOrderStatus("Geleverd", selectedOrder);
+        driverDao.updateOrderStatus("Bezorgd", selectedOrder);
         bNotHome.setDisable(true);
         bDelivered.setDisable(true);
         updateDeliveries();

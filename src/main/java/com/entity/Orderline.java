@@ -10,6 +10,9 @@ public class Orderline {
     @Column(name = "OrderlineId", updatable = false, nullable = false)
     private int id;
 
+    @Column(name = "StockItemID")
+    private int stockitemid;
+
     @Column(name = "Description")
     private String description;
 

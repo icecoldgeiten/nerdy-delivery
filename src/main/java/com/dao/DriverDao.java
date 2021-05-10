@@ -42,20 +42,22 @@ public class DriverDao {
 
     //Validates password is username and password are the same in database.
     public boolean validate(String username, String password) {
+        em.getTransaction().begin();
         try {
-            em.getTransaction().begin();
+
             Driver d = em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
             if (d != null && d.getPassword().equals(AES256.encrypt(password))) {
                 ingelogdeDriver = d;
                 return true;
             }
             em.getTransaction().commit();
-            em.close();
+
         } catch (Exception var4) {
             System.out.println("Validate error: " + var4);
             var4.printStackTrace();
         }
-        em.getTransaction().commit();
+        em.close();
+//        em.getTransaction().commit();
         return false;
     }
 

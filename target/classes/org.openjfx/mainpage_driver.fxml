@@ -31,12 +31,12 @@
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label fx:id="lDuration" layoutX="108.0" layoutY="207.0" text="Label" />
+        <Label fx:id="lDuration" layoutX="108.0" layoutY="207.0" text="" />
         <Label layoutX="168.0" layoutY="207.0" text="Verwachte tijd:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-        <Label fx:id="lETA" layoutX="256.0" layoutY="207.0" text="Label" />
+        <Label fx:id="lETA" layoutX="256.0" layoutY="207.0" text="" />
         <Label layoutX="32.0" layoutY="239.0" text="Bezorgingen">
             <font>
                 <Font name="System Bold" size="14.0" />

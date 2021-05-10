@@ -58,6 +58,7 @@ public class Order {
         return customer;
     }
     public String getStatus() { return status; }
+    public Set<Orderline> getOrderlines() { return orderlines; }
 
     //SETTERS
     public void setDelivered(int delivered) {this.delivered = delivered;}
