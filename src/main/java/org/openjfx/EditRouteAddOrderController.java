@@ -60,7 +60,7 @@ public class EditRouteAddOrderController {
                 RouteDao r = new RouteDao();
                 r.updateRoute(route, selectedItems);
                 EditRouteController.setRoute(route);
-                App.setRoot("edit_route");
+                App.setPage("edit_route");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,7 +69,7 @@ public class EditRouteAddOrderController {
 
     public void handleBackButton(ActionEvent event) throws IOException {
         EditRouteController.setRoute(route);
-        App.setRoot("edit_route");
+        App.setPage("edit_route");
     }
 
     public static void setRoute(Route route) {

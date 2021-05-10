@@ -84,7 +84,7 @@ public class AddRouteController {
                 ObservableList<Order> selectedItems = list.getSelectionModel().getSelectedItems();
                 RouteDao r = new RouteDao();
                 r.generateRoute(combo.getSelectionModel().getSelectedItem(), selectedItems);
-                App.setRoot("routes");
+                App.setPage("routes");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,6 +92,6 @@ public class AddRouteController {
     }
 
     public void handleBackButton(ActionEvent event) throws IOException {
-        App.setRoot("routes");
+        App.setPage("routes");
     }
 }

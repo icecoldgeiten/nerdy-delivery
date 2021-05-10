@@ -82,13 +82,13 @@ public class EditRouteController {
 
     @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
-        App.setRoot("routes");
+        App.setPage("routes");
     }
 
     @FXML
     public void addOrders(ActionEvent event) throws IOException {
         EditRouteAddOrderController.setRoute(route);
-        App.setRoot("edit_route_add_order");
+        App.setPage("edit_route_add_order");
     }
 
     @FXML

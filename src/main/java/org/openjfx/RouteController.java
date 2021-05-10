@@ -50,7 +50,7 @@ public class RouteController {
             Route route = tableView.getSelectionModel().getSelectedItem();
             if (!route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY")) {
                 EditRouteController.setRoute(route);
-                App.setRoot("edit_route");
+                App.setPage("edit_route");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,6 +58,6 @@ public class RouteController {
     }
 
     public void handleNewRoute(ActionEvent event) throws IOException {
-        App.setRoot("add_route");
+        App.setPage("add_route");
     }
 }
