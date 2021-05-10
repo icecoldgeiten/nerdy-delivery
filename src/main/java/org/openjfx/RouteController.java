@@ -42,7 +42,7 @@ public class RouteController {
     public void loadRoutes() {
         ID.setCellValueFactory(new PropertyValueFactory<>("id"));
         Driver.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getDriver().toString()));
-//        St.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getAddres()));
+        Status.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getRouteStatus().toString()));
         tableView.getItems().setAll(route.getAllRoutes());
     }
 

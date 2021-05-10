@@ -100,6 +100,9 @@ public class EditRouteController {
 
     public Integer selectDriver(ObservableList<Driver> drivers) {
         int index = 0;
+        if (route == null) {
+            return 0;
+        }
         for (Driver d : drivers) {
             if (d.equals(route.getDriver())) {
                 return index;

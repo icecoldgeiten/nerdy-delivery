@@ -15,6 +15,10 @@ public class Route {
     @Column(name = "Duration")
     private int duration;
 
+    @ManyToOne(targetEntity = RouteStatus.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "status")
+    private RouteStatus routeStatus;
+
     @ManyToOne
     @JoinColumn(name = "DriverID")
     private Driver driver;
@@ -42,6 +46,9 @@ public class Route {
     public Driver getDriver() {
         return driver;
     }
+    public RouteStatus getRouteStatus() {
+        return routeStatus;
+    }
 
     //Setters
     public void setId(Long id) {
@@ -55,6 +62,9 @@ public class Route {
     }
     public void setOrders(Set<Order> orders) {
         this.orders = orders;
+    }
+    public void setRouteStatus(RouteStatus routeStatus) {
+        this.routeStatus = routeStatus;
     }
 
     @Override

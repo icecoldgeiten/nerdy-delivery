@@ -1,8 +1,6 @@
 package com.dao;
 
-import com.entity.Driver;
-import com.entity.Order;
-import com.entity.Route;
+import com.entity.*;
 
 import javafx.collections.ObservableList;
 
@@ -38,12 +36,15 @@ public class RouteDao {
         em.getTransaction().begin();
         try {
             Route r = new Route();
+            RouteStatus status = em.createQuery("from RouteStatus R where R.statusCode = :status", RouteStatus.class).setParameter("status", "OPENFORDELIVERY").getSingleResult();
+
             r.setDriver(driver);
-            r.setDuration(25);
             for (Order d : orders) {
                 d.setRoute(r);
             }
             r.setOrders(new HashSet<>(orders));
+            r.setDuration(25);
+            r.setRouteStatus(status);
             em.merge(r);
             em.flush();
             em.getTransaction().commit();
