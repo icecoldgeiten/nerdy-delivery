@@ -3,7 +3,6 @@ package org.openjfx;
 import com.dao.RouteDao;
 import com.entity.Route;
 
-
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 
 import java.io.IOException;
 
@@ -49,8 +47,11 @@ public class RouteController {
     @FXML
     public void handleMouseClick() {
         try {
-            EditRouteController.setRoute(tableView.getSelectionModel().getSelectedItem());
-            App.setRoot("edit_route");
+            Route route = tableView.getSelectionModel().getSelectedItem();
+            if (!route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY")) {
+                EditRouteController.setRoute(route);
+                App.setRoot("edit_route");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

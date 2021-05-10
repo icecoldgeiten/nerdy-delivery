@@ -21,6 +21,11 @@ public class RouteStatus {
     @Column(name = "statusCode")
     private String statusCode;
 
+    //Getters
+    public String getStatusCode() {
+        return statusCode;
+    }
+
     @Override
     public String toString() {
         return status;
