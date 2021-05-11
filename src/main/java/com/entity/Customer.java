@@ -27,25 +27,30 @@ public class Customer {
     @JoinColumn(name = "OrderID")
     private Set<Order> order;
 
-    @Override
-    public String toString() {
-        return customername;
-    }
 
     //Getters
+    public int getId() {
+        return id;
+    }
     public String getCustomername() {
         return customername;
     }
-
     public String getPhonenumber() {
         return phonenumber;
     }
-
     public String getAddres() {
         return addres;
     }
-
     public String getPostal() {
         return postal;
+    }
+    public Set<Order> getOrder() {
+        return order;
+    }
+
+    //METHODS
+    @Override
+    public String toString() {
+        return customername;
     }
 }
