@@ -15,8 +15,8 @@ public class Order {
     @JoinColumn(name ="CustomerID", insertable = false, updatable = false)
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "RouteID",insertable = false, updatable = false)
+    @ManyToOne(targetEntity = Route.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "RouteID")
     private Route route;
 
     @Column(name = "DeliveryInstructions")
@@ -39,24 +39,18 @@ public class Order {
     public int getId() {
         return id;
     }
-
-    public Route getRouteID() {
+    public Customer getCustomer() {
+        return customer;
+    }
+    public Route getRoute() {
         return route;
     }
 
-    public String getComments() {
-        return comments;
+    //Setters
+    public void setId(int id) {
+        this.id = id;
     }
-
-    public int getDelivered() {
-        return delivered;
-    }
-
-    public int getNotHome() {
-        return notHome;
-    }
-
-    public Customer getCustumer() {
-        return customer;
+    public void setRoute(Route route) {
+        this.route = route;
     }
 }

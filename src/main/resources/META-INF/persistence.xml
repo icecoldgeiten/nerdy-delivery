@@ -13,10 +13,10 @@
         <class>com.entity.Orderline</class>
         <class>com.entity.Person</class>
         <class>com.entity.Route</class>
+        <class>com.entity.RouteStatus</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/nerdygadgets"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
