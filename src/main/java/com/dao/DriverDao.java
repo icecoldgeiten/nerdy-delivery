@@ -41,6 +41,8 @@ public class DriverDao {
     }
 
     //Validates password is username and password are the same in database.
+
+    //!! BUG !!! -- Na 1 keer verkeerd in te loggen kan je het niet nog een keer proberen, komt error.
     public boolean validate(String username, String password) {
         em.getTransaction().begin();
         try {
@@ -57,7 +59,6 @@ public class DriverDao {
             var4.printStackTrace();
         }
         em.close();
-//        em.getTransaction().commit();
         return false;
     }
 

@@ -15,9 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import java.io.IOException;
@@ -158,24 +156,15 @@ public class MainPageDriverController implements Initializable {
     }
 
     private void showWindow() throws IOException {
-//        URL url = getClass().getResource("src/main/resources/org.openjfx/orderdetails.fxml"); = null!
-//        URL url = getClass().getResource("D:\\Java Project\\nerdy-delivery\\src\\main\\resources\\org.openjfx\\orderdetails.fxml"); = null!
-//        URL url = getClass().getResource("orderdetails.fxml"); = null!
-//        URL url = getClass().getResource("src/main/resources/org.openjfx/orderdetails.fxml"); = null!
-//        URL url = getClass().getResource("org.openjfx/orderdetails.fxml"); = null
-//        URL url = getClass().getResource("src/main/resources/org.openjfx/orderdetails.fxml"); = null!
-//        URL url = getClass().getResource("/orderdetails.fxml"); = null
-//        URL url = getClass().getResource("jetbrains://idea/navigate/reference?project=NerdyDelivery&path=org.openjfx/orderdetails.fxml"); = null
-//        URL url = getClass().getResource("orderdetails"); = null
-//        System.out.println(url);
-//        final FXMLLoader loader = new FXMLLoader(url);
-//        final Parent root = loader.load();
-//        final Scene scene = new Scene(root, 250, 150);
-//        Stage stage = new Stage();
-//        stage.initModality(Modality.APPLICATION_MODAL);
-//        stage.initStyle(StageStyle.UNDECORATED);
-//        stage.setScene(scene);
-//        stage.show();
+        URL url = getClass().getResource("/org.openjfx/orderdetails.fxml");
+        System.out.println(url);
+        final FXMLLoader loader = new FXMLLoader(url);
+        final Parent root = loader.load();
+        final Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setTitle("Orderdetails: " + doubleClickedOrder.getId());
+        stage.setScene(scene);
+        stage.show();
     }
 
     // When mouse clicked on list show details of driver!
@@ -206,22 +195,6 @@ public class MainPageDriverController implements Initializable {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-//                        try {
-//                            FXMLLoader fxmlLoader = new FXMLLoader();
-//                            fxmlLoader.setLocation(getClass().getResource("start_screen.fxml"));
-//                            System.out.println(getClass().getResource("start_screen.fxml"));
-//                            /*
-//                             * if "fx:controller" is not set in fxml
-//                             * fxmlLoader.setController(NewWindowController);
-//                             */
-//                            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-//                            Stage stage = new Stage();
-//                            stage.setTitle("New Window");
-//                            stage.setScene(scene);
-//                            stage.show();
-//                        } catch (Exception e) {
-//                            System.out.println(e);
-//                        }
                     }
                 });
     }
