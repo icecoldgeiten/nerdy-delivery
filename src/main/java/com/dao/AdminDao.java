@@ -27,9 +27,7 @@ public class AdminDao {
             em.getTransaction().commit();
             em.close();
         } catch (Exception e) {
-//            if (em.getTransaction() != null) {
-////                em.getTransaction().rollback();
-//            }
+            em.getTransaction().rollback();
             e.printStackTrace();
         }
         return false;
