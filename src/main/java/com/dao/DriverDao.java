@@ -60,7 +60,6 @@ public class DriverDao {
         EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
-            //Driver opslaan in driver door te zoeken op naam waar opgeklikt is.
             driver = em.find(Driver.class, clickedOn);
             em.merge(driver);
             driver.setName(name);
