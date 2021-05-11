@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="356.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.BezorgerBeherenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="356.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.ManagedriverController">
    <children>
       <SplitPane layoutX="181.0" layoutY="98.0" prefHeight="356.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -51,9 +51,8 @@
                         <Label fx:id="lLicense" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                      </children>
                   </GridPane>
-                  <Button fx:id="bBack" layoutX="14.0" layoutY="318.0" mnemonicParsing="false" onAction="#closeButtonBack" text="Terug" />
                   <Button fx:id="bDelete" layoutX="513.0" layoutY="318.0" mnemonicParsing="false" onAction="#rowDelete" text="Verwijder" />
-                  <Button fx:id="bChange" layoutX="440.0" layoutY="318.0" mnemonicParsing="false" text="Berwerk.." />
+                  <Button fx:id="bChange" layoutX="440.0" layoutY="318.0" mnemonicParsing="false" onAction="#actionButtonChange" text="Berwerk.." />
                   <Label layoutX="229.0" layoutY="40.0" text="Details:">
                      <font>
                         <Font name="System Bold" size="14.0" />

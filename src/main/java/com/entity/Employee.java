@@ -30,6 +30,21 @@ public abstract class Employee {
     public String getPassword() {
         return password;
     }
+    public String getInserts() {
+        return inserts;
+    }
+
+    public String getSirname() {
+        return sirname;
+    }
+
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+
+    public Integer getPhonenumber() {
+        return phonenumber;
+    }
 
     //SETTERS
     public void setName(String name) {
@@ -52,6 +67,9 @@ public abstract class Employee {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+    public void setPhonenumber(Integer phonenumber) {
+        this.phonenumber = phonenumber;
     }
 
     @Override

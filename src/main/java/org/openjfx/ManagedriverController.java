@@ -1,6 +1,6 @@
 package org.openjfx;
 
-import com.Dao.DriverDao;
+import com.dao.DriverDao;
 import com.dialog.DriverChangeDialog;
 import com.entity.Driver;
 import javafx.collections.FXCollections;
@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -20,13 +19,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class BezorgerBeherenController implements Initializable {
-    DriverDao driverDao;
+public class ManagedriverController implements Initializable {
+    private DriverDao driverDao;
+
     @FXML
-    ListView<Driver> lvDrivers;
-    @FXML
-    public Button bBack, bDelete, bChange;
-    @FXML
+    public ListView<Driver> lvDrivers;
+    public Button bNew, bBack, bDelete, bChange;
     public Label lName, lInserts, lSirname, lBirthday, lPhone, lVehicle, lLicense;
     private int clickedDriver;
 
@@ -43,7 +41,7 @@ public class BezorgerBeherenController implements Initializable {
     }
 
     private void loadDrivers() {
-        ObservableList<Driver> observableList = FXCollections.observableList(driverDao.listviewDrivers());
+        ObservableList<Driver> observableList = FXCollections.observableList(driverDao.getAllDrivers());
         lvDrivers.setItems(observableList);
         lvDrivers.setCellFactory(new Callback<>() {
             @Override
@@ -78,8 +76,8 @@ public class BezorgerBeherenController implements Initializable {
             public void handle(MouseEvent event) {
                 //Check wich list index is selected then set txtContent value for that index
                 clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
-                System.out.println("Clicked on " + lvDrivers.getSelectionModel().getSelectedItem());
-                for (Driver d : driverDao.listviewDrivers()) {
+                System.out.println(clickedDriver);
+                for (Driver d : driverDao.getAllDrivers()) {
                     String id = Integer.toString(d.getId());
                     if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
                         lName.setText(d.getName());
@@ -87,7 +85,7 @@ public class BezorgerBeherenController implements Initializable {
                         lSirname.setText(d.getSirname());
                         String bd = d.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                         lBirthday.setText(bd);
-                        lPhone.setText(Integer.toString(d.getPhone()));
+                        lPhone.setText(Integer.toString(d.getPhonenumber()));
                         lVehicle.setText(Integer.toString(d.getVehicle()));
                         lLicense.setText(Integer.toString(d.getLincenseNr()));
                     }
@@ -96,20 +94,13 @@ public class BezorgerBeherenController implements Initializable {
         });
     }
 
-    @FXML
-    void closeButtonBack(ActionEvent event) {
-        Stage stage = (Stage) bBack.getScene().getWindow();
-        stage.close();
-    }
-
     //Clicking on 'Bewerk..' button opens new dialog with textfiels to change the driver.
     @FXML
     void actionButtonChange(ActionEvent event) {
-        DriverChangeDialog dcd = new DriverChangeDialog(clickedDriver);
+        new DriverChangeDialog(clickedDriver);
     }
 
     //GETTER
-
     public int getClickedDriver() {
         return clickedDriver;
     }
@@ -135,6 +126,6 @@ public class BezorgerBeherenController implements Initializable {
 
 
     public void newBezorger() throws IOException {
-        App.setRoot("register_driver");
+        App.setPage("register_driver");
     }
 }

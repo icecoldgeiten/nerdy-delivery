@@ -1,6 +1,6 @@
 package com.dialog;
 
-import com.Dao.DriverDao;
+import com.dao.DriverDao;
 import com.entity.Driver;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -78,7 +78,7 @@ public class DriverChangeDialog {
             tfInserts = new TextField(driver.getInserts());
             tfSirname = new TextField(driver.getSirname());
             tfBirthday = new TextField(driver.getBirthdate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            tfPhone = new TextField(Integer.toString(driver.getPhone()));
+            tfPhone = new TextField(Integer.toString(driver.getPhonenumber()));
             tfVehicle = new TextField(Integer.toString(driver.getVehicle()));
             tfLicense = new TextField(Integer.toString(driver.getLincenseNr()));
 
