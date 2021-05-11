@@ -24,7 +24,7 @@ public class ManagedriverController implements Initializable {
 
     @FXML
     public ListView<Driver> lvDrivers;
-    public Button bNew, bBack, bDelete, bChange;
+    public Button bNew, bDelete, bChange;
     public Label lName, lInserts, lSirname, lBirthday, lPhone, lVehicle, lLicense;
     private int clickedDriver;
 
