@@ -30,7 +30,9 @@ public class AdminDao {
             em.getTransaction().rollback();
             e.printStackTrace();
         }
+        em.getTransaction().commit();
         return false;
+
     }
 
     //Getters

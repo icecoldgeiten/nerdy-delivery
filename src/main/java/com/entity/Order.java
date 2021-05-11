@@ -31,6 +31,9 @@ public class Order {
     @Column(name = "Nothome")
     private int notHome;
 
+    @Column(name = "Status")
+    private String status;
+
     @OneToMany
     @JoinColumn(name = "OrderID")
     private Set<Orderline> orderlines;
@@ -45,6 +48,12 @@ public class Order {
     public Route getRoute() {
         return route;
     }
+    public String getStatus() {
+        return status;
+    }
+    public Set<Orderline> getOrderlines() {
+        return orderlines;
+    }
 
     //Setters
     public void setId(int id) {
@@ -52,5 +61,8 @@ public class Order {
     }
     public void setRoute(Route route) {
         this.route = route;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
