@@ -1,19 +1,13 @@
 package com.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
 
-public class Administrator extends Person{
+@Entity
+@Table(name = "administrator")
+public class Administrator extends Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "AdministratorId", updatable = false, nullable = false)
+    @Column(name = "AdminID", updatable = false, nullable = false)
     private int id;
-
-    @Column(name = "Username")
-    private String username;
-
-    @Column(name = "Password")
-    private String password;
 }

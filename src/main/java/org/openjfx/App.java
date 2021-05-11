@@ -8,17 +8,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
-
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("bezorgersbeheren"));
+        scene = new Scene(loadFXML("login"));
 
+        stage.setTitle("Nerdy Delivery");
         stage.setScene(scene);
         stage.show();
     }
@@ -27,13 +24,22 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    static void setPage(String fxml) throws IOException {
+        Sidebar.setPage(fxml);
+        setRoot("sidebar");
+    }
+
+    public static Scene getScene() {
+        return scene;
+    }
+
+    public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/org.openjfx/" + fxml + ".fxml"));
+
         return fxmlLoader.load();
     }
 
     public static void main(String[] args) {
         launch();
     }
-
 }

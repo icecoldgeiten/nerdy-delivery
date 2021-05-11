@@ -1,47 +1,34 @@
 package com.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "driver")
-public class Driver {
+public class Driver extends Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DriverID", updatable = false, nullable = false)
     private int id;
 
     @OneToMany
     @JoinColumn(name = "DriverID")
     private Set<Route> routes;
-
-    @Column(name = "Name", nullable = false)
-    private String name;
-
-    @Column(name = "Inserts")
-    private String inserts;
-
-    @Column(name = "Sirname", nullable = false)
-    private String sirname;
-
-    @Column(name = "Birthdate", nullable = false)
-    private LocalDate birthdate;
-
-    @Column(name = "Phonenumber", nullable = false)
-    private int phone;
-
-    @Column(name = "Username", nullable = false)
-    private String userName;
-
-    @Column(name = "Password", nullable = false)
-    private String password;
-
     @Column(name = "Vehicle")
     private int vehicle;
-
     @Column(name = "LicenseNr")
     private int lincenseNr;
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Driver driver = (Driver) o;
+        return id == driver.id;
+    }
 
     //GETTERS
     public int getId() {
@@ -49,9 +36,6 @@ public class Driver {
     }
     public String getName() {
         return this.name;
-    }
-    public String getUserName() {
-        return userName;
     }
     public String getInserts() {return inserts;}
     public String getSirname() {return sirname;}
