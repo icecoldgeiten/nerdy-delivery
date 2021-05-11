@@ -1,21 +1,25 @@
 package com.dao;
 
 import com.entity.Driver;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDate;
+import java.util.List;
 
 public class DriverDao {
-    EntityManager em;
+    EntityManagerFactory emf;
     Driver driver;
 
-    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ice-unit");
-        em = emf.createEntityManager();
-        try {
+    public DriverDao() {
+        emf = Persistence.createEntityManagerFactory("ice-unit");
+    }
 
-            em.getTransaction().begin();
+    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un){
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        try {
             driver = new Driver();
 
             driver.setName(name);
@@ -34,5 +38,20 @@ public class DriverDao {
         }catch (Exception e){
             System.out.println();
         }
+        em.close();
+    }
+
+    public List<Driver> getAllDrivers() {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        try {
+            List<Driver> drivers = em.createQuery("from Driver", Driver.class).getResultList();
+            em.close();
+            return drivers;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        em.close();
+        return null;
     }
 }

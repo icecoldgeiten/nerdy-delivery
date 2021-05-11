@@ -13,6 +13,7 @@
         <class>com.entity.Orderline</class>
         <class>com.entity.Person</class>
         <class>com.entity.Route</class>
+        <class>com.entity.RouteStatus</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
