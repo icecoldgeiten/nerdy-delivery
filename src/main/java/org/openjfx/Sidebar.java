@@ -36,7 +36,8 @@ public class Sidebar {
     }
 
     @FXML
-    public void drivers(MouseEvent mouseEvent) {
+    public void drivers(MouseEvent mouseEvent) throws IOException {
+        load("manage_driver");
     }
 
     public void load(String fxml) throws IOException {

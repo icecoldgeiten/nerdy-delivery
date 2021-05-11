@@ -7,8 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class RegisterDriverController {
@@ -39,8 +39,7 @@ public class RegisterDriverController {
         }
     }
 
-    public void handleBackButtonAction(ActionEvent event) {
-        Stage stage = (Stage) bBack.getScene().getWindow();
-        stage.close();
+    public void handleBackButtonAction(ActionEvent event) throws IOException {
+        App.setPage("manage_driver");
     }
 }

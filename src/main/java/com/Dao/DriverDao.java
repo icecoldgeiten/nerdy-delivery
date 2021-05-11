@@ -1,4 +1,4 @@
-package com.dao;
+package com.Dao;
 
 import com.entity.Driver;
 
@@ -9,63 +9,36 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class DriverDao {
-    EntityManagerFactory emf;
+    EntityManager em;
     Driver driver;
 
-    public DriverDao() {
-         emf = Persistence.createEntityManagerFactory("ice-unit");
-    }
 
-    public List<Driver> getAllDrivers() {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+    public List<Driver> listviewDrivers() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ice-unit");
+        em = emf.createEntityManager();
         try {
-            List<Driver> drivers = em.createQuery("from Driver", Driver.class).getResultList();
-            em.close();
+            em.getTransaction().begin();
+            List<Driver> drivers = em.createQuery("FROM Driver", Driver.class).getResultList();
+
             return drivers;
-        } catch (Exception e) {
-            e.printStackTrace();
+        }catch (Exception e){
+            System.out.println("Hier komt de exception:"+ e);
         }
-        em.close();
         return null;
     }
 
-    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un){
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        try {
-            driver = new Driver();
-
-            driver.setName(name);
-            driver.setInserts(sn);
-            driver.setInserts(ins);
-            driver.setSirname(sn);
-            driver.setPhonenumber(phone);
-            driver.setBirthdate(bd);
-            driver.setUsername(un);
-            driver.setPassword("NOTNULL");
-
-            em.persist(driver);
-            em.getTransaction().commit();
-
-            System.out.println("Driver added");
-        }catch (Exception e){
-            System.out.println();
-        }
-        em.close();
-    }
-
-
     public void changeDriver(int clickedOn, String name, String ins, String sn, int phone, LocalDate bd){
-        EntityManager em = emf.createEntityManager();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ice-unit");
+        em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
+            //Driver opslaan in driver door te zoeken op naam waar opgeklikt is.
             driver = em.find(Driver.class, clickedOn);
             em.merge(driver);
             driver.setName(name);
             driver.setInserts(ins);
             driver.setSirname(sn);
-            driver.setPhonenumber(phone);
+            driver.setPhone(phone);
             driver.setBirthdate(bd);
 
             em.getTransaction().commit();
@@ -76,9 +49,12 @@ public class DriverDao {
     }
 
     public Driver searchDriver(int clickedOn){
-        EntityManager em = emf.createEntityManager();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ice-unit");
+        em = emf.createEntityManager();
         em.getTransaction().begin();
         try{
+            //Driver opslaan in driver door te zoeken op naam waar opgeklikt is.
+
             return driver = em.find(Driver.class, clickedOn);
         } catch (Exception e){
             System.out.println(e);
@@ -86,11 +62,15 @@ public class DriverDao {
         }
     }
 
+
+
     public void rowDelete(int id) {
-        EntityManager em = emf.createEntityManager();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ice-unit");
+        em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             driver = em.find(Driver.class,id);
+//            assertThat(driver, notNullValue());
             em.remove(driver);
             System.out.println("Bezorger is verwijderd");
             em.getTransaction().commit();
@@ -98,6 +78,8 @@ public class DriverDao {
             System.out.println(e);
             System.out.println("Niet gelukt");
         }
+
+
     }
 }
 
