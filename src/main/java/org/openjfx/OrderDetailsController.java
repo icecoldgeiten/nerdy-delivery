@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,14 +17,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class OrderDetailsController implements Initializable {
-    DriverDao driverDao;
-    MainPageDriverController mpdc;
+    private DriverDao driverDao;
 
-    @FXML TableView<Orderline> tvOrderLines;
-    @FXML TableColumn<Orderline, Integer> tcStockItemID;
-    @FXML TableColumn<Orderline, String> tcDescription;
-    @FXML TableColumn<Orderline, Integer> tcQuantity;
-    @FXML Button bBack;
+    @FXML
+    public TableView<Orderline> tvOrderLines;
+    public TableColumn<Orderline, Integer> tcStockItemID;
+    public TableColumn<Orderline, String> tcDescription;
+    public TableColumn<Orderline, Integer> tcQuantity;
+    public Button bBack;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateOrderLines();
@@ -58,7 +59,6 @@ public class OrderDetailsController implements Initializable {
     }
 
     public void handleBackButton(ActionEvent actionEvent) throws IOException {
-        mpdc.updateDeliveries();
-            App.setRoot("mainpage_driver");
-        }
+        App.setRoot("mainpage_driver");
+    }
 }

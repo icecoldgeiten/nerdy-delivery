@@ -18,33 +18,34 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
 
-public class MainPageDriverController implements Initializable {
-    DriverDao driverDao;
-    CalculateRoute calculateRoute;
-    Route selectedRoute;
-    Order selectedOrder;
-    static Order doubleClickedOrder;
+public class MainPageDriverController {
+    private DriverDao driverDao;
+    private CalculateRoute calculateRoute;
+    private Route selectedRoute;
+    private Order selectedOrder;
+    public static Order doubleClickedOrder;
 
-    @FXML TableView<Order> tvDeliveries;
-    @FXML TableColumn<Order, String> tcOrderID, tcStatus;
-    @FXML TableColumn<Order, Customer> tcCustomerID, tCustomerAdress;
-    @FXML Label lDuration, lETA;
-    @FXML ComboBox<Route> cbRoutes;
-    @FXML ListView<DirectionsRoute> lvDirectionsRoute;
-    @FXML Button bDelivered, bNotHome;
+    @FXML
+    public TableView<Order> tvDeliveries;
+    public TableColumn<Order, String> tcOrderID, tcStatus;
+    public TableColumn<Order, Customer> tcCustomerID, tCustomerAdress;
+    public Label lDuration, lETA;
+    public ComboBox<Route> cbRoutes;
+    public ListView<DirectionsRoute> lvDirectionsRoute;
+    public Button bDelivered, bNotHome;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.driverDao = new DriverDao();
-        loadComboBoxRoute();
+    public void initialize() {
+        driverDao = new DriverDao();
         calculateRoute = new CalculateRoute();
+
+        loadComboBoxRoute();
         updateDeliveries();
 
         //Buttons disabled because route and customer is not yet selected
@@ -97,7 +98,7 @@ public class MainPageDriverController implements Initializable {
 
     public void loadComboBoxRoute() {
         //convert Set Routes to List routes
-        List<Route> routelist = new ArrayList<>(DriverDao.getIngelogdeDriver().getRoutes());
+        List<Route> routelist = new ArrayList<>(DriverDao.getLogedinDriver().getRoutes());
 
         //add list to observableList.
         ObservableList<Route> routes = FXCollections.observableList(routelist);
@@ -187,16 +188,16 @@ public class MainPageDriverController implements Initializable {
 
         //Detecting mouse clicked
         tvDeliveries.setOnMouseClicked(event -> {
-                    //Check wich list index is selected then set txtContent value for that index
-                    if (event.getClickCount() == 2) {
-                        doubleClickedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
-                        try {
-                            showWindow();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+            //Check wich list index is selected then set txtContent value for that index
+            if (event.getClickCount() == 2) {
+                doubleClickedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
+                try {
+                    showWindow();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     //when clicking button 'Geleverd' change status and disable buttons so the status can't be changed.

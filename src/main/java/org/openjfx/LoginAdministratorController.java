@@ -1,7 +1,9 @@
 package org.openjfx;
 
 import com.dao.AdminDao;
+
 import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,7 +18,6 @@ public class LoginAdministratorController {
     public Button primaryButton;
     public Button bBack;
 
-
     @FXML
     public void initialize() {
         this.admin = new AdminDao();
@@ -24,8 +25,8 @@ public class LoginAdministratorController {
 
     @FXML
     public void handleLoginButton(ActionEvent actionEvent) throws IOException {
-        if (this.admin.validate(this.username.getText(), this.password.getText())) {
-            App.setRoot("routes");
+        if (admin.validate(username.getText(), password.getText())) {
+            App.setRoot("sidebar");
         }
     }
 

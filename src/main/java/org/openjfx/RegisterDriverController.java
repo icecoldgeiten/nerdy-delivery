@@ -8,7 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class RegisterDriverController {
@@ -28,19 +29,18 @@ public class RegisterDriverController {
     @FXML
     public void handleReadyButtonAction(ActionEvent event) {
         try {
-            driver = new DriverDao();
             LocalDate bd = dpBirthday.getValue();
             String ph = tfPhone.getText();
             int tel = Integer.parseInt(ph);
-            driver.addDriver(tfName.getText(), tfInserts.getText(), tfSirname.getText(), tel, bd, tfEmail.getText(),AES256.encrypt(driver.randomPassword(8)));
+            System.out.println(tfPhone.getText());
+            driver.addDriver(tfName.getText(), tfInserts.getText(), tfSirname.getText(), tel, bd, tfEmail.getText());
             lErrorGegevens.setText("Bezorger is toegevoegd!");
         } catch (Exception e) {
             lErrorGegevens.setText("Gegevens niet correct ingevuld!");
         }
     }
 
-    public void handleBackButtonAction(ActionEvent event) {
-        Stage stage = (Stage) bBack.getScene().getWindow();
-        stage.close();
+    public void handleBackButtonAction(ActionEvent event) throws IOException {
+        App.setPage("manage_driver");
     }
 }

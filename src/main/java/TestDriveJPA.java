@@ -6,6 +6,7 @@ import com.google.maps.DirectionsApiRequest;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
+import com.helpers.AES256;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
@@ -19,24 +20,26 @@ public class TestDriveJPA {
 
     @Test
     public void findDriver() {
-        log.info("--- Testen ---");
+//        log.info("--- Testen ---");
+//
+//        EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
+//        EntityManager em = session.createEntityManager();
+//        CalculateRoute re = new CalculateRoute();
+//
+//        em.getTransaction().begin();
+//        Route r = em.find(Route.class, 2L);
 
-        EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
-        EntityManager em = session.createEntityManager();
-        CalculateRoute re = new CalculateRoute();
+        System.out.println(AES256.encrypt("kelly"));
 
-        em.getTransaction().begin();
-        Route r = em.find(Route.class, 2L);
-
-        DirectionsRoute mark = re.RouteMaker(r.getOrders());
-        for (DirectionsLeg w : mark.legs) {
-            for (DirectionsStep s : w.steps) {
-                System.out.println(s.startLocation);
-                System.out.println(s.endLocation);
-            }
-        }
-
-        em.getTransaction().commit();
-        em.close();
+//        DirectionsRoute mark = re.RouteMaker(r.getOrders());
+//        for (DirectionsLeg w : mark.legs) {
+//            for (DirectionsStep s : w.steps) {
+//                System.out.println(s.startLocation);
+//                System.out.println(s.endLocation);
+//            }
+//        }
+//
+//        em.getTransaction().commit();
+//        em.close();
     }
 }

@@ -22,10 +22,5 @@
             <TableColumn fx:id="tcQuantity" prefWidth="57.0" text="Aantal" />
         </columns>
       </TableView>
-      <Button fx:id="bBack" layoutX="16.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleBackButton" text="Terug">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </Pane>

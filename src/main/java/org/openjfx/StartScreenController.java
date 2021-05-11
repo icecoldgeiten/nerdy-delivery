@@ -1,7 +1,10 @@
 package org.openjfx;
 import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+
+import javax.persistence.Persistence;
 
 public class StartScreenController {
     @FXML
@@ -10,6 +13,7 @@ public class StartScreenController {
     Button bLoginDriver;
 
     public StartScreenController() {
+        Persistence.createEntityManagerFactory("ice-unit");
     }
 
     public void OnActionButtonLoginAdministrator() throws IOException {

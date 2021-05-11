@@ -15,8 +15,8 @@ public class Order {
     @JoinColumn(name ="CustomerID", insertable = false, updatable = false)
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "RouteID",insertable = false, updatable = false)
+    @ManyToOne(targetEntity = Route.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "RouteID")
     private Route route;
 
     @Column(name = "DeliveryInstructions")
@@ -42,27 +42,27 @@ public class Order {
     public int getId() {
         return id;
     }
-    public Route getRouteID() {
-        return route;
-    }
-    public String getComments() {
-        return comments;
-    }
-    public int getDelivered() {
-        return delivered;
-    }
-    public int getNotHome() {
-        return notHome;
-    }
     public Customer getCustomer() {
         return customer;
     }
-    public String getStatus() { return status; }
-    public Set<Orderline> getOrderlines() { return orderlines; }
+    public Route getRoute() {
+        return route;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public Set<Orderline> getOrderlines() {
+        return orderlines;
+    }
 
-    //SETTERS
-    public void setDelivered(int delivered) {this.delivered = delivered;}
-    public void setNotHome(int notHome) {this.notHome = notHome; }
-    public void setStatus(String status) { this.status = status; }
-
+    //Setters
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
