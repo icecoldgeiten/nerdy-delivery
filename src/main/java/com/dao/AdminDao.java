@@ -30,7 +30,6 @@ public class AdminDao {
             em.getTransaction().rollback();
             e.printStackTrace();
         }
-        em.getTransaction().commit();
         return false;
 
     }
@@ -41,7 +40,7 @@ public class AdminDao {
     }
 
     //Setters
-    private static void setAdmin(Administrator admin) {
+    public static void setAdmin(Administrator admin) {
         AdminDao.admin = admin;
     }
 }
