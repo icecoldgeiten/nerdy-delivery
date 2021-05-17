@@ -70,7 +70,7 @@ public class AddRouteController {
                     protected void updateItem(Order t, boolean bln) {
                         super.updateItem(t, bln);
                         if (t != null) {
-                            setText(t.getId() + ":" + t.getCustomer().toString());
+                            setText(t.getId() + ":" + t.getCustomer().Address());
                         }
                     }
                 };

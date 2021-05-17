@@ -40,7 +40,7 @@ public class CalculateRoute {
         int index = 0;
 
         for (Order o : orders) {
-            String a = (o.getCustomer().Addres());
+            String a = (o.getCustomer().Address());
             addresses[index] = a;
             index = index + 1;
         }

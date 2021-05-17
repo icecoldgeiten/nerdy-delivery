@@ -53,7 +53,7 @@ public class Customer {
     public String toString() {
         return customername;
     }
-    public String Addres() {
+    public String Address() {
         return addres + " " + postal;
     }
 }
