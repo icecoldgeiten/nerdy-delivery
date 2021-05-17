@@ -18,19 +18,19 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class MainPageDriverController {
+    private static Route route;
+
     private DriverDao driverDao;
     private CalculateRoute calculateRoute;
-    private Route selectedRoute;
     private Order selectedOrder;
     public static Order doubleClickedOrder;
 
@@ -39,7 +39,6 @@ public class MainPageDriverController {
     public TableColumn<Order, String> tcOrderID, tcStatus;
     public TableColumn<Order, Customer> tcCustomerID, tCustomerAdress;
     public Label lDuration, lETA;
-    public ComboBox<Route> cbRoutes;
     public ListView<DirectionsStep> directionsStep;
     public Button bDelivered, bNotHome;
 
@@ -47,23 +46,22 @@ public class MainPageDriverController {
         driverDao = new DriverDao();
         calculateRoute = new CalculateRoute();
 
-        loadComboBoxRoute();
-        updateDeliveries();
-
         //Buttons disabled because route and customer is not yet selected
         bDelivered.setDisable(true);
         bNotHome.setDisable(true);
+
+        update();
     }
 
-    public void updateDeliveries() {
+    public void update() {
         tvDeliveries.getItems().clear();
         loadDeliveries();
+        loadRoute();
     }
 
     public void loadDeliveries() {
         try {
-            List<Order> ordersSelectedRoute = new ArrayList<>(selectedRoute.getOrders());
-            ObservableList<Order> orderDriver = FXCollections.observableArrayList(ordersSelectedRoute);
+            ObservableList<Order> orderDriver = FXCollections.observableArrayList(route.getOrders());
             tvDeliveries.setItems(orderDriver);
             setCellValueColumns();
         } catch (NullPointerException ex) {
@@ -96,35 +94,15 @@ public class MainPageDriverController {
         });
     }
 
-    public void loadComboBoxRoute() {
-        List<Route> routelist = new ArrayList<>(DriverDao.getLogedinDriver().getRoutes());
-        ObservableList<Route> routes = FXCollections.observableList(routelist);
-
-        cbRoutes.setItems(routes);
-        cbRoutes.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(Route route) {
-                if (route != null) {
-                    return "Route: " + route.getId() + " | Duratie: " + route.getDuration() + "min";
-                }
-                return "";
-            }
-
-            @Override
-            public Route fromString(String string) {
-                return null;
-            }
-        });
-    }
-
-    public void loadRouteAfterChangeComboBoxRoute() {
+    public void loadRoute() {
         try {
-            lDuration.setText(cbRoutes.getValue().getDuration() + " min");
-            lETA.setText(Integer.toString(calculateRoute.RouteMaker(cbRoutes.getValue().getOrders()).legs.length));
+            DirectionsRoute directionsRoute = calculateRoute.RouteMaker(route.getOrders());
 
-            DirectionsRoute route = calculateRoute.RouteMaker(cbRoutes.getValue().getOrders());
-            ObservableList<DirectionsStep> steps = FXCollections.observableList(Arrays.asList(route.legs[0].steps));
-            for (DirectionsLeg di : route.legs) {
+            lDuration.setText(route.getDuration() + " min");
+            lETA.setText(Integer.toString(directionsRoute.legs.length));
+            ;
+            ObservableList<DirectionsStep> steps = FXCollections.observableList(Arrays.asList(directionsRoute.legs[0].steps));
+            for (DirectionsLeg di : directionsRoute.legs) {
                 System.out.println(di.toString());
             }
 
@@ -146,8 +124,6 @@ public class MainPageDriverController {
         } catch (RuntimeException ex) {
             directionsStep.setPlaceholder(new Label("WORK IN PROGRESS"));
         }
-        selectedRoute = cbRoutes.getValue();
-        updateDeliveries();
     }
 
     private void showWindow() throws IOException {
@@ -191,7 +167,7 @@ public class MainPageDriverController {
         driverDao.updateOrderStatus("Bezorgd", selectedOrder);
         bNotHome.setDisable(true);
         bDelivered.setDisable(true);
-        updateDeliveries();
+        update();
     }
 
     @FXML
@@ -199,6 +175,11 @@ public class MainPageDriverController {
         driverDao.updateOrderStatus("Niet thuis", selectedOrder);
         bNotHome.setDisable(true);
         bDelivered.setDisable(true);
-        updateDeliveries();
+        update();
+    }
+
+    //Setter
+    public static void setRoute(Route route) {
+        MainPageDriverController.route = route;
     }
 }

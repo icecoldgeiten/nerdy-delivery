@@ -1,3 +1,4 @@
+org\openjfx\RouteDriverController.class
 com\dao\RouteDao.class
 com\dialog\DriverChangeDialog.class
 org\openjfx\LoginDriverController.class
@@ -14,6 +15,7 @@ org\openjfx\MainPageDriverController$2.class
 com\entity\Employee.class
 org\openjfx\RouteController.class
 org\openjfx\Sidebar.class
+org\openjfx\MainPageDriverController$3$1.class
 org\openjfx\EditRouteAddOrderController$1.class
 org\openjfx\ManagedriverController$1.class
 org\openjfx\AdminHomeController.class
@@ -35,10 +37,8 @@ com\dao\DriverDao.class
 com\entity\Driver.class
 com\entity\Order.class
 com\dao\OrderDao.class
-org\openjfx\MainPageDriverController$4.class
 com\dao\AdminDao.class
 org\openjfx\EditRouteController.class
-org\openjfx\MainPageDriverController$4$1.class
 org\openjfx\StartScreenController.class
 org\openjfx\AddRouteController$1.class
 org\openjfx\ManagedriverController$1$1.class
