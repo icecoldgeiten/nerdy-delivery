@@ -8,6 +8,7 @@ TestDriveJPA.class
 com\entity\Administrator.class
 org\openjfx\ManagedriverController$2.class
 com\entity\RouteStatus.class
+com\entity\Timeslot.class
 org\openjfx\AddRouteController.class
 org\openjfx\MainPageDriverController.class
 org\openjfx\OrderDetailsController.class

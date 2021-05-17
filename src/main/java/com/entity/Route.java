@@ -1,6 +1,7 @@
 package com.entity;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +23,10 @@ public class Route {
     @ManyToOne
     @JoinColumn(name = "DriverID")
     private Driver driver;
+
+    @ManyToOne
+    @JoinColumn(name = "TimeSlotID")
+    private Timeslot timeslot;
 
     @OneToMany(targetEntity = Order.class, mappedBy = "route", cascade = {CascadeType.MERGE}, orphanRemoval = true)
     private Set<Order> orders = new HashSet<>();
