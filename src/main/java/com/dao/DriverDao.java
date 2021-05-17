@@ -38,6 +38,8 @@ public class DriverDao {
     public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
+        String rp  = randomPassword(10);
+        System.out.println(rp);
         try {
             driver = new Driver();
 
@@ -48,7 +50,7 @@ public class DriverDao {
             driver.setPhonenumber(phone);
             driver.setBirthdate(bd);
             driver.setUsername(un);
-            driver.setPassword("NOTNULL");
+            driver.setPassword(AES256.encrypt(rp));
 
             em.persist(driver);
             em.getTransaction().commit();

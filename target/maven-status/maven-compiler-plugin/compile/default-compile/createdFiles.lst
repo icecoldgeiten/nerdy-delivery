@@ -16,6 +16,7 @@ org\openjfx\RouteController.class
 org\openjfx\Sidebar.class
 org\openjfx\EditRouteAddOrderController$1.class
 org\openjfx\ManagedriverController$1.class
+org\openjfx\AdminHomeController.class
 com\entity\Orderline.class
 com\dialog\DriverChangeDialog$1.class
 org\openjfx\EditRouteController$1.class

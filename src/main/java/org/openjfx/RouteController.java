@@ -57,7 +57,7 @@ public class RouteController {
         }
     }
 
-    public void handleNewRoute(ActionEvent event) throws IOException {
+    public void handleNewRoute() throws IOException {
         App.setPage("add_route");
     }
 }

@@ -23,14 +23,14 @@ public class Sidebar {
         if (page != null) {
             load(page);
         } else {
-            load("routes");
+            load("admin_home");
         }
         user.setText(AdminDao.getAdmin());
     }
 
     @FXML
     public void home() throws IOException {
-        load("routes");
+        load("admin_home");
     }
 
     @FXML
@@ -43,6 +43,12 @@ public class Sidebar {
         load("manage_driver");
     }
 
+    @FXML
+    public void logout() throws IOException {
+        AdminDao.setAdmin(null);
+        App.setRoot("start_screen");
+    }
+
     public void load(String fxml) throws IOException {
         main.setCenter(App.loadFXML(fxml));
     }
@@ -52,8 +58,5 @@ public class Sidebar {
         Sidebar.page = page;
     }
 
-    public void logout() throws IOException {
-        AdminDao.setAdmin(null);
-        App.setRoot("start_screen");
-    }
+
 }

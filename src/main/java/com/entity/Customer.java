@@ -53,4 +53,7 @@ public class Customer {
     public String toString() {
         return customername;
     }
+    public String Addres() {
+        return addres + " " + postal;
+    }
 }
