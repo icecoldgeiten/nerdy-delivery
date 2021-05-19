@@ -1,7 +1,7 @@
 package com.entity;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,11 +25,14 @@ public class Route {
     private Driver driver;
 
     @ManyToOne
-    @JoinColumn(name = "TimeSlotID")
+    @JoinColumn(name = "timeslot")
     private Timeslot timeslot;
 
     @OneToMany(targetEntity = Order.class, mappedBy = "route", cascade = {CascadeType.MERGE}, orphanRemoval = true)
     private Set<Order> orders = new HashSet<>();
+
+    @Column(name = "Date")
+    private LocalDate date;
 
     public Route() {}
 
@@ -54,6 +57,12 @@ public class Route {
     public RouteStatus getRouteStatus() {
         return routeStatus;
     }
+    public Timeslot getTimeslot() {
+        return timeslot;
+    }
+    public LocalDate getDate() {
+        return date;
+    }
 
     //Setters
     public void setId(Long id) {
@@ -71,6 +80,12 @@ public class Route {
     public void setRouteStatus(RouteStatus routeStatus) {
         this.routeStatus = routeStatus;
     }
+    public void setTimeslot(Timeslot timeslot) {
+        this.timeslot = timeslot;
+    }
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
     @Override
     public String toString() {
@@ -79,4 +94,6 @@ public class Route {
                 ", driver=" + driver.getName() +
                 '}';
     }
+
+
 }

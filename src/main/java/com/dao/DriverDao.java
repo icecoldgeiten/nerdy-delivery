@@ -1,7 +1,6 @@
 package com.dao;
 
-import com.entity.Driver;
-import com.entity.Order;
+import com.entity.*;
 import com.helpers.AES256;
 
 import javax.persistence.EntityManager;
@@ -9,6 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DriverDao {
@@ -35,11 +35,38 @@ public class DriverDao {
         return null;
     }
 
+    public List<Driver> getAvailableDrivers(LocalDate date, Timeslot timeslot) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        try {
+            List<Driver> drivers = em.createQuery("from Driver", Driver.class).getResultList();
+            em.close();
+            return filterDrivers(drivers, date, timeslot);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        em.close();
+        return null;
+    }
+
+    public List<Driver> filterDrivers(List<Driver> drivers, LocalDate date, Timeslot timeslot) {
+        List<Driver> toRemove = new ArrayList<>();
+        for (Driver driver : drivers) {
+            for (Route route : driver.getRoutes()) {
+                if (route.getTimeslot().equals(timeslot) && route.getDate().equals(date)) {
+                    toRemove.add(route.getDriver());
+                }
+            }
+        }
+
+        drivers.removeAll(toRemove);
+        return drivers;
+    }
+
     public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        String rp  = randomPassword(10);
-        System.out.println(rp);
+        String rp = randomPassword(10);
         try {
             driver = new Driver();
 
@@ -55,7 +82,6 @@ public class DriverDao {
             em.persist(driver);
             em.getTransaction().commit();
 
-            System.out.println("Driver added");
         } catch (Exception e) {
             System.out.println();
         }
@@ -98,11 +124,9 @@ public class DriverDao {
             em.getTransaction().begin();
             driver = em.find(Driver.class, id);
             em.remove(driver);
-            System.out.println("Bezorger is verwijderd");
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e);
-            System.out.println("Niet gelukt");
         }
     }
 
@@ -111,7 +135,6 @@ public class DriverDao {
         em.getTransaction().begin();
         try {
             Driver driver = em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
-            System.out.println(driver);
             if (driver != null && driver.getPassword().equals(AES256.encrypt(password))) {
                 LogedinDriver = driver;
                 return true;

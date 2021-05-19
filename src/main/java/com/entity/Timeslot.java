@@ -3,6 +3,7 @@ package com.entity;
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -27,4 +28,28 @@ public class Timeslot {
 
     @Column(name = "endTime")
     private Time endTime;
+
+    @Override
+    public String toString() {
+        return name + " " + startTime + " - " + endTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Timeslot timeslot = (Timeslot) o;
+        return Objects.equals(id, timeslot.id) &&  Objects.equals(timeslotCode, timeslot.timeslotCode);
+    }
+
+    //Setters
+    public Time getStartTime() {
+        return startTime;
+    }
+    public String getName() {
+        return name;
+    }
+    public Time getEndTime() {
+        return endTime;
+    }
 }

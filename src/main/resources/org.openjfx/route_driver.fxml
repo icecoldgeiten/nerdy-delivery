@@ -6,21 +6,18 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="356.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.openjfx.RouteDriverController">
-    <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi, dit zijn je routes voor de dag"
-          wrappingWidth="158.25738525390625">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.RouteDriverController">
+    <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi, dit zijn je routes voor de dag" wrappingWidth="158.25738525390625">
         <font>
-          <Font size="15.0"/>
+          <Font size="15.0" />
         </font>
     </Text>
-    <TableView onMouseClicked="#startRoute" fx:id="routes" layoutX="14.0" layoutY="57.0" prefHeight="200.0"
-               prefWidth="548.0">
+    <TableView fx:id="routes" layoutX="14.0" layoutY="65.0" onMouseClicked="#startRoute" prefHeight="204.0" prefWidth="851.0">
       <columns>
-          <TableColumn fx:id="ID" prefWidth="75.0" text="ID"/>
-          <TableColumn fx:id="timeSlot" prefWidth="118.39996337890625" text="Start tijd"/>
-          <TableColumn fx:id="timeIndication" prefWidth="156.0" text="Tijdindicatie"/>
+          <TableColumn fx:id="ID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="timeSlotStart" prefWidth="118.39996337890625" text="Start tijd" />
+          <TableColumn fx:id="timeSlotEnd" prefWidth="118.39996337890625" text="Eind tijd" />
+          <TableColumn fx:id="timeSlotName" prefWidth="156.0" text="Naam" />
       </columns>
     </TableView>
 </AnchorPane>
