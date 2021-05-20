@@ -54,7 +54,7 @@ public class RouteController {
     public void handleMouseClick() {
         try {
             Route route = tableView.getSelectionModel().getSelectedItem();
-            if (!route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY")) {
+            if (!route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY") || !route.getRouteStatus().getStatusCode().equals("DELIVERED")) {
                 EditRouteController.setRoute(route);
                 App.setPage("edit_route");
             }

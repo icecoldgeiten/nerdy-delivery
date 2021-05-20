@@ -1,28 +1,46 @@
 package com.dao;
 
 import com.entity.Order;
+import com.entity.OrderStatus;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 
 public class OrderDao {
-    EntityManager em;
+    private final EntityManagerFactory emf;
 
     public OrderDao() {
-        EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
-        em = session.createEntityManager();
+        emf = Persistence.createEntityManagerFactory("ice-unit");
     }
 
     public List<Order> getOrders() {
+        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            List<Order> orders = em.createQuery("from Order O where O.delivered = 0 and O.route = NULL", Order.class).getResultList();
+            List<Order> orders = em.createQuery("from Order where route = NULL AND (orderStatus = :open OR orderStatus = :notHome)", Order.class).setParameter("open", StatusDao.getOrderStatus("OPENFORDELIVERY")).setParameter("notHome", StatusDao.getOrderStatus("NOTHOME")).getResultList();
             em.close();
             return orders;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void updateStatus(String code, Order order) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        try {
+            OrderStatus status = em.createQuery("from OrderStatus where statusCode = :status", OrderStatus.class).setParameter("status", code).getSingleResult();
+            order.setOrderStatus(status);
+            em.merge(order);
+            em.flush();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            em.getTransaction().rollback();
+        }
+        em.close();
     }
 }

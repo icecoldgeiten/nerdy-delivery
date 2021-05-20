@@ -1,7 +1,11 @@
 package org.openjfx;
 
 import com.dao.DriverDao;
+import com.dao.OrderDao;
 import com.dao.RouteDao;
+import com.dao.StatusDao;
+import com.entity.Order;
+import com.entity.OrderStatus;
 import com.entity.Route;
 import com.entity.RouteStatus;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -12,12 +16,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import javax.persistence.Persistence;
 import java.io.IOException;
 import java.time.LocalDate;
 
 public class RouteDriverController {
     private RouteDao r;
+    private OrderDao o;
 
     @FXML
     public TableView<Route> routes;
@@ -34,6 +38,7 @@ public class RouteDriverController {
 
     public void update() {
         r = new RouteDao();
+        o = new OrderDao();
         routes.getItems().clear();
         loadRoutes();
     }
@@ -60,7 +65,12 @@ public class RouteDriverController {
             if (response == ButtonType.OK) {
                 try {
                     MainPageDriverController.setRoute(route);
-                    r.setRouteStatus(route,"OUTFORDELIVERY");
+                    if (!route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY")) {
+                        for (Order d : route.getOrders()) {
+                            o.updateStatus("OUTFORDELIVERY", d);
+                        }
+                        r.setRouteStatus(route, "OUTFORDELIVERY");
+                    }
                     App.setRoot("mainpage_driver");
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -58,4 +58,5 @@
     </Label>
     <Line endX="-100.0" endY="199.0" layoutX="798.0" layoutY="340.0" startX="-100.0" stroke="#00000052" />
     <Line endX="-97.0" endY="45.0" layoutX="810.0" layoutY="360.0" startX="55.0" startY="45.0" stroke="#00000052" />
+   <Button fx:id="submit" onAction="#finishRoute" layoutX="713.0" layoutY="448.0" mnemonicParsing="false" prefHeight="93.0" prefWidth="153.0" text="Voltooien" />
 </Pane>

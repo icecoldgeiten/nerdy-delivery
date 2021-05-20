@@ -1,6 +1,7 @@
 package org.openjfx;
 
-import com.dao.DriverDao;
+import com.dao.OrderDao;
+import com.dao.RouteDao;
 import com.entity.Customer;
 import com.entity.Order;
 import com.entity.Route;
@@ -8,6 +9,7 @@ import com.google.CalculateRoute;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,20 +18,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 
 public class MainPageDriverController {
     private static Route route;
 
-    private DriverDao driverDao;
+    private OrderDao o;
+    private RouteDao r;
     private CalculateRoute calculateRoute;
     private Order selectedOrder;
     public static Order doubleClickedOrder;
@@ -38,12 +39,15 @@ public class MainPageDriverController {
     public TableView<Order> tvDeliveries;
     public TableColumn<Order, String> tcOrderID, tcStatus;
     public TableColumn<Order, Customer> tcCustomerID, tCustomerAdress;
-    public Label lDuration, lETA;
     public ListView<DirectionsStep> directionsStep;
+    public Label lDuration, lETA;
     public Button bDelivered, bNotHome;
+    public Button submit;
+
 
     public void initialize() {
-        driverDao = new DriverDao();
+        o = new OrderDao();
+        r = new RouteDao();
         calculateRoute = new CalculateRoute();
 
         //Buttons disabled because route and customer is not yet selected
@@ -56,7 +60,7 @@ public class MainPageDriverController {
     public void update() {
         tvDeliveries.getItems().clear();
         loadDeliveries();
-        loadRoute();
+//        loadRoute();
     }
 
     public void loadDeliveries() {
@@ -73,7 +77,8 @@ public class MainPageDriverController {
         tcOrderID.setCellValueFactory(new PropertyValueFactory<>("id"));
         tcCustomerID.setCellValueFactory(new PropertyValueFactory<>("customer"));
         tCustomerAdress.setCellValueFactory(new PropertyValueFactory<>("customer"));
-        tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        tcStatus.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getOrderStatus().toString()));
+
         tcCustomerID.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Customer c, boolean bln) {
@@ -138,48 +143,66 @@ public class MainPageDriverController {
     }
 
     @FXML
-    public void OnMouseClickedCustomer() {
-        tvDeliveries.setOnMouseClicked(event -> {
+    public void OnMouseClickedCustomer(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            doubleClickedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
+            try {
+                showWindow();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+        if (event.getClickCount() == 1) {
             selectedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
-            if (selectedOrder.getStatus() != null) {
+            if (selectedOrder.getOrderStatus().getStatusCode().equals("NOTHOME") || selectedOrder.getOrderStatus().getStatusCode().equals("DELIVERED")) {
                 bNotHome.setDisable(true);
                 bDelivered.setDisable(true);
             } else {
                 bNotHome.setDisable(false);
                 bDelivered.setDisable(false);
             }
-        });
-
-        tvDeliveries.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                doubleClickedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
-                try {
-                    showWindow();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        }
     }
 
     @FXML
     public void onActionButtonDelivered() {
-        driverDao.updateOrderStatus("Bezorgd", selectedOrder);
+        o.updateStatus("DELIVERED", selectedOrder);
         bNotHome.setDisable(true);
         bDelivered.setDisable(true);
+        selectedOrder = null;
         update();
     }
 
     @FXML
     public void onActionButtonNotHome() {
-        driverDao.updateOrderStatus("Niet thuis", selectedOrder);
+        o.updateStatus("NOTHOME", selectedOrder);
         bNotHome.setDisable(true);
         bDelivered.setDisable(true);
+        selectedOrder = null;
         update();
     }
 
     //Setter
     public static void setRoute(Route route) {
         MainPageDriverController.route = route;
+    }
+
+    @FXML
+    public void finishRoute() throws IOException {
+        for (Order order : route.getOrders()) {
+            if (!order.getOrderStatus().getStatusCode().equals("DELIVERED") && !order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
+                final Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.initOwner(App.getScene().getWindow());
+                alert.setContentText("Status van bestelling(en) is niet juist");
+                alert.show();
+                return;
+            }
+            if (order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
+                r.removeOrder(route, order);
+            }
+        }
+        r.setRouteStatus(route, "DELIVERED");
+        App.setRoot("route_driver");
     }
 }

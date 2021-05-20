@@ -42,6 +42,7 @@ public class RouteDao {
             r.setDriver(driver);
             for (Order d : orders) {
                 d.setRoute(r);
+                d.setOrderStatus(StatusDao.getOrderStatus("OPENFORDELIVERY"));
             }
             r.setOrders(new HashSet<>(orders));
             r.setDuration(25);
@@ -120,7 +121,10 @@ public class RouteDao {
         EntityManager em = session.createEntityManager();
         em.getTransaction().begin();
         try {
-            List<Route> routes = em.createQuery("from Route where date = :date AND driver = :driver ", Route.class).setParameter("date", date).setParameter("driver", driver).getResultList();
+            List<Route> routes = em.createQuery("from Route where date = :date AND driver = :driver AND NOT status = :status", Route.class)
+                    .setParameter("date", date)
+                    .setParameter("driver", driver)
+                    .setParameter("status", StatusDao.getRouteStatus("DELIVERED")).getResultList();
             em.getTransaction().commit();
             return routes;
         } catch (Exception e) {

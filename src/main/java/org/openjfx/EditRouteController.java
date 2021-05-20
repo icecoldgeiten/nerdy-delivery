@@ -38,29 +38,48 @@ public class EditRouteController {
     public TableColumn<Order, String> ID;
     public TableColumn<Order, String> Customer;
     public TableColumn<Order, String> Address;
+    public TableColumn<Order, String> Status;
+
 
     @FXML
     private void initialize() {
         d = new DriverDao();
         r = new RouteDao();
         t = new TimeslotDao();
+        Default();
         update();
+    }
 
-        //Set default items
-        combo.setDisable(true);
+    private void Default() {
         combo.setValue(route.getDriver());
         id.setText(route.getId().toString());
         tableView.getSortOrder().add(ID);
         tableView.setPlaceholder(new Label("Deze route heeft geen bestellingen"));
+        combo.setDisable(true);
+        add.setDisable(false);
+        remove.setDisable(false);
+        date.setDisable(false);
+        timeSlot.setDisable(false);
     }
 
-    public void update() {
+    private void update() {
         combo.getItems().clear();
         tableView.getItems().clear();
+        checkStatus();
         checkDrivers();
         loadOrders();
         loadDate();
         loadTimeSlot();
+    }
+
+    private void checkStatus() {
+        if (!route.getRouteStatus().getStatusCode().equals("OPENFORDELIVERY")) {
+            combo.setDisable(true);
+            add.setDisable(true);
+            remove.setDisable(true);
+            date.setDisable(true);
+            timeSlot.setDisable(true);
+        }
     }
 
     @FXML
@@ -88,6 +107,7 @@ public class EditRouteController {
         ID.setCellValueFactory(new PropertyValueFactory<>("id"));
         Customer.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getCustomername()));
         Address.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getAddres()));
+        Status.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getOrderStatus().toString()));
         tableView.getItems().setAll(route.getOrders());
     }
 

@@ -157,15 +157,6 @@ public class DriverDao {
         return new String(password);
     }
 
-    public void updateOrderStatus(String status, Order order) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        order.setStatus(status);
-        em.merge(order);
-        em.getTransaction().commit();
-
-    }
-
     //GETTER
     public static Driver getLogedinDriver() {
         return LogedinDriver;

@@ -2,9 +2,11 @@ C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\org\openjfx\StartSc
 C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\TestDriveJPA.java
 C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\com\entity\Administrator.java
 C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\org\openjfx\RegisterDriverController.java
+C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\com\entity\OrderStatus.java
 C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\com\entity\Route.java
 C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\org\openjfx\Sidebar.java
 C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\com\dao\DriverDao.java
+C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\com\dao\StatusDao.java
 C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\org\openjfx\AddRouteController.java
 C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\org\openjfx\LoginDriverController.java
 C:\Users\iceco\Desktop\projects\nerdy-delivery\src\main\java\org\openjfx\ManagedriverController.java

@@ -9,6 +9,7 @@ TestDriveJPA.class
 com\dao\TimeslotDao.class
 com\entity\Administrator.class
 org\openjfx\ManagedriverController$2.class
+com\dao\StatusDao.class
 com\entity\RouteStatus.class
 org\openjfx\EditRouteController$2.class
 com\entity\Timeslot.class
@@ -43,6 +44,7 @@ com\entity\Order.class
 com\dao\OrderDao.class
 org\openjfx\EditRouteController$3.class
 com\dao\AdminDao.class
+com\entity\OrderStatus.class
 org\openjfx\EditRouteController.class
 org\openjfx\StartScreenController.class
 org\openjfx\AddRouteController$1.class
