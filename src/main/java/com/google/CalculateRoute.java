@@ -1,6 +1,5 @@
 package com.google;
 
-import com.entity.Customer;
 import com.entity.Order;
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
@@ -27,6 +26,7 @@ public class CalculateRoute {
                         .optimizeWaypoints(true).waypoints(ConvertRoute(orders));
         try {
             DirectionsResult directionsResult = directionsApiRequest.await();
+            System.out.println(directionsResult.routes[0]);
             return directionsResult.routes[0];
 
         } catch (ApiException | InterruptedException | IOException e) {
@@ -40,7 +40,7 @@ public class CalculateRoute {
         int index = 0;
 
         for (Order o : orders) {
-            String a = (o.getCustomer().toString());
+            String a = (o.getCustomer().Address());
             addresses[index] = a;
             index = index + 1;
         }

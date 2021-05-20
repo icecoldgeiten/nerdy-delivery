@@ -19,20 +19,18 @@ public class Order {
     @JoinColumn(name = "RouteID")
     private Route route;
 
+    @ManyToOne(targetEntity = OrderStatus.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "OrderStatusID")
+    private OrderStatus orderStatus;
+
     @Column(name = "DeliveryInstructions")
     private String deliveryInstructions;
 
     @Column(name = "Comments")
     private String comments;
 
-    @Column(name = "Delivered")
-    private int delivered;
-
-    @Column(name = "Nothome")
-    private int notHome;
-
-    @Column(name = "Status")
-    private String status;
+    @Column(name = "ExpectedDeliveryDate")
+    private String expectedDeliveryDate;
 
     @OneToMany
     @JoinColumn(name = "OrderID")
@@ -48,11 +46,14 @@ public class Order {
     public Route getRoute() {
         return route;
     }
-    public String getStatus() {
-        return status;
-    }
     public Set<Orderline> getOrderlines() {
         return orderlines;
+    }
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+    public String getExpectedDeliveryDate() {
+        return expectedDeliveryDate;
     }
 
     //Setters
@@ -62,7 +63,7 @@ public class Order {
     public void setRoute(Route route) {
         this.route = route;
     }
-    public void setStatus(String status) {
-        this.status = status;
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

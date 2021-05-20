@@ -20,26 +20,25 @@ public class TestDriveJPA {
 
     @Test
     public void findDriver() {
-//        log.info("--- Testen ---");
-//
-//        EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
-//        EntityManager em = session.createEntityManager();
-//        CalculateRoute re = new CalculateRoute();
-//
-//        em.getTransaction().begin();
-//        Route r = em.find(Route.class, 2L);
+        log.info("--- Testen ---");
 
-        System.out.println(AES256.encrypt("kelly"));
+        EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
+        EntityManager em = session.createEntityManager();
+        CalculateRoute re = new CalculateRoute();
 
-//        DirectionsRoute mark = re.RouteMaker(r.getOrders());
-//        for (DirectionsLeg w : mark.legs) {
-//            for (DirectionsStep s : w.steps) {
-//                System.out.println(s.startLocation);
-//                System.out.println(s.endLocation);
-//            }
-//        }
-//
-//        em.getTransaction().commit();
-//        em.close();
+        em.getTransaction().begin();
+        Route r = em.find(Route.class, 2L);
+
+        DirectionsRoute mark = re.RouteMaker(r.getOrders());
+
+        for (DirectionsLeg w : mark.legs) {
+            for (DirectionsStep s : w.steps) {
+                System.out.println(s.startLocation);
+                System.out.println(s.endLocation);
+            }
+        }
+
+        em.getTransaction().commit();
+        em.close();
     }
 }

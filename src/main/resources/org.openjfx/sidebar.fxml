@@ -17,7 +17,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <Button layoutX="814.0" layoutY="8.0" maxWidth="100.0" mnemonicParsing="false" onMouseClicked="#home" prefHeight="30.0" prefWidth="65.0" style="-fx-background-color: transparent;" text="Log out" textFill="WHITE">
+      <Button fx:id="logout" onAction="#logout" layoutX="814.0" layoutY="8.0" maxWidth="100.0" mnemonicParsing="false" onMouseClicked="#home" prefHeight="30.0" prefWidth="65.0" style="-fx-background-color: transparent;" text="Log out" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

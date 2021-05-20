@@ -1,34 +1,39 @@
 package org.openjfx;
 
-import com.dao.DriverDao;
+import com.dao.AdminDao;
+import com.dao.OrderDao;
+import com.dao.RouteDao;
 import com.entity.Customer;
 import com.entity.Order;
 import com.entity.Route;
 import com.google.CalculateRoute;
+import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DirectionsStep;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MainPageDriverController {
-    private DriverDao driverDao;
+    private static Route route;
+
+    private OrderDao o;
+    private RouteDao r;
     private CalculateRoute calculateRoute;
-    private Route selectedRoute;
     private Order selectedOrder;
     public static Order doubleClickedOrder;
 
@@ -36,33 +41,33 @@ public class MainPageDriverController {
     public TableView<Order> tvDeliveries;
     public TableColumn<Order, String> tcOrderID, tcStatus;
     public TableColumn<Order, Customer> tcCustomerID, tCustomerAdress;
+    public ListView<DirectionsStep> directionsStep;
     public Label lDuration, lETA;
-    public ComboBox<Route> cbRoutes;
-    public ListView<DirectionsRoute> lvDirectionsRoute;
     public Button bDelivered, bNotHome;
+    public Button submit;
+    public Button logout;
 
     public void initialize() {
-        driverDao = new DriverDao();
+        o = new OrderDao();
+        r = new RouteDao();
         calculateRoute = new CalculateRoute();
-
-        loadComboBoxRoute();
-        updateDeliveries();
 
         //Buttons disabled because route and customer is not yet selected
         bDelivered.setDisable(true);
         bNotHome.setDisable(true);
+
+        update();
     }
 
-    public void updateDeliveries() {
+    public void update() {
         tvDeliveries.getItems().clear();
         loadDeliveries();
+//        loadRoute();
     }
 
-    //get the orders of the selectedroute in the combobox and load all the orders in the tableview.
     public void loadDeliveries() {
         try {
-            List<Order> ordersSelectedRoute = new ArrayList<>(selectedRoute.getOrders());
-            ObservableList<Order> orderDriver = FXCollections.observableArrayList(ordersSelectedRoute);
+            ObservableList<Order> orderDriver = FXCollections.observableArrayList(route.getOrders());
             tvDeliveries.setItems(orderDriver);
             setCellValueColumns();
         } catch (NullPointerException ex) {
@@ -70,12 +75,12 @@ public class MainPageDriverController {
         }
     }
 
-    //set property values to columns and change cellvalues with cellfactory.
     private void setCellValueColumns() {
         tcOrderID.setCellValueFactory(new PropertyValueFactory<>("id"));
         tcCustomerID.setCellValueFactory(new PropertyValueFactory<>("customer"));
         tCustomerAdress.setCellValueFactory(new PropertyValueFactory<>("customer"));
-        tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        tcStatus.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getOrderStatus().toString()));
+
         tcCustomerID.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Customer c, boolean bln) {
@@ -96,69 +101,40 @@ public class MainPageDriverController {
         });
     }
 
-    public void loadComboBoxRoute() {
-        //convert Set Routes to List routes
-        List<Route> routelist = new ArrayList<>(DriverDao.getLogedinDriver().getRoutes());
-
-        //add list to observableList.
-        ObservableList<Route> routes = FXCollections.observableList(routelist);
-
-        //add observablelist to combobox.
-        cbRoutes.setItems(routes);
-
-        //Get values out of combobox and display them correctly:
-        cbRoutes.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(Route route) {
-                if (route != null) {
-                    return "Route: " + route.getId() + " | Duratie: " + route.getDuration() + "min";
-                }
-                return "";
-            }
-
-            @Override
-            public Route fromString(String string) {
-                return null;
-            }
-        });
-    }
-
-    //Load in screen the selected route in combobox.
-    public void loadRouteAfterChangeComboBoxRoute() {
+    public void loadRoute() {
         try {
-            //Change labels when clicking a route.
-            lDuration.setText(cbRoutes.getValue().getDuration() + " min");
-            lETA.setText(Integer.toString(calculateRoute.RouteMaker(cbRoutes.getValue().getOrders()).legs.length));
+            DirectionsRoute directionsRoute = calculateRoute.RouteMaker(route.getOrders());
 
-            //Get the directions of the selected route.
-            List<DirectionsRoute> list = Arrays.asList(calculateRoute.RouteMaker(cbRoutes.getValue().getOrders()));
-            ObservableList<DirectionsRoute> directionsRoutes = FXCollections.observableList(list);
-            lvDirectionsRoute.setItems(directionsRoutes);
-            lvDirectionsRoute.setCellFactory(new Callback<>() {
+            lDuration.setText(route.getDuration() + " min");
+            lETA.setText(Integer.toString(directionsRoute.legs.length));
+            ;
+            ObservableList<DirectionsStep> steps = FXCollections.observableList(Arrays.asList(directionsRoute.legs[0].steps));
+            for (DirectionsLeg di : directionsRoute.legs) {
+                System.out.println(di.toString());
+            }
+
+            directionsStep.setItems(steps);
+            directionsStep.setCellFactory(new Callback<>() {
                 @Override
-                public ListCell<DirectionsRoute> call(ListView<DirectionsRoute> p) {
+                public ListCell<DirectionsStep> call(ListView<DirectionsStep> p) {
                     return new ListCell<>() {
                         @Override
-                        protected void updateItem(DirectionsRoute t, boolean bln) {
+                        protected void updateItem(DirectionsStep t, boolean bln) {
                             super.updateItem(t, bln);
                             if (t != null) {
-                                setText(t.toString());
+                                setText(t.htmlInstructions);
                             }
                         }
                     };
                 }
             });
         } catch (RuntimeException ex) {
-            lvDirectionsRoute.setPlaceholder(new Label("WORK IN PROGRESS"));
+            directionsStep.setPlaceholder(new Label("WORK IN PROGRESS"));
         }
-        //sla geselecteerde route op in selectedRoute
-        selectedRoute = cbRoutes.getValue();
-        updateDeliveries();
     }
 
     private void showWindow() throws IOException {
         URL url = getClass().getResource("/org.openjfx/orderdetails.fxml");
-        System.out.println(url);
         final FXMLLoader loader = new FXMLLoader(url);
         final Parent root = loader.load();
         final Scene scene = new Scene(root);
@@ -168,51 +144,72 @@ public class MainPageDriverController {
         stage.show();
     }
 
-    // When mouse clicked on list show details of driver!
     @FXML
-    public void OnMouseClickedCustomer() {
-        //Detecting mouse clicked
-        tvDeliveries.setOnMouseClicked(event -> {
-            //Check wich list index is selected then set txtContent value for that index
+    public void OnMouseClickedCustomer(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            doubleClickedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
+            try {
+                showWindow();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+        if (event.getClickCount() == 1) {
             selectedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
-            System.out.println(selectedOrder.getId());
-            //when order status is not empty buttons are disabled when order status is empty buttons are enabled.
-            if (selectedOrder.getStatus() != null) {
+            if (selectedOrder.getOrderStatus().getStatusCode().equals("NOTHOME") || selectedOrder.getOrderStatus().getStatusCode().equals("DELIVERED")) {
                 bNotHome.setDisable(true);
                 bDelivered.setDisable(true);
             } else {
                 bNotHome.setDisable(false);
                 bDelivered.setDisable(false);
             }
-        });
-
-        //Detecting mouse clicked
-        tvDeliveries.setOnMouseClicked(event -> {
-            //Check wich list index is selected then set txtContent value for that index
-            if (event.getClickCount() == 2) {
-                doubleClickedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
-                try {
-                    showWindow();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        }
     }
 
-    //when clicking button 'Geleverd' change status and disable buttons so the status can't be changed.
+    @FXML
     public void onActionButtonDelivered() {
-        driverDao.updateOrderStatus("Bezorgd", selectedOrder);
+        o.updateStatus("DELIVERED", selectedOrder);
         bNotHome.setDisable(true);
         bDelivered.setDisable(true);
-        updateDeliveries();
+        selectedOrder = null;
+        update();
     }
 
-    //when clicking button 'NietThuis' change status and disable buttons so the status can't be changed.
+    @FXML
     public void onActionButtonNotHome() {
-        driverDao.updateOrderStatus("Niet thuis", selectedOrder);
+        o.updateStatus("NOTHOME", selectedOrder);
         bNotHome.setDisable(true);
         bDelivered.setDisable(true);
-        updateDeliveries();
+        selectedOrder = null;
+        update();
+    }
+
+    //Setter
+    public static void setRoute(Route route) {
+        MainPageDriverController.route = route;
+    }
+
+    @FXML
+    public void finishRoute() throws IOException {
+        for (Order order : route.getOrders()) {
+            if (!order.getOrderStatus().getStatusCode().equals("DELIVERED") && !order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
+                final Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.initOwner(App.getScene().getWindow());
+                alert.setContentText("Status van bestelling(en) is niet juist");
+                alert.show();
+                return;
+            }
+            if (order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
+                r.removeOrder(route, order);
+            }
+        }
+        r.setRouteStatus(route, "DELIVERED");
+        App.setRoot("route_driver");
+    }
+
+    public void back() throws IOException {
+        MainPageDriverController.setRoute(null);
+        App.setRoot("route_driver");
     }
 }

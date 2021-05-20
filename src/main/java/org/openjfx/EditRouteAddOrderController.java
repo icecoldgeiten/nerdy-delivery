@@ -4,21 +4,27 @@ import com.dao.OrderDao;
 import com.dao.RouteDao;
 import com.entity.Order;
 import com.entity.Route;
-import javafx.collections.FXCollections;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.util.Callback;
-
+import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.IOException;
+
 
 public class EditRouteAddOrderController {
     private static Route route;
     OrderDao o;
 
     @FXML
-    public ListView<Order> list;
+    public TableView<Order> Orders;
+    public TableColumn<Order, String> ID;
+    public TableColumn<Order, String> Address;
+    public TableColumn<Order, String> Postal;
+    public TableColumn<Order, String> Date;
+
+    @FXML
     public Button add;
     public Button back;
 
@@ -29,36 +35,25 @@ public class EditRouteAddOrderController {
     }
 
     public void update() {
-        list.getItems().clear();
+        Orders.getItems().clear();
         loadOrders();
     }
 
     public void loadOrders() {
-        ObservableList<Order> observableList = FXCollections.observableList(o.getOrders());
-        list.setItems(observableList);
-        list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        list.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<Order> call(ListView<Order> p) {
-                return new ListCell<>() {
-                    @Override
-                    protected void updateItem(Order t, boolean bln) {
-                        super.updateItem(t, bln);
-                        if (t != null) {
-                            setText(t.getId() + ":" + t.getCustomer().toString());
-                        }
-                    }
-                };
-            }
-        });
+        ID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        Address.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getAddres()));
+        Postal.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getPostal()));
+        Date.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getExpectedDeliveryDate()));
+        Orders.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        Orders.getItems().setAll(o.getOrders());
     }
 
-    public void addOrders(ActionEvent actionEvent) {
+    public void addOrders() {
         try {
-            if (list.getSelectionModel().getSelectedItems() != null) {
-                ObservableList<Order> selectedItems = list.getSelectionModel().getSelectedItems();
+            ObservableList<Order> orders = Orders.getSelectionModel().getSelectedItems();
+            if (orders != null) {
                 RouteDao r = new RouteDao();
-                r.updateRoute(route, selectedItems);
+                r.updateRoute(route, orders);
                 EditRouteController.setRoute(route);
                 App.setPage("edit_route");
             }
@@ -67,7 +62,7 @@ public class EditRouteAddOrderController {
         }
     }
 
-    public void handleBackButton(ActionEvent event) throws IOException {
+    public void handleBackButton() throws IOException {
         EditRouteController.setRoute(route);
         App.setPage("edit_route");
     }

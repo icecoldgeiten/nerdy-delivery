@@ -15,10 +15,12 @@ public class Driver extends Employee {
     @OneToMany
     @JoinColumn(name = "DriverID")
     private Set<Route> routes;
+
     @Column(name = "Vehicle")
-    private int vehicle;
+    private Integer vehicle;
+
     @Column(name = "LicenseNr")
-    private int lincenseNr;
+    private Integer lincenseNr;
 
     @Override
     public boolean equals(Object o) {
@@ -35,10 +37,10 @@ public class Driver extends Employee {
     public Set<Route> getRoutes() {
         return routes;
     }
-    public int getVehicle() {
+    public Integer getVehicle() {
         return vehicle;
     }
-    public int getLincenseNr() {
+    public Integer getLincenseNr() {
         return lincenseNr;
     }
 }

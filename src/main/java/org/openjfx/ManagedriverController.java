@@ -76,7 +76,6 @@ public class ManagedriverController implements Initializable {
             public void handle(MouseEvent event) {
                 //Check wich list index is selected then set txtContent value for that index
                 clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
-                System.out.println(clickedDriver);
                 for (Driver d : driverDao.getAllDrivers()) {
                     String id = Integer.toString(d.getId());
                     if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
