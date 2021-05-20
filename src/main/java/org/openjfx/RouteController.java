@@ -19,6 +19,8 @@ public class RouteController {
     public TableColumn<Route, String> ID;
     public TableColumn<Route, String> Driver;
     public TableColumn<Route, String> Status;
+    public TableColumn<Route, String> Date;
+    public TableColumn<Route, String> TimeSlot;
 
     public RouteDao route;
 
@@ -41,6 +43,8 @@ public class RouteController {
         ID.setCellValueFactory(new PropertyValueFactory<>("id"));
         Driver.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getDriver().toString()));
         Status.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getRouteStatus().toString()));
+        Date.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getDate().toString()));
+        TimeSlot.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getTimeslot().toString()));
         tableView.getItems().setAll(route.getAllRoutes());
     }
 
@@ -48,11 +52,11 @@ public class RouteController {
     public void handleMouseClick() {
         try {
             Route route = tableView.getSelectionModel().getSelectedItem();
-            if (!route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY")) {
+            if (!route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY") || !route.getRouteStatus().getStatusCode().equals("DELIVERED")) {
                 EditRouteController.setRoute(route);
                 App.setPage("edit_route");
             }
-        } catch (Exception e) {
+        } catch (NullPointerException | IOException e) {
             e.printStackTrace();
         }
     }
