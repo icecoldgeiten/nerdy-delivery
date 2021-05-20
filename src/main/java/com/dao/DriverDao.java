@@ -161,5 +161,7 @@ public class DriverDao {
     public static Driver getLogedinDriver() {
         return LogedinDriver;
     }
-
+    public static void setLogedinDriver(Driver logedinDriver) {
+        LogedinDriver = logedinDriver;
+    }
 }

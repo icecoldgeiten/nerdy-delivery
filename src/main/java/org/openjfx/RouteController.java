@@ -22,8 +22,6 @@ public class RouteController {
     public TableColumn<Route, String> Date;
     public TableColumn<Route, String> TimeSlot;
 
-
-
     public RouteDao route;
 
     @FXML
@@ -58,7 +56,7 @@ public class RouteController {
                 EditRouteController.setRoute(route);
                 App.setPage("edit_route");
             }
-        } catch (Exception e) {
+        } catch (NullPointerException | IOException e) {
             e.printStackTrace();
         }
     }

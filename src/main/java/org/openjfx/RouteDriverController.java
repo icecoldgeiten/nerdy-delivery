@@ -4,11 +4,9 @@ import com.dao.DriverDao;
 import com.dao.OrderDao;
 import com.dao.RouteDao;
 import com.dao.StatusDao;
-import com.entity.Order;
-import com.entity.OrderStatus;
-import com.entity.Route;
-import com.entity.RouteStatus;
+import com.entity.*;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -77,5 +75,10 @@ public class RouteDriverController {
                 }
             }
         });
+    }
+
+    public void logout() throws IOException {
+        DriverDao.setLogedinDriver(null);
+        App.setRoot("start_screen");
     }
 }

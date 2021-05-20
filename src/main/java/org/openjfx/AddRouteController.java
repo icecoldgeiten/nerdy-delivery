@@ -7,24 +7,32 @@ import com.dao.TimeslotDao;
 import com.entity.Driver;
 import com.entity.Order;
 import com.entity.Timeslot;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.util.Callback;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
 public class AddRouteController {
+
     private DriverDao d;
     private OrderDao o;
     private TimeslotDao t;
 
     @FXML
+    public TableView<Order> Orders;
+    public TableColumn<Order, String> ID;
+    public TableColumn<Order, String> Address;
+    public TableColumn<Order, String> Postal;
+    public TableColumn<Order, String> Date;
+
+    @FXML
     private ComboBox<Driver> combo;
-    public ListView<Order> list;
     public Button generate;
     public Button back;
     public DatePicker date;
@@ -42,7 +50,7 @@ public class AddRouteController {
     }
 
     public void update() {
-        list.getItems().clear();
+        Orders.getItems().clear();
         combo.getItems().clear();
         timeslot.getItems().clear();
         loadTimezone();
@@ -80,29 +88,18 @@ public class AddRouteController {
     }
 
     public void loadOrders() {
-        ObservableList<Order> observableList = FXCollections.observableList(o.getOrders());
-        list.setItems(observableList);
-        list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        list.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<Order> call(ListView<Order> p) {
-                return new ListCell<>() {
-                    @Override
-                    protected void updateItem(Order t, boolean bln) {
-                        super.updateItem(t, bln);
-                        if (t != null) {
-                            setText(t.getId() + ":" + t.getCustomer().Address());
-                        }
-                    }
-                };
-            }
-        });
+        ID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        Address.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getAddres()));
+        Postal.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getPostal()));
+        Date.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getExpectedDeliveryDate()));
+        Orders.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        Orders.getItems().setAll(o.getOrders());
     }
 
     public void generateRoute() {
         try {
             if (combo.getSelectionModel().getSelectedItem() != null) {
-                ObservableList<Order> selectedItems = list.getSelectionModel().getSelectedItems();
+                ObservableList<Order> selectedItems = Orders.getSelectionModel().getSelectedItems();
                 RouteDao r = new RouteDao();
                 r.generateRoute(combo.getSelectionModel().getSelectedItem(), selectedItems, date.getValue(), timeslot.getSelectionModel().getSelectedItem());
                 App.setPage("routes");

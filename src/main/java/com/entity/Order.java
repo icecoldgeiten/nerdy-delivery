@@ -29,6 +29,9 @@ public class Order {
     @Column(name = "Comments")
     private String comments;
 
+    @Column(name = "ExpectedDeliveryDate")
+    private String expectedDeliveryDate;
+
     @OneToMany
     @JoinColumn(name = "OrderID")
     private Set<Orderline> orderlines;
@@ -48,6 +51,9 @@ public class Order {
     }
     public OrderStatus getOrderStatus() {
         return orderStatus;
+    }
+    public String getExpectedDeliveryDate() {
+        return expectedDeliveryDate;
     }
 
     //Setters

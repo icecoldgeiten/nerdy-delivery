@@ -1,5 +1,6 @@
 package org.openjfx;
 
+import com.dao.AdminDao;
 import com.dao.OrderDao;
 import com.dao.RouteDao;
 import com.entity.Customer;
@@ -12,6 +13,7 @@ import com.google.maps.model.DirectionsStep;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,7 +45,7 @@ public class MainPageDriverController {
     public Label lDuration, lETA;
     public Button bDelivered, bNotHome;
     public Button submit;
-
+    public Button logout;
 
     public void initialize() {
         o = new OrderDao();
@@ -203,6 +205,11 @@ public class MainPageDriverController {
             }
         }
         r.setRouteStatus(route, "DELIVERED");
+        App.setRoot("route_driver");
+    }
+
+    public void back() throws IOException {
+        MainPageDriverController.setRoute(null);
         App.setRoot("route_driver");
     }
 }
