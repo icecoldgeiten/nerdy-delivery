@@ -30,7 +30,7 @@ public class LoginDriverController {
     @FXML
     public void handleLoginButton() throws IOException {
         if (driverDao.validate(this.tfUsername.getText(), this.pfPassword.getText())) {
-            App.setRoot("mainpage_driver");
+            App.setRoot("route_driver");
         } else {
             lErrorLoginDriver.setText("Gebruikersnaam of wachtwoord onjuist ingevuld!");
             lErrorLoginDriver.setTextFill(Color.RED);

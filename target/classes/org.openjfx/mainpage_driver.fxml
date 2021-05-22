@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,12 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.MainPageDriverController">
-    <Label layoutX="15.0" layoutY="19.0" prefHeight="20.0" prefWidth="102.0" text="Mijn routes:">
-        <font>
-            <Font name="System Bold" size="14.0" />
-        </font>
-    </Label>
-    <Label layoutX="33.0" layoutY="55.0" text="Route">
+    <Label layoutX="30.0" layoutY="14.0" text="Route">
         <font>
             <Font name="System Bold" size="14.0" />
         </font>
@@ -27,7 +21,7 @@
         </font>
     </Label>
     <Label fx:id="lDuration" layoutX="108.0" layoutY="207.0" />
-    <Label layoutX="161.0" layoutY="292.0" text="Verwachte tijd:">
+    <Label layoutX="163.0" layoutY="288.0" text="Verwachte tijd:">
         <font>
         <Font name="System Bold" size="12.0" />
         </font>
@@ -46,8 +40,7 @@
             <TableColumn fx:id="tcStatus" editable="false" text="Order Status" />
         </columns>
     </TableView>
-    <ComboBox fx:id="cbRoutes" layoutX="117.0" layoutY="17.0" onAction="#loadRouteAfterChangeComboBoxRoute" prefHeight="25.0" prefWidth="188.0" />
-    <ListView fx:id="directionsStep" layoutX="30.0" layoutY="75.0" prefHeight="206.0" prefWidth="830.0" />
+    <ListView fx:id="directionsStep" layoutX="25.0" layoutY="34.0" prefHeight="248.0" prefWidth="830.0" />
     <Button fx:id="bDelivered" layoutX="717.0" layoutY="366.0" mnemonicParsing="false" onAction="#onActionButtonDelivered" prefHeight="25.0" prefWidth="72.0" text="Bezorgd">
         <font>
           <Font name="System Bold" size="12.0" />
@@ -65,4 +58,6 @@
     </Label>
     <Line endX="-100.0" endY="199.0" layoutX="798.0" layoutY="340.0" startX="-100.0" stroke="#00000052" />
     <Line endX="-97.0" endY="45.0" layoutX="810.0" layoutY="360.0" startX="55.0" startY="45.0" stroke="#00000052" />
+   <Button fx:id="submit" layoutX="713.0" layoutY="448.0" mnemonicParsing="false" onAction="#finishRoute" prefHeight="93.0" prefWidth="153.0" text="Voltooien" />
+   <Button fx:id="logout" layoutX="803.0" layoutY="5.0" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="72.0" text="Overzicht" />
 </Pane>

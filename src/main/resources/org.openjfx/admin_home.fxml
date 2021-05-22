@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.openjfx.AdminHomeController">
-    <Text layoutX="248.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Home">
-        <font>
-            <Font size="39.0"/>
-        </font>
-    </Text>
+    <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bestellingen"/>
+    <TableView fx:id="Order" layoutX="14.0" layoutY="38.0" prefHeight="213.0" prefWidth="677.0">
+      <columns>
+          <TableColumn fx:id="OrderID" prefWidth="75.0" text="ID"/>
+          <TableColumn fx:id="Address" prefWidth="265.0" text="Adres"/>
+          <TableColumn fx:id="Customer" minWidth="0.0" prefWidth="161.0" text="Klant"/>
+      </columns>
+    </TableView>
+    <Text layoutX="14.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bezorgers"/>
+    <TableView fx:id="Driver" layoutX="14.0" layoutY="281.0" prefHeight="105.0" prefWidth="677.0">
+      <columns>
+          <TableColumn fx:id="DriverID" prefWidth="75.0" text="ID"/>
+          <TableColumn fx:id="Name" prefWidth="98.0" text="Naam"/>
+          <TableColumn fx:id="Surname" prefWidth="117.0" text="Achternaam"/>
+          <TableColumn fx:id="BirthDate" prefWidth="129.0" text="Geboortedatum"/>
+          <TableColumn fx:id="Number" prefWidth="116.0" text="Telefoonnummer"/>
+          <TableColumn fx:id="Vehicle" prefWidth="106.0" text="Voertuig"/>
+      </columns>
+    </TableView>
 </AnchorPane>

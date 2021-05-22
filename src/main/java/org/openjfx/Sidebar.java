@@ -57,6 +57,4 @@ public class Sidebar {
     public static void setPage(String page) {
         Sidebar.page = page;
     }
-
-
 }

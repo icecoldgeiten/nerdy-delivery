@@ -1,6 +1,8 @@
 package org.openjfx;
 
-import com.dao.DriverDao;
+import com.dao.AdminDao;
+import com.dao.OrderDao;
+import com.dao.RouteDao;
 import com.entity.Customer;
 import com.entity.Order;
 import com.entity.Route;
@@ -8,29 +10,30 @@ import com.google.CalculateRoute;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class MainPageDriverController {
-    private DriverDao driverDao;
+    private static Route route;
+
+    private OrderDao o;
+    private RouteDao r;
     private CalculateRoute calculateRoute;
-    private Route selectedRoute;
     private Order selectedOrder;
     public static Order doubleClickedOrder;
 
@@ -38,32 +41,33 @@ public class MainPageDriverController {
     public TableView<Order> tvDeliveries;
     public TableColumn<Order, String> tcOrderID, tcStatus;
     public TableColumn<Order, Customer> tcCustomerID, tCustomerAdress;
-    public Label lDuration, lETA;
-    public ComboBox<Route> cbRoutes;
     public ListView<DirectionsStep> directionsStep;
+    public Label lDuration, lETA;
     public Button bDelivered, bNotHome;
+    public Button submit;
+    public Button logout;
 
     public void initialize() {
-        driverDao = new DriverDao();
+        o = new OrderDao();
+        r = new RouteDao();
         calculateRoute = new CalculateRoute();
-
-        loadComboBoxRoute();
-        updateDeliveries();
 
         //Buttons disabled because route and customer is not yet selected
         bDelivered.setDisable(true);
         bNotHome.setDisable(true);
+
+        update();
     }
 
-    public void updateDeliveries() {
+    public void update() {
         tvDeliveries.getItems().clear();
         loadDeliveries();
+//        loadRoute();
     }
 
     public void loadDeliveries() {
         try {
-            List<Order> ordersSelectedRoute = new ArrayList<>(selectedRoute.getOrders());
-            ObservableList<Order> orderDriver = FXCollections.observableArrayList(ordersSelectedRoute);
+            ObservableList<Order> orderDriver = FXCollections.observableArrayList(route.getOrders());
             tvDeliveries.setItems(orderDriver);
             setCellValueColumns();
         } catch (NullPointerException ex) {
@@ -75,7 +79,8 @@ public class MainPageDriverController {
         tcOrderID.setCellValueFactory(new PropertyValueFactory<>("id"));
         tcCustomerID.setCellValueFactory(new PropertyValueFactory<>("customer"));
         tCustomerAdress.setCellValueFactory(new PropertyValueFactory<>("customer"));
-        tcStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        tcStatus.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getOrderStatus().toString()));
+
         tcCustomerID.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Customer c, boolean bln) {
@@ -96,35 +101,15 @@ public class MainPageDriverController {
         });
     }
 
-    public void loadComboBoxRoute() {
-        List<Route> routelist = new ArrayList<>(DriverDao.getLogedinDriver().getRoutes());
-        ObservableList<Route> routes = FXCollections.observableList(routelist);
-
-        cbRoutes.setItems(routes);
-        cbRoutes.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(Route route) {
-                if (route != null) {
-                    return "Route: " + route.getId() + " | Duratie: " + route.getDuration() + "min";
-                }
-                return "";
-            }
-
-            @Override
-            public Route fromString(String string) {
-                return null;
-            }
-        });
-    }
-
-    public void loadRouteAfterChangeComboBoxRoute() {
+    public void loadRoute() {
         try {
-            lDuration.setText(cbRoutes.getValue().getDuration() + " min");
-            lETA.setText(Integer.toString(calculateRoute.RouteMaker(cbRoutes.getValue().getOrders()).legs.length));
+            DirectionsRoute directionsRoute = calculateRoute.RouteMaker(route.getOrders());
 
-            DirectionsRoute route = calculateRoute.RouteMaker(cbRoutes.getValue().getOrders());
-            ObservableList<DirectionsStep> steps = FXCollections.observableList(Arrays.asList(route.legs[0].steps));
-            for (DirectionsLeg di : route.legs) {
+            lDuration.setText(route.getDuration() + " min");
+            lETA.setText(Integer.toString(directionsRoute.legs.length));
+            ;
+            ObservableList<DirectionsStep> steps = FXCollections.observableList(Arrays.asList(directionsRoute.legs[0].steps));
+            for (DirectionsLeg di : directionsRoute.legs) {
                 System.out.println(di.toString());
             }
 
@@ -146,8 +131,6 @@ public class MainPageDriverController {
         } catch (RuntimeException ex) {
             directionsStep.setPlaceholder(new Label("WORK IN PROGRESS"));
         }
-        selectedRoute = cbRoutes.getValue();
-        updateDeliveries();
     }
 
     private void showWindow() throws IOException {
@@ -162,43 +145,71 @@ public class MainPageDriverController {
     }
 
     @FXML
-    public void OnMouseClickedCustomer() {
-        tvDeliveries.setOnMouseClicked(event -> {
+    public void OnMouseClickedCustomer(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            doubleClickedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
+            try {
+                showWindow();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+        if (event.getClickCount() == 1) {
             selectedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
-            if (selectedOrder.getStatus() != null) {
+            if (selectedOrder.getOrderStatus().getStatusCode().equals("NOTHOME") || selectedOrder.getOrderStatus().getStatusCode().equals("DELIVERED")) {
                 bNotHome.setDisable(true);
                 bDelivered.setDisable(true);
             } else {
                 bNotHome.setDisable(false);
                 bDelivered.setDisable(false);
             }
-        });
-
-        tvDeliveries.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                doubleClickedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
-                try {
-                    showWindow();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        }
     }
 
     @FXML
     public void onActionButtonDelivered() {
-        driverDao.updateOrderStatus("Bezorgd", selectedOrder);
+        o.updateStatus("DELIVERED", selectedOrder);
         bNotHome.setDisable(true);
         bDelivered.setDisable(true);
-        updateDeliveries();
+        selectedOrder = null;
+        update();
     }
 
     @FXML
     public void onActionButtonNotHome() {
-        driverDao.updateOrderStatus("Niet thuis", selectedOrder);
+        o.updateStatus("NOTHOME", selectedOrder);
         bNotHome.setDisable(true);
         bDelivered.setDisable(true);
-        updateDeliveries();
+        selectedOrder = null;
+        update();
+    }
+
+    //Setter
+    public static void setRoute(Route route) {
+        MainPageDriverController.route = route;
+    }
+
+    @FXML
+    public void finishRoute() throws IOException {
+        for (Order order : route.getOrders()) {
+            if (!order.getOrderStatus().getStatusCode().equals("DELIVERED") && !order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
+                final Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.initOwner(App.getScene().getWindow());
+                alert.setContentText("Status van bestelling(en) is niet juist");
+                alert.show();
+                return;
+            }
+            if (order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
+                r.removeOrder(route, order);
+            }
+        }
+        r.setRouteStatus(route, "DELIVERED");
+        App.setRoot("route_driver");
+    }
+
+    public void back() throws IOException {
+        MainPageDriverController.setRoute(null);
+        App.setRoot("route_driver");
     }
 }
