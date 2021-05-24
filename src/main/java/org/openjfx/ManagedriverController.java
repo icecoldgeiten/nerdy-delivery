@@ -144,4 +144,8 @@ public class ManagedriverController implements Initializable {
     public void newBezorger() throws IOException {
         App.setPage("register_driver");
     }
+
+    public void refreshPage(ActionEvent event) {
+        updateDrivers();
+    }
 }

@@ -2,8 +2,6 @@ package com.dao;
 
 import com.entity.*;
 import com.helpers.AES256;
-import javafx.scene.control.Alert;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -11,7 +9,6 @@ import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class DriverDao {
     private static Driver LogedinDriver;
