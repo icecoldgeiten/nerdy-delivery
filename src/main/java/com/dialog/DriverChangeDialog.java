@@ -8,37 +8,39 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DriverChangeDialog {
     Dialog<String> dialogChangeDriver;
     DriverDao driverDao;
-    @FXML
-    Button bBack, bChange;
-    @FXML
-    TextField tfName, tfInserts, tfSirname, tfBirthday, tfPhone, tfVehicle, tfLicense;
-    @FXML
-    Label lIntro,lChangeAlert;
+    Driver driver;
+    Boolean isChange = false;
+
+    @FXML Button bBack, bChange;
+    @FXML TextField tfName, tfInserts, tfSirname, tfBirthday, tfPhone, tfVehicle, tfLicense;
+    @FXML PasswordField pfChangePassword;
+    @FXML Label lIntro,lChangeAlert;
+    @FXML CheckBox cbVehicle, cbLicense;
 
     public DriverChangeDialog(int clickedOnName){
+        driverDao = new DriverDao();
 
         //nieuwe dialoog maken
-        dialogChangeDriver = new Dialog<String>();
+        dialogChangeDriver = new Dialog<>();
         Scene scene = new Scene(new Group());
         Stage changeDialogStage  = new Stage();
-        changeDialogStage.setHeight(340);
+        changeDialogStage.setHeight(360);
         changeDialogStage.setWidth(340);
-        changeDialogStage.setTitle("Bewerk " + clickedOnName);
+        driver = driverDao.searchDriver(clickedOnName);
+        changeDialogStage.setTitle("Bewerk bezorger " + driver.getName());
 
         //Nieuwe root pane
         BorderPane root = new BorderPane();
@@ -69,11 +71,8 @@ public class DriverChangeDialog {
         lChangeAlert = new Label("");
 
         //TEXTFIELD
-        driverDao = new DriverDao();
-
         try {
-            //zoeken naar een driver zodat de waardes van deze driver standaard ingevuld worden in de textvelden.
-            Driver driver = driverDao.searchDriver(clickedOnName);
+            //new textfields.
             tfName = new TextField(driver.getName());
             tfInserts = new TextField(driver.getInserts());
             tfSirname = new TextField(driver.getSirname());
@@ -85,9 +84,18 @@ public class DriverChangeDialog {
         }catch (Exception e){
             System.out.println(e);
         }
+        //Password field
+        pfChangePassword = new PasswordField();
+        pfChangePassword.setPromptText("Nieuw wachtwoord..");
+
+
         //BUTTON
         bBack = new Button("Terug");
         bChange = new Button("Bewerk");
+
+        //CHECKBOX
+        cbVehicle = new CheckBox("Voertuig");
+        cbLicense = new CheckBox("Rijbewijs");
 
         //toevoegen elementen top:
         fp1.getChildren().add(lIntro);
@@ -103,6 +111,10 @@ public class DriverChangeDialog {
         gp.add(tfBirthday,2,3);
         gp.add(new Label("Telefoonnummer"),1,4);
         gp.add(tfPhone,2,4);
+        gp.add(new Label("Wachtwoord"),1,5);
+        gp.add(pfChangePassword,2,5);
+        gp.add(cbLicense,1,6);
+        gp.add(cbVehicle,2,6);
 
         //toevoegen elementen bottom:
         fp2.getChildren().add(bBack);
@@ -134,12 +146,27 @@ public class DriverChangeDialog {
                         System.out.println("String naar datum error: "+ e + tfBirthday.getText());
                         bd = LocalDate.now();
                     }
-                    driverDao.changeDriver(clickedOnName,tfName.getText(),tfInserts.getText(),tfSirname.getText(),phone,bd);
-                    lChangeAlert.setText("Bezorger is aangepast!");
+                    driverDao.changeDriver(clickedOnName,tfName.getText(),tfInserts.getText(),tfSirname.getText(),phone,bd, cbVehicle.isSelected(), cbLicense.isSelected());
+                    driverDao.changePassword(pfChangePassword.getText(),clickedOnName);
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Dialog");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Gegevens van " + driver.getName() + " zijn gewijzigd!");
+
+                    alert.showAndWait();
+                    isChange = true;
+                    changeDialogStage.close();
+
+
                 } catch (NumberFormatException e){
                     lChangeAlert.setText("Graag de velden invullen!");
                 }
             }
         });
+    }
+
+    public Boolean getChange() {
+        return isChange;
     }
 }

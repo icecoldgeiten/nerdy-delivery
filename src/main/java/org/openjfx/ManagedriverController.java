@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class ManagedriverController implements Initializable {
     private DriverDao driverDao;
-
+    DriverChangeDialog dcd;
     @FXML
     public ListView<Driver> lvDrivers;
     public Button bNew, bDelete, bChange;
@@ -99,7 +99,10 @@ public class ManagedriverController implements Initializable {
     //Clicking on 'Bewerk..' button opens new dialog with textfiels to change the driver.
     @FXML
     void actionButtonChange(ActionEvent event) {
-        new DriverChangeDialog(clickedDriver);
+        dcd = new DriverChangeDialog(clickedDriver);
+//        if(dcd.getChange()){
+//            updateDrivers();
+//        }
     }
 
     //GETTER

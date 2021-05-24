@@ -58,7 +58,7 @@
                   <Button fx:id="bDelete" layoutX="513.0" layoutY="318.0" mnemonicParsing="false" onAction="#rowDelete"
                           text="Verwijder" />
                   <Button fx:id="bChange" layoutX="440.0" layoutY="318.0" mnemonicParsing="false"
-                          onAction="#actionButtonChange" text="Berwerk.." />
+                          onAction="#actionButtonChange" text="Bewerk.." />
                   <Label layoutX="229.0" layoutY="40.0" text="Details:">
                      <font>
                         <Font name="System Bold" size="14.0" />

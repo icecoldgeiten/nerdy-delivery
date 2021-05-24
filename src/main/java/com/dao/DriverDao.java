@@ -2,6 +2,7 @@ package com.dao;
 
 import com.entity.*;
 import com.helpers.AES256;
+import javafx.scene.control.Alert;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -10,6 +11,7 @@ import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DriverDao {
     private static Driver LogedinDriver;
@@ -88,8 +90,12 @@ public class DriverDao {
         em.close();
     }
 
-    public void changeDriver(int clickedOn, String name, String ins, String sn, int phone, LocalDate bd) {
+    public void changeDriver(int clickedOn, String name, String ins, String sn, int phone, LocalDate bd, boolean vehicle, boolean license) {
         EntityManager em = emf.createEntityManager();
+
+        int veh = vehicle ? 1 :0;
+        int lic = license ? 1 :0;
+
         try {
             em.getTransaction().begin();
             driver = em.find(Driver.class, clickedOn);
@@ -99,6 +105,8 @@ public class DriverDao {
             driver.setSirname(sn);
             driver.setPhonenumber(phone);
             driver.setBirthdate(bd);
+            driver.setVehicle(veh);
+            driver.setLincenseNr(lic);
 
             em.getTransaction().commit();
 
@@ -164,4 +172,40 @@ public class DriverDao {
     public static void setLogedinDriver(Driver logedinDriver) {
         LogedinDriver = logedinDriver;
     }
+
+    public void changePassword(String pw, int clickedOn) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            driver = em.find(Driver.class, clickedOn);
+            em.merge(driver);
+            driver.setPassword(AES256.encrypt(pw));
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+//    public void changeLicense(boolean license, int clickedOn){
+//        EntityManager em = emf.createEntityManager();
+//        driver = em.find(Driver.class, clickedOn);
+//        em.merge(driver);
+//        em.getTransaction().begin();
+//
+//        driver.setLincenseNr(lic);
+//        em.getTransaction().commit();
+//    }
+//
+//    public void changeVehicle(boolean vehicle, int clickedOn){
+//        EntityManager em = emf.createEntityManager();
+//        driver = em.find(Driver.class, clickedOn);
+//        em.merge(driver);
+//        em.getTransaction().begin();
+//
+//        driver.setVehicle(veh);
+//        em.getTransaction().commit();
+//    }
+
+
 }

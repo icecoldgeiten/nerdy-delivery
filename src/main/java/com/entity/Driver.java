@@ -1,7 +1,6 @@
 package com.entity;
 
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -15,6 +14,9 @@ public class Driver extends Employee {
     @OneToMany
     @JoinColumn(name = "DriverID")
     private Set<Route> routes;
+
+    @Column(name = "Password")
+    private String password;
 
     @Column(name = "Vehicle")
     private Integer vehicle;
@@ -50,5 +52,13 @@ public class Driver extends Employee {
     //Setters
     public void setActive(boolean active){
         this.active = active;
+    }
+
+    public void setVehicle(Integer vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public void setLincenseNr(Integer lincenseNr) {
+        this.lincenseNr = lincenseNr;
     }
 }

@@ -5,13 +5,13 @@ import java.time.LocalDate;
 
 @MappedSuperclass
 public abstract class Employee {
-    @Column(name = "Name")
+    @Column(name = "Name", nullable = false)
     private String name;
     @Column(name = "Inserts")
     private String inserts;
-    @Column(name = "Sirname")
+    @Column(name = "Sirname", nullable = false)
     private String sirname;
-    @Column(name = "Birthdate")
+    @Column(name = "Birthdate", nullable = false)
     private LocalDate birthdate;
     @Column(name = "Phonenumber")
     private Integer phonenumber;
@@ -71,6 +71,8 @@ public abstract class Employee {
     public void setPhonenumber(Integer phonenumber) {
         this.phonenumber = phonenumber;
     }
+
+
 
     @Override
     public String toString() {
