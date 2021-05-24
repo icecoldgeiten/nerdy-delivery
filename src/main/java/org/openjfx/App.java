@@ -14,7 +14,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("manage_driver"));
+        scene = new Scene(loadFXML("login_driver"));
 
         stage.setTitle("Nerdy Delivery");
         stage.setScene(scene);

@@ -6,11 +6,9 @@ import com.entity.Driver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
@@ -72,7 +70,6 @@ public class ManagedriverController implements Initializable {
                 //Check wich list index is selected then set txtContent value for that index
                 clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
                 for (Driver d : driverDao.getAllActiveDrivers()) {
-                    String id = Integer.toString(d.getId());
                     if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
                         lName.setText(d.getName());
                         lInserts.setText(d.getInserts());
@@ -94,9 +91,6 @@ public class ManagedriverController implements Initializable {
     @FXML
     void actionButtonChange(ActionEvent event) {
         dcd = new DriverChangeDialog(clickedDriver);
-//        if(dcd.getChange()){
-//            updateDrivers();
-//        }
     }
 
     //GETTER
