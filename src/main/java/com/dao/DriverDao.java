@@ -145,7 +145,7 @@ public class DriverDao {
                 return true;
             }
             em.getTransaction().commit();
-        } catch (NoResultException e) {
+        } catch (NoResultException e) { ;
             e.printStackTrace();
         }
         em.close();
@@ -175,8 +175,8 @@ public class DriverDao {
         try {
             em.getTransaction().begin();
             driver = em.find(Driver.class, clickedOn);
-            em.merge(driver);
-            driver.setPassword(AES256.encrypt(pw));
+            String EncryptedPW = AES256.encrypt(pw);
+            driver.setPassword(EncryptedPW);
             em.getTransaction().commit();
 
         } catch (Exception e) {

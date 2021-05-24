@@ -69,10 +69,6 @@ public class ManagedriverController implements Initializable {
     // When mouse clicked on list show details of driver!
     @FXML
     public void lvDriversOnMouseClicked() {
-        //Detecting mouse clicked
-        lvDrivers.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
                 //Check wich list index is selected then set txtContent value for that index
                 clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
                 for (Driver d : driverDao.getAllActiveDrivers()) {
@@ -93,8 +89,6 @@ public class ManagedriverController implements Initializable {
                     }
                 }
             }
-        });
-    }
 
     //Clicking on 'Bewerk..' button opens new dialog with textfiels to change the driver.
     @FXML

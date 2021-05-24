@@ -7,7 +7,6 @@ com\entity\Customer.class
 TestDriveJPA.class
 com\dao\TimeslotDao.class
 com\entity\Administrator.class
-org\openjfx\ManagedriverController$2.class
 com\dao\StatusDao.class
 com\entity\RouteStatus.class
 org\openjfx\EditRouteController$2.class

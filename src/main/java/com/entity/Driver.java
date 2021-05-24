@@ -18,6 +18,9 @@ public class Driver extends Employee {
     @Column(name = "Password")
     private String password;
 
+    @Column(name = "Username")
+    private String username;
+
     @Column(name = "Vehicle")
     private Integer vehicle;
 
@@ -60,5 +63,20 @@ public class Driver extends Employee {
 
     public void setLincenseNr(Integer lincenseNr) {
         this.lincenseNr = lincenseNr;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
     }
 }
