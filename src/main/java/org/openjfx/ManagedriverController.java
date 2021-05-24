@@ -12,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -84,7 +83,11 @@ public class ManagedriverController implements Initializable {
                         lSirname.setText(d.getSirname());
                         String bd = d.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                         lBirthday.setText(bd);
-                        lPhone.setText(Integer.toString(d.getPhonenumber()));
+                        try {
+                            lPhone.setText(Integer.toString(d.getPhonenumber()));
+                        }catch (NullPointerException ex){
+                            lPhone.setText("");
+                        }
                         lVehicle.setText(Integer.toString(d.getVehicle()));
                         lLicense.setText(Integer.toString(d.getLincenseNr()));
                     }
@@ -105,22 +108,33 @@ public class ManagedriverController implements Initializable {
     }
 
     public void rowDelete(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Verwijderen");
-        alert.setHeaderText("Verwijder Bezorger!");
-        alert.setContentText("Wilt u zeker dit verwijderen?");
+        Driver driver = driverDao.searchDriver(clickedDriver);
+        try {
+            if (driver.getRoutes().isEmpty()) {
+                System.out.println("Mag wel!" + driver.getName());
+                Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert1.setTitle("Verwijderen");
+                alert1.setHeaderText("Bezorger verwijderen?");
+                alert1.setContentText("Weet u zeker dat u deze bezorger wilt verwijderen?");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            // ... user chose OK
-            driverDao.rowDelete(clickedDriver);
+                Optional<ButtonType> result = alert1.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    // ... user chose OK
+                    driverDao.rowDelete(clickedDriver);
+                }
+                updateDrivers();
+            } else {
+                System.out.println("Mag niet!" + driver.getName());
+                Alert alert2 = new Alert(Alert.AlertType.WARNING);
+                alert2.setTitle("Waarschuwing!");
+                alert2.setHeaderText("Bezorger kan niet worden verwijderd!");
+                alert2.setContentText("Aan deze bezorger zitten routes gekoppeld.");
+                Optional<ButtonType> result = alert2.showAndWait();
 
+            }
+        }catch (Exception ex){
+            System.out.println(ex);
         }
-        else {
-            /* ... user chose CANCEL or closed the dialog */
-
-        }
-        updateDrivers();
     }
 
 

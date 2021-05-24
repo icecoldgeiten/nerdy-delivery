@@ -1,10 +1,7 @@
-
 package org.openjfx;
 
 import com.dao.DriverDao;
-
 import java.io.IOException;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

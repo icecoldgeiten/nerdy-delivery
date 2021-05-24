@@ -1,6 +1,5 @@
 package org.openjfx;
 
-import com.dao.AdminDao;
 import com.dao.OrderDao;
 import com.dao.RouteDao;
 import com.entity.Customer;
@@ -13,7 +12,6 @@ import com.google.maps.model.DirectionsStep;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +21,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -157,7 +154,8 @@ public class MainPageDriverController {
         }
         if (event.getClickCount() == 1) {
             selectedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
-            if (selectedOrder.getOrderStatus().getStatusCode().equals("NOTHOME") || selectedOrder.getOrderStatus().getStatusCode().equals("DELIVERED")) {
+            if (selectedOrder.getOrderStatus().getStatusCode().equals("NOTHOME") || selectedOrder.getOrderStatus().
+                    getStatusCode().equals("DELIVERED")) {
                 bNotHome.setDisable(true);
                 bDelivered.setDisable(true);
             } else {
