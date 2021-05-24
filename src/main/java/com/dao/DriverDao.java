@@ -21,11 +21,11 @@ public class DriverDao {
         emf = Persistence.createEntityManagerFactory("ice-unit");
     }
 
-    public List<Driver> getAllDrivers() {
+    public List<Driver> getAllActiveDrivers() {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
-            List<Driver> drivers = em.createQuery("from Driver", Driver.class).getResultList();
+            List<Driver> drivers = em.createQuery("from Driver D where D.active = 1", Driver.class).getResultList();
             em.close();
             return drivers;
         } catch (Exception e) {
@@ -123,7 +123,7 @@ public class DriverDao {
         try {
             em.getTransaction().begin();
             driver = em.find(Driver.class, id);
-            em.remove(driver);
+            driver.setActive(false);
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e);

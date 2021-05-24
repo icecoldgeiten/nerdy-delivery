@@ -22,6 +22,9 @@ public class Driver extends Employee {
     @Column(name = "LicenseNr")
     private Integer lincenseNr;
 
+    @Column(name = "Active")
+    private Boolean active;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,5 +45,10 @@ public class Driver extends Employee {
     }
     public Integer getLincenseNr() {
         return lincenseNr;
+    }
+
+    //Setters
+    public void setActive(boolean active){
+        this.active = active;
     }
 }

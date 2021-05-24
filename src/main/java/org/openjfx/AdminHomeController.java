@@ -57,6 +57,6 @@ public class AdminHomeController {
         BirthDate.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getBirthdate().toString()));
         Number.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getPhonenumber().toString()));
         Vehicle.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getVehicle().toString()));
-        Driver.getItems().setAll(driverDao.getAllDrivers());
+        Driver.getItems().setAll(driverDao.getAllActiveDrivers());
     }
 }

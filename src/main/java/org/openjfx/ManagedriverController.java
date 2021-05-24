@@ -40,7 +40,7 @@ public class ManagedriverController implements Initializable {
     }
 
     private void loadDrivers() {
-        ObservableList<Driver> observableList = FXCollections.observableList(driverDao.getAllDrivers());
+        ObservableList<Driver> observableList = FXCollections.observableList(driverDao.getAllActiveDrivers());
         lvDrivers.setItems(observableList);
         lvDrivers.setCellFactory(new Callback<>() {
             @Override
@@ -75,7 +75,7 @@ public class ManagedriverController implements Initializable {
             public void handle(MouseEvent event) {
                 //Check wich list index is selected then set txtContent value for that index
                 clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
-                for (Driver d : driverDao.getAllDrivers()) {
+                for (Driver d : driverDao.getAllActiveDrivers()) {
                     String id = Integer.toString(d.getId());
                     if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
                         lName.setText(d.getName());
