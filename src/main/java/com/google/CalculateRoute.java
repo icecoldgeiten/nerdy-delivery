@@ -26,11 +26,10 @@ public class CalculateRoute {
                         .optimizeWaypoints(true).waypoints(ConvertRoute(orders));
         try {
             DirectionsResult directionsResult = directionsApiRequest.await();
-            System.out.println(directionsResult.routes[0]);
             return directionsResult.routes[0];
 
         } catch (ApiException | InterruptedException | IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }

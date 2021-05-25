@@ -24,7 +24,7 @@ public class StatusDao {
         try {
             EntityManager em = Persistence.createEntityManagerFactory("ice-unit").createEntityManager();
             em.getTransaction().begin();
-            RouteStatus status = em.createQuery("from RouteStatus where status = :status", RouteStatus.class).setParameter("status", code).getSingleResult();
+            RouteStatus status = em.createQuery("from RouteStatus where statusCode = :statusCode", RouteStatus.class).setParameter("statusCode", code).getSingleResult();
             em.close();
             return status;
         } catch (Exception e) {

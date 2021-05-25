@@ -8,15 +8,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class AdminDao {
-    private final EntityManager em;
+    private final EntityManagerFactory emf;
     private static Administrator admin;
 
     public AdminDao() {
-        EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
-        em = session.createEntityManager();
+        emf = Persistence.createEntityManagerFactory("ice-unit");
     }
 
     public boolean validate(String username, String password) {
+        EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             Administrator admin = em.createQuery("from Administrator D where D.username = :username", Administrator.class).setParameter("username", username).getSingleResult();
@@ -27,11 +27,10 @@ public class AdminDao {
             em.getTransaction().commit();
             em.close();
         } catch (Exception e) {
-            em.getTransaction().rollback();
+            em.close();
             e.printStackTrace();
         }
         return false;
-
     }
 
     //Getters

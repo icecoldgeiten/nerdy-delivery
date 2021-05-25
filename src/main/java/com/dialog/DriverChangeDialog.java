@@ -83,7 +83,7 @@ public class DriverChangeDialog {
             tfLicense = new TextField(Integer.toString(driver.getLincenseNr()));
 
         }catch (Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
         //BUTTON
         bBack = new Button("Terug");
@@ -131,7 +131,6 @@ public class DriverChangeDialog {
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         bd = LocalDate.parse(tfBirthday.getText(),formatter);
                     }catch (Exception e){
-                        System.out.println("String naar datum error: "+ e + tfBirthday.getText());
                         bd = LocalDate.now();
                     }
                     driverDao.changeDriver(clickedOnName,tfName.getText(),tfInserts.getText(),tfSirname.getText(),phone,bd);

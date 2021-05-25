@@ -13,17 +13,33 @@ import java.util.List;
 import java.util.Set;
 
 public class RouteDao {
-    EntityManagerFactory session;
+    EntityManagerFactory emf;
 
     public RouteDao() {
-        session = Persistence.createEntityManagerFactory("ice-unit");
+        emf = Persistence.createEntityManagerFactory("ice-unit");
     }
 
-    public List<Route> getAllRoutes() {
+    public List<Route> getAllDeliveredRoutes() {
         try {
-            EntityManager em = session.createEntityManager();
+            EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
+            List<Route> routes = em.createQuery("from Route where status = :status", Route.class).setParameter("status", StatusDao.getRouteStatus("DELIVERED")).getResultList();
+            em.close();
+            return routes;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Route> getDailyRoutes() {
+        try {
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+//            List<Route> routes = em.createQuery("from Route where date >= :date", Route.class).setParameter("date", LocalDate.now()).getResultList();
             List<Route> routes = em.createQuery("from Route", Route.class).getResultList();
+            routes.removeIf(r -> r.getRouteStatus().getStatusCode().equals("DELIVERED") && LocalDate.now().isAfter(r.getDate()));
+            em.getTransaction().commit();
             em.close();
             return routes;
         } catch (Exception e) {
@@ -33,7 +49,7 @@ public class RouteDao {
     }
 
     public void generateRoute(Driver driver, ObservableList<Order> orders, LocalDate date, Timeslot timeslot) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             Route r = new Route();
@@ -60,7 +76,7 @@ public class RouteDao {
     }
 
     public void updateRoute(Route route, ObservableList<Order> orders) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             Set<Order> old = route.getOrders();
@@ -80,7 +96,7 @@ public class RouteDao {
     }
 
     public void updateDriver(Route route, Driver driver, LocalDate date, Timeslot time) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             route.setDriver(driver);
@@ -97,7 +113,7 @@ public class RouteDao {
     }
 
     public void removeOrder(Route route, Order order) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             Set<Order> old = route.getOrders();
@@ -118,7 +134,7 @@ public class RouteDao {
     }
 
     public List<Route> getDriveableRoutes(Driver driver, LocalDate date) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             List<Route> routes = em.createQuery("from Route where date = :date AND driver = :driver AND NOT status = :status", Route.class)
@@ -136,7 +152,7 @@ public class RouteDao {
     }
 
     public void setRouteStatus(Route route, String statusCode) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             RouteStatus status = em.createQuery("from RouteStatus where statusCode = :status", RouteStatus.class).setParameter("status", statusCode).getSingleResult();

@@ -83,7 +83,7 @@ public class DriverDao {
             em.getTransaction().commit();
 
         } catch (Exception e) {
-            System.out.println();
+            e.printStackTrace();
         }
         em.close();
     }
@@ -103,7 +103,7 @@ public class DriverDao {
             em.getTransaction().commit();
 
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -113,7 +113,7 @@ public class DriverDao {
         try {
             return driver = em.find(Driver.class, clickedOn);
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
             return driver = null;
         }
     }
@@ -126,7 +126,7 @@ public class DriverDao {
             em.remove(driver);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -146,6 +146,8 @@ public class DriverDao {
         em.close();
         return false;
     }
+
+
 
     public String randomPassword(int length) {
         String passwordSet = "ABCDEFGHIJKLMOPQRSRUVWXYZ0123456789!@#$%";

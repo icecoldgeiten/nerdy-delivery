@@ -14,7 +14,7 @@
    <Label fx:id="id" layoutX="58.0" layoutY="13.0" text="Label" />
    <Button fx:id="back" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleBackButton" text="Terug" />
    <ComboBox fx:id="combo" layoutX="307.0" layoutY="31.0" onAction="#changeDriver" prefWidth="150.0" />
-   <TableView fx:id="tableView" layoutX="13.0" layoutY="66.0" prefHeight="282.0" prefWidth="570.0">
+   <TableView fx:id="tableView" layoutX="13.0" layoutY="66.0" prefHeight="282.0" prefWidth="679.0">
      <columns>
        <TableColumn fx:id="ID" prefWidth="51.20001220703125" text="ID" />
        <TableColumn fx:id="Customer" prefWidth="227.20001220703125" text="Klant" />
@@ -22,8 +22,9 @@
          <TableColumn fx:id="Status" minWidth="6.4000244140625" text="Status" />
      </columns>
    </TableView>
-   <Button fx:id="add" layoutX="481.0" layoutY="31.0" mnemonicParsing="false" onAction="#addOrders" text="Voeg orders toe" />
-   <Button fx:id="remove" layoutX="408.0" layoutY="361.0" mnemonicParsing="false" onAction="#deleteSelected" text="Verwijder geselecteerde order" />
-   <DatePicker fx:id="date" onAction="#checkDrivers" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="129.0" />
-   <ComboBox fx:id="timeSlot" onAction="#checkDrivers" layoutX="150.0" layoutY="31.0" prefWidth="150.0" />
+   <Button fx:id="add" layoutX="590.0" layoutY="31.0" mnemonicParsing="false" onAction="#addOrders" text="Voeg orders toe" />
+   <Button fx:id="remove" layoutX="517.0" layoutY="361.0" mnemonicParsing="false" onAction="#deleteSelected" text="Verwijder geselecteerde order" />
+   <DatePicker fx:id="date" layoutX="14.0" layoutY="31.0" onAction="#checkDrivers" prefHeight="25.0" prefWidth="129.0" />
+   <ComboBox fx:id="timeSlot" layoutX="150.0" layoutY="31.0" onAction="#checkDrivers" prefWidth="150.0" />
+   <Button fx:id="reset" layoutX="429.0" layoutY="361.0" mnemonicParsing="false" onAction="#resetRouteStatus" text="Reset status" />
 </AnchorPane>

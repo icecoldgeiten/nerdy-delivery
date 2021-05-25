@@ -10,10 +10,10 @@
         <class>com.entity.Driver</class>
         <class>com.entity.Employee</class>
         <class>com.entity.Order</class>
-        <class>com.entity.Orderline</class>
-        <class>com.entity.Person</class>
+        <class>com.entity.OrderLine</class>
         <class>com.entity.Route</class>
         <class>com.entity.RouteStatus</class>
+        <class>com.entity.OrderStatus</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
