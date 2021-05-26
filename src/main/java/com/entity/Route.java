@@ -13,7 +13,7 @@ public class Route {
     @Column(name = "RouteID", unique = true)
     private Long id;
 
-    @Column(name = "Duration")
+    @Column(name = "duration")
     private int duration;
 
     @ManyToOne(targetEntity = RouteStatus.class, fetch = FetchType.EAGER)

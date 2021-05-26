@@ -3,7 +3,6 @@ package com.dao;
 import com.entity.*;
 import com.helpers.AES256;
 import com.helpers.CEntityManagerFactory;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -21,11 +20,11 @@ public class DriverDao {
         emf = CEntityManagerFactory.getEntityManagerFactory();
     }
 
-    public List<Driver> getAllDrivers() {
+    public List<Driver> getAllActiveDrivers() {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            List<Driver> drivers = em.createQuery("from Driver", Driver.class).getResultList();
+            List<Driver> drivers = em.createQuery("from Driver D where D.active = 1", Driver.class).getResultList();
             em.getTransaction().commit();
             em.close();
             return drivers;
@@ -90,8 +89,12 @@ public class DriverDao {
         em.close();
     }
 
-    public void changeDriver(int clickedOn, String name, String ins, String sn, int phone, LocalDate bd) {
+    public void changeDriver(int clickedOn, String name, String ins, String sn, int phone, LocalDate bd, boolean vehicle, boolean license) {
         EntityManager em = emf.createEntityManager();
+
+        int veh = vehicle ? 1 :0;
+        int lic = license ? 1 :0;
+
         try {
             em.getTransaction().begin();
             driver = em.find(Driver.class, clickedOn);
@@ -101,11 +104,12 @@ public class DriverDao {
             driver.setSirname(sn);
             driver.setPhonenumber(phone);
             driver.setBirthdate(bd);
+            driver.setVehicle(veh);
+            driver.setLincenseNr(lic);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        em.getTransaction().commit();
         em.close();
     }
 
@@ -128,11 +132,11 @@ public class DriverDao {
         em.getTransaction().begin();
         try {
             driver = em.find(Driver.class, id);
-            em.remove(driver);
+            driver.setActive(false);
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        em.getTransaction().commit();
         em.close();
     }
 
@@ -147,6 +151,7 @@ public class DriverDao {
                 em.close();
                 return true;
             }
+            em.getTransaction().commit();
         } catch (NoResultException e) {
             e.printStackTrace();
         }
@@ -174,4 +179,40 @@ public class DriverDao {
     public static void setLogedinDriver(Driver logedinDriver) {
         LogedinDriver = logedinDriver;
     }
+
+    public void changePassword(String pw, int clickedOn) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            driver = em.find(Driver.class, clickedOn);
+            String EncryptedPW = AES256.encrypt(pw);
+            driver.setPassword(EncryptedPW);
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+//    public void changeLicense(boolean license, int clickedOn){
+//        EntityManager em = emf.createEntityManager();
+//        driver = em.find(Driver.class, clickedOn);
+//        em.merge(driver);
+//        em.getTransaction().begin();
+//
+//        driver.setLincenseNr(lic);
+//        em.getTransaction().commit();
+//    }
+//
+//    public void changeVehicle(boolean vehicle, int clickedOn){
+//        EntityManager em = emf.createEntityManager();
+//        driver = em.find(Driver.class, clickedOn);
+//        em.merge(driver);
+//        em.getTransaction().begin();
+//
+//        driver.setVehicle(veh);
+//        em.getTransaction().commit();
+//    }
+
+
 }

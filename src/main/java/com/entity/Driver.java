@@ -1,7 +1,6 @@
 package com.entity;
 
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -16,11 +15,20 @@ public class Driver extends Employee {
     @JoinColumn(name = "DriverID")
     private Set<Route> routes;
 
+    @Column(name = "Password")
+    private String password;
+
+    @Column(name = "Username")
+    private String username;
+
     @Column(name = "Vehicle")
     private Integer vehicle;
 
     @Column(name = "LicenseNr")
     private Integer lincenseNr;
+
+    @Column(name = "Active")
+    private Boolean active;
 
     @Override
     public boolean equals(Object o) {
@@ -42,5 +50,33 @@ public class Driver extends Employee {
     }
     public Integer getLincenseNr() {
         return lincenseNr;
+    }
+
+    //Setters
+    public void setActive(boolean active){
+        this.active = active;
+    }
+
+    public void setVehicle(Integer vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public void setLincenseNr(Integer lincenseNr) {
+        this.lincenseNr = lincenseNr;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
     }
 }
