@@ -15,11 +15,11 @@ public class Order {
     @JoinColumn(name ="CustomerID", insertable = false, updatable = false)
     private Customer customer;
 
-    @ManyToOne(targetEntity = Route.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Route.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "RouteID")
     private Route route;
 
-    @ManyToOne(targetEntity = OrderStatus.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = OrderStatus.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "OrderStatusID")
     private OrderStatus orderStatus;
 
@@ -34,7 +34,7 @@ public class Order {
 
     @OneToMany
     @JoinColumn(name = "OrderID")
-    private Set<Orderline> orderlines;
+    private Set<OrderLine> orderLines;
 
     //Getters
     public int getId() {
@@ -46,8 +46,8 @@ public class Order {
     public Route getRoute() {
         return route;
     }
-    public Set<Orderline> getOrderlines() {
-        return orderlines;
+    public Set<OrderLine> getOrderlines() {
+        return orderLines;
     }
     public OrderStatus getOrderStatus() {
         return orderStatus;

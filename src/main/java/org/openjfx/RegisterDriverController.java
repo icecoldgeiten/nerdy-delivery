@@ -30,7 +30,6 @@ public class RegisterDriverController {
             LocalDate bd = dpBirthday.getValue();
             String ph = tfPhone.getText();
             int tel = Integer.parseInt(ph);
-            System.out.println(tfPhone.getText());
             driver.addDriver(tfName.getText(), tfInserts.getText(), tfSirname.getText(), tel, bd, tfEmail.getText());
             lErrorGegevens.setText("Bezorger is toegevoegd!");
         } catch (Exception e) {

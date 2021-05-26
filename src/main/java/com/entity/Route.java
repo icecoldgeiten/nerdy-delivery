@@ -16,7 +16,7 @@ public class Route {
     @Column(name = "duration")
     private int duration;
 
-    @ManyToOne(targetEntity = RouteStatus.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = RouteStatus.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "status")
     private RouteStatus routeStatus;
 
@@ -28,7 +28,7 @@ public class Route {
     @JoinColumn(name = "timeslot")
     private Timeslot timeslot;
 
-    @OneToMany(targetEntity = Order.class, mappedBy = "route", cascade = {CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(targetEntity = Order.class, mappedBy = "route", fetch = FetchType.EAGER ,cascade = {CascadeType.MERGE}, orphanRemoval = true)
     private Set<Order> orders = new HashSet<>();
 
     @Column(name = "Date")

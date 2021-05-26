@@ -1,3 +1,4 @@
+
 org\openjfx\RouteDriverController.class
 com\dao\RouteDao.class
 com\dialog\DriverChangeDialog.class
@@ -47,3 +48,5 @@ org\openjfx\AddRouteController$1.class
 org\openjfx\ManagedriverController$1$1.class
 org\openjfx\RegisterDriverController.class
 org\openjfx\MainPageDriverController$1.class
+com\helpers\CEntityManagerFactory.class
+

@@ -1,7 +1,7 @@
 package org.openjfx;
 
 import com.dao.DriverDao;
-import com.entity.Orderline;
+import com.entity.OrderLine;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,10 +19,10 @@ public class OrderDetailsController implements Initializable {
     private DriverDao driverDao;
 
     @FXML
-    public TableView<Orderline> tvOrderLines;
-    public TableColumn<Orderline, Integer> tcStockItemID;
-    public TableColumn<Orderline, String> tcDescription;
-    public TableColumn<Orderline, Integer> tcQuantity;
+    public TableView<OrderLine> tvOrderLines;
+    public TableColumn<OrderLine, Integer> tcStockItemID;
+    public TableColumn<OrderLine, String> tcDescription;
+    public TableColumn<OrderLine, Integer> tcQuantity;
     public Button bBack;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -37,10 +37,9 @@ public class OrderDetailsController implements Initializable {
 
     public void loadOrderLines() {
         try {
-            List<Orderline> orderlinesSelectedOrder = new ArrayList<>(MainPageDriverController.doubleClickedOrder.getOrderlines());
-            System.out.println(MainPageDriverController.doubleClickedOrder.getId());
-            ObservableList<Orderline> orderlines = FXCollections.observableArrayList(orderlinesSelectedOrder);
-            tvOrderLines.setItems(orderlines);
+            List<OrderLine> orderlinesSelectedOrder = new ArrayList<>(MainPageDriverController.doubleClickedOrder.getOrderlines());
+            ObservableList<OrderLine> orderLines = FXCollections.observableArrayList(orderlinesSelectedOrder);
+            tvOrderLines.setItems(orderLines);
             setCellValueColumns();
         } catch (NullPointerException ex) {
             tvOrderLines.setPlaceholder(new Label("Er is iets fouts gegaan!"));
@@ -53,7 +52,7 @@ public class OrderDetailsController implements Initializable {
             tcDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
             tcQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

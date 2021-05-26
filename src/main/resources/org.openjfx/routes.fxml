@@ -7,13 +7,14 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.RouteController">
    <Button id="new_route" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleNewRoute" text="Nieuwe route" />
-   <TableView fx:id="tableView" onMouseClicked="#handleMouseClick" layoutX="14.0" layoutY="54.0" prefHeight="335.0" prefWidth="573.0">
+   <TableView fx:id="tableView" layoutX="14.0" layoutY="54.0" onMouseClicked="#handleMouseClick" prefHeight="335.0" prefWidth="679.0">
      <columns>
        <TableColumn fx:id="ID" prefWidth="75.0" text="ID" />
        <TableColumn fx:id="Driver" prefWidth="150.0" text="Driver" />
          <TableColumn fx:id="Status" minWidth="0.0" prefWidth="116.0" text="Status" />
          <TableColumn fx:id="Date" minWidth="0.0" prefWidth="116.0" text="Bezorg datum" />
-         <TableColumn fx:id="TimeSlot" minWidth="0.0" prefWidth="116.0" text="Tijd vak" />
+         <TableColumn fx:id="TimeSlot" minWidth="0.0" prefWidth="216.0" text="Tijd vak" />
      </columns>
    </TableView>
+   <Button layoutX="595.0" layoutY="14.0" mnemonicParsing="false" onAction="#showHistory" prefHeight="25.0" prefWidth="98.0" text="Geschiedenis" />
 </AnchorPane>
