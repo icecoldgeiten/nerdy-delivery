@@ -192,9 +192,17 @@ public class EditRouteController {
 
     public void deleteSelected() throws IOException {
         if (tableView.getSelectionModel().getSelectedItem() != null) {
-            r.removeOrder(route, tableView.getSelectionModel().getSelectedItem());
-            EditRouteController.setRoute(route);
-            App.setPage("edit_route");
+            Order order = tableView.getSelectionModel().getSelectedItem();
+            final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initOwner(App.getScene().getWindow());
+            alert.setContentText("Weet je zeker dat je order " + order.getId() + " wilt verwijderen?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent()) {
+                if (result.get() == ButtonType.OK) {
+                    r.removeOrder(route, order);
+                    update();
+                }
+            }
         }
     }
 

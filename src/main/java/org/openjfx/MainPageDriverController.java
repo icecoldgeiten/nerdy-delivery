@@ -255,7 +255,7 @@ public class MainPageDriverController {
                 return;
             }
             if (order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
-                r.removeOrder(route, order);
+                r.removeOrder( route,order);
             }
         }
         r.setRouteStatus(route, "DELIVERED");

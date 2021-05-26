@@ -10,7 +10,7 @@
    <TableView fx:id="tableView" layoutX="14.0" layoutY="54.0" onMouseClicked="#handleMouseClick" prefHeight="335.0" prefWidth="679.0">
      <columns>
        <TableColumn fx:id="ID" prefWidth="75.0" text="ID" />
-       <TableColumn fx:id="Driver" prefWidth="150.0" text="Driver" />
+       <TableColumn fx:id="Driver" prefWidth="150.0" text="Bezorger" />
          <TableColumn fx:id="Status" minWidth="0.0" prefWidth="116.0" text="Status" />
          <TableColumn fx:id="Date" minWidth="0.0" prefWidth="116.0" text="Bezorg datum" />
          <TableColumn fx:id="TimeSlot" minWidth="0.0" prefWidth="216.0" text="Tijd vak" />
