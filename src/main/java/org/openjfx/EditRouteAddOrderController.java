@@ -3,6 +3,7 @@ package org.openjfx;
 import com.dao.OrderDao;
 import com.dao.RouteDao;
 import com.entity.Order;
+import com.entity.OrderLine;
 import com.entity.Route;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 public class EditRouteAddOrderController {
     private static Route route;
-    OrderDao o;
+    private OrderDao o;
 
     @FXML
     public TableView<Order> Orders;
@@ -23,6 +24,7 @@ public class EditRouteAddOrderController {
     public TableColumn<Order, String> Address;
     public TableColumn<Order, String> Postal;
     public TableColumn<Order, String> Date;
+    public TableColumn<Order, String> Packages;
 
     @FXML
     public Button add;
@@ -44,6 +46,7 @@ public class EditRouteAddOrderController {
         Address.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getAddres()));
         Postal.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getPostal()));
         Date.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getExpectedDeliveryDate()));
+        Packages.setCellValueFactory(v -> new ReadOnlyStringWrapper(String.valueOf(v.getValue().getOrderlines().stream().mapToLong(OrderLine::getQuantity).sum())));
         Orders.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         Orders.getItems().setAll(o.getOrders());
     }

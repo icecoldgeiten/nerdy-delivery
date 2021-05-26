@@ -6,7 +6,9 @@ import com.dao.RouteDao;
 import com.dao.TimeslotDao;
 import com.entity.Driver;
 import com.entity.Order;
+import com.entity.OrderLine;
 import com.entity.Timeslot;
+import com.sun.xml.bind.v2.runtime.reflect.Lister;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +32,8 @@ public class AddRouteController {
     public TableColumn<Order, String> Address;
     public TableColumn<Order, String> Postal;
     public TableColumn<Order, String> Date;
+    public TableColumn<Order, String> Packages;
+
 
     @FXML
     private ComboBox<Driver> combo;
@@ -92,6 +96,8 @@ public class AddRouteController {
         Address.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getAddres()));
         Postal.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getPostal()));
         Date.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getExpectedDeliveryDate()));
+        Packages.setCellValueFactory(v -> new ReadOnlyStringWrapper(String.valueOf(v.getValue().getOrderlines().stream().mapToLong(OrderLine::getQuantity).sum())));
+
         Orders.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         Orders.getItems().setAll(o.getOrders());
     }

@@ -10,19 +10,20 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.AddRouteController">
    <Text layoutX="15.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bezorger" />
-   <Button fx:id="generate" layoutX="503.0" layoutY="355.0" mnemonicParsing="false" onAction="#generateRoute" text="Genereer" />
+   <Button fx:id="generate" layoutX="618.0" layoutY="355.0" mnemonicParsing="false" onAction="#generateRoute" text="Genereer" />
    <ComboBox fx:id="combo" layoutX="15.0" layoutY="130.0" prefWidth="150.0" />
    <Button fx:id="back" layoutX="15.0" layoutY="358.0" mnemonicParsing="false" onAction="#handleBackButton" text="Terug" />
    <DatePicker fx:id="date" layoutX="15.0" layoutY="32.0" onAction="#checkDrivers" prefHeight="26.0" prefWidth="150.0" />
    <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Datum" />
    <Text layoutX="14.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tijdvak" />
    <ComboBox fx:id="timeslot" layoutX="15.0" layoutY="89.0" onAction="#checkDrivers" prefWidth="150.0" />
-   <TableView fx:id="Orders" layoutX="188.0" layoutY="15.0" prefHeight="320.0" prefWidth="383.0">
+   <TableView fx:id="Orders" layoutX="174.0" layoutY="15.0" prefHeight="320.0" prefWidth="508.0">
      <columns>
-       <TableColumn fx:id="ID" prefWidth="75.0" text="ID" />
-       <TableColumn fx:id="Address" prefWidth="114.0" text="Adres" />
-         <TableColumn fx:id="Postal" prefWidth="89.0" text="Postcode" />
-         <TableColumn fx:id="Date" prefWidth="117.0" text="Bezorgdatum" />
+       <TableColumn fx:id="ID" prefWidth="48.800048828125" text="ID" />
+       <TableColumn fx:id="Address" prefWidth="126.39996337890625" text="Adres" />
+         <TableColumn fx:id="Postal" prefWidth="77.5999755859375" text="Postcode" />
+         <TableColumn fx:id="Date" prefWidth="133.60000610351562" text="Verwachte leverdatum" />
+         <TableColumn fx:id="Packages" prefWidth="108.79998779296875" text="Aantal pakketjes" />
      </columns>
    </TableView>
 </AnchorPane>
