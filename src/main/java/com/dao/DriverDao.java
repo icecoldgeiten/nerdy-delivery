@@ -31,6 +31,7 @@ public class DriverDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        em.getTransaction().commit();
         em.close();
         return null;
     }
@@ -39,7 +40,7 @@ public class DriverDao {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            List<Driver> drivers = em.createQuery("from Driver", Driver.class).getResultList();
+            List<Driver> drivers = em.createQuery("from Driver where active = 1", Driver.class).getResultList();
             em.getTransaction().commit();
             em.close();
             return filterDrivers(drivers, date, timeslot);
@@ -193,26 +194,4 @@ public class DriverDao {
             System.out.println(e);
         }
     }
-
-//    public void changeLicense(boolean license, int clickedOn){
-//        EntityManager em = emf.createEntityManager();
-//        driver = em.find(Driver.class, clickedOn);
-//        em.merge(driver);
-//        em.getTransaction().begin();
-//
-//        driver.setLincenseNr(lic);
-//        em.getTransaction().commit();
-//    }
-//
-//    public void changeVehicle(boolean vehicle, int clickedOn){
-//        EntityManager em = emf.createEntityManager();
-//        driver = em.find(Driver.class, clickedOn);
-//        em.merge(driver);
-//        em.getTransaction().begin();
-//
-//        driver.setVehicle(veh);
-//        em.getTransaction().commit();
-//    }
-
-
 }
