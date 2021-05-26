@@ -140,8 +140,8 @@ public class DriverDao {
 
     public boolean validate(String username, String password) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
+            em.getTransaction().begin();
             Driver driver = em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
             if (driver != null && driver.getPassword().equals(AES256.encrypt(password))) {
                 LogedinDriver = driver;
@@ -151,9 +151,8 @@ public class DriverDao {
             }
             em.getTransaction().commit();
         } catch (NoResultException e) {
-            e.printStackTrace();
+            System.out.println("No user");
         }
-        em.getTransaction().commit();
         em.close();
         return false;
     }
