@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Sidebar {
     private static String page;
@@ -20,11 +21,7 @@ public class Sidebar {
 
     @FXML
     private void initialize() throws IOException {
-        if (page != null) {
-            load(page);
-        } else {
-            load("admin_home");
-        }
+        load(Objects.requireNonNullElse(page, "admin_home"));
         user.setText(AdminDao.getAdmin());
     }
 

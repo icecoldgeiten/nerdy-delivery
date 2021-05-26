@@ -1,4 +1,5 @@
 package org.openjfx;
+
 import java.io.IOException;
 
 import javafx.fxml.FXML;
@@ -8,13 +9,8 @@ import javax.persistence.Persistence;
 
 public class StartScreenController {
     @FXML
-    Button bLoginAdministrator;
-    @FXML
-    Button bLoginDriver;
-
-    public StartScreenController() {
-        Persistence.createEntityManagerFactory("ice-unit");
-    }
+    public Button bLoginAdministrator;
+    public Button bLoginDriver;
 
     public void OnActionButtonLoginAdministrator() throws IOException {
         App.setRoot("login_administrator");

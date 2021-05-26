@@ -7,6 +7,7 @@ import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
 import com.helpers.AES256;
+import javafx.scene.web.WebEngine;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
@@ -20,25 +21,11 @@ public class TestDriveJPA {
 
     @Test
     public void findDriver() {
-        log.info("--- Testen ---");
 
-        EntityManagerFactory session = Persistence.createEntityManagerFactory("ice-unit");
-        EntityManager em = session.createEntityManager();
-        CalculateRoute re = new CalculateRoute();
+        //TODO:: hier gaan we even fuifen eerst thee pakken
+//        engine.executeScript();
+        String route = "https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=838x254&path=weight:10%7Cenc:c''pEtjypUi@fAu@zA[j@mAzB&path=weight:10%7Cenc:{d`pEnpypUc@_@u@Q&key=AIzaSyBUR1VVIeyacS7msWkyp8VO8BZ6vkK9Jx8";
+        System.out.println(route);
 
-        em.getTransaction().begin();
-        Route r = em.find(Route.class, 2L);
-
-        DirectionsRoute mark = re.RouteMaker(r.getOrders());
-
-        for (DirectionsLeg w : mark.legs) {
-            for (DirectionsStep s : w.steps) {
-                System.out.println(s.startLocation);
-                System.out.println(s.endLocation);
-            }
-        }
-
-        em.getTransaction().commit();
-        em.close();
     }
 }

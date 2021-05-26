@@ -2,38 +2,56 @@ package com.dao;
 
 import com.entity.*;
 
+import com.helpers.CEntityManagerFactory;
 import javafx.collections.ObservableList;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class RouteDao {
-    EntityManagerFactory session;
+    EntityManagerFactory emf;
 
     public RouteDao() {
-        session = Persistence.createEntityManagerFactory("ice-unit");
+        emf = CEntityManagerFactory.getEntityManagerFactory();
     }
 
-    public List<Route> getAllRoutes() {
+    public List<Route> getAllDeliveredRoutes() {
+        EntityManager em = emf.createEntityManager();
         try {
-            EntityManager em = session.createEntityManager();
             em.getTransaction().begin();
-            List<Route> routes = em.createQuery("from Route", Route.class).getResultList();
+            List<Route> routes = em.createQuery("from Route where status = :status", Route.class).setParameter("status", StatusDao.getRouteStatus("DELIVERED")).getResultList();
+            em.getTransaction().commit();
             em.close();
             return routes;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        em.close();
+        return null;
+    }
+
+    public List<Route> getDailyRoutes() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            List<Route> routes = em.createQuery("from Route", Route.class).getResultList();
+            routes.removeIf(r -> r.getRouteStatus().getStatusCode().equals("DELIVERED") && LocalDate.now().isAfter(r.getDate()));
+            em.getTransaction().commit();
+            em.close();
+            return routes;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        em.close();
         return null;
     }
 
     public void generateRoute(Driver driver, ObservableList<Order> orders, LocalDate date, Timeslot timeslot) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             Route r = new Route();
@@ -51,16 +69,15 @@ public class RouteDao {
             r.setDate(date);
             em.merge(r);
             em.flush();
-            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
+        em.getTransaction().commit();
         em.close();
     }
 
     public void updateRoute(Route route, ObservableList<Order> orders) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             Set<Order> old = route.getOrders();
@@ -71,16 +88,15 @@ public class RouteDao {
             route.setOrders(new HashSet<>(old));
             em.merge(route);
             em.flush();
-            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
+        em.getTransaction().commit();
         em.close();
     }
 
     public void updateDriver(Route route, Driver driver, LocalDate date, Timeslot time) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             route.setDriver(driver);
@@ -88,16 +104,15 @@ public class RouteDao {
             route.setTimeslot(time);
             em.merge(route);
             em.flush();
-            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
+        em.getTransaction().commit();
         em.close();
     }
 
     public void removeOrder(Route route, Order order) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             Set<Order> old = route.getOrders();
@@ -109,45 +124,43 @@ public class RouteDao {
             route.setOrders(new HashSet<>(old));
             em.merge(route);
             em.flush();
-            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
+        em.getTransaction().commit();
         em.close();
     }
 
     public List<Route> getDriveableRoutes(Driver driver, LocalDate date) {
-        EntityManager em = session.createEntityManager();
-        em.getTransaction().begin();
+        EntityManager em = emf.createEntityManager();
         try {
+            em.getTransaction().begin();
             List<Route> routes = em.createQuery("from Route where date = :date AND driver = :driver AND NOT status = :status", Route.class)
                     .setParameter("date", date)
                     .setParameter("driver", driver)
                     .setParameter("status", StatusDao.getRouteStatus("DELIVERED")).getResultList();
             em.getTransaction().commit();
+            em.close();
             return routes;
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
         em.close();
         return null;
     }
 
     public void setRouteStatus(Route route, String statusCode) {
-        EntityManager em = session.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
             RouteStatus status = em.createQuery("from RouteStatus where statusCode = :status", RouteStatus.class).setParameter("status", statusCode).getSingleResult();
             route.setRouteStatus(status);
             em.merge(route);
             em.flush();
-            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
+        em.getTransaction().commit();
         em.close();
     }
 }

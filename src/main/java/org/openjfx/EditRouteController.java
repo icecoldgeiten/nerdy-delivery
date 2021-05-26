@@ -2,6 +2,7 @@ package org.openjfx;
 
 import com.dao.DriverDao;
 import com.dao.RouteDao;
+import com.dao.StatusDao;
 import com.dao.TimeslotDao;
 import com.entity.Driver;
 import com.entity.Order;
@@ -10,7 +11,7 @@ import com.entity.Timeslot;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,6 +19,7 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class EditRouteController {
     private static Route route;
@@ -31,6 +33,7 @@ public class EditRouteController {
     public Button back;
     public Button add;
     public Button remove;
+    public Button reset;
     public DatePicker date;
     public ComboBox<Timeslot> timeSlot;
     public ComboBox<Driver> combo;
@@ -51,7 +54,6 @@ public class EditRouteController {
     }
 
     private void Default() {
-        combo.setValue(route.getDriver());
         id.setText(route.getId().toString());
         tableView.getSortOrder().add(ID);
         tableView.setPlaceholder(new Label("Deze route heeft geen bestellingen"));
@@ -60,6 +62,7 @@ public class EditRouteController {
         remove.setDisable(false);
         date.setDisable(false);
         timeSlot.setDisable(false);
+        reset.setDisable(false);
     }
 
     private void update() {
@@ -73,7 +76,10 @@ public class EditRouteController {
     }
 
     private void checkStatus() {
-        if (!route.getRouteStatus().getStatusCode().equals("OPENFORDELIVERY")) {
+        if (!route.getRouteStatus().getStatusCode().equals("OPENFORDELIVERY") && !route.getRouteStatus().getStatusCode().equals("INTERRUPTED")) {
+            if (route.getRouteStatus().getStatusCode().equals("DELIVERED")) {
+                reset.setDisable(true);
+            }
             combo.setDisable(true);
             add.setDisable(true);
             remove.setDisable(true);
@@ -173,7 +179,6 @@ public class EditRouteController {
     }
 
     public void checkDrivers() {
-        System.out.println(date.getValue());
         if (timeSlot.getSelectionModel().getSelectedItem() != null && date.getValue() != null) {
             loadDrivers();
             combo.setDisable(false);
@@ -192,6 +197,21 @@ public class EditRouteController {
             App.setPage("edit_route");
         }
     }
+
+    @FXML
+    public void resetRouteStatus() throws IOException {
+        final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initOwner(App.getScene().getWindow());
+        alert.setContentText("Weet je zeker dat je de route wilt onderbreken? De chauffeur is mogelijk aan het rijden");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent()) {
+            if (result.get() == ButtonType.OK) {
+                r.setRouteStatus(route, "INTERRUPTED");
+                App.setPage("routes");
+            }
+        }
+    }
+
 
     @FXML
     public void handleBackButton() throws IOException {
