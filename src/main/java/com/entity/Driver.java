@@ -12,7 +12,7 @@ public class Driver extends Employee {
     @Column(name = "DriverID", updatable = false, nullable = false)
     private int id;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "DriverID")
     private Set<Route> routes;
 

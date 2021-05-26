@@ -2,11 +2,11 @@ package com.dao;
 
 import com.entity.*;
 
+import com.helpers.CEntityManagerFactory;
 import javafx.collections.ObservableList;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -16,27 +16,28 @@ public class RouteDao {
     EntityManagerFactory emf;
 
     public RouteDao() {
-        emf = Persistence.createEntityManagerFactory("ice-unit");
+        emf = CEntityManagerFactory.getEntityManagerFactory();
     }
 
     public List<Route> getAllDeliveredRoutes() {
+        EntityManager em = emf.createEntityManager();
         try {
-            EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
             List<Route> routes = em.createQuery("from Route where status = :status", Route.class).setParameter("status", StatusDao.getRouteStatus("DELIVERED")).getResultList();
+            em.getTransaction().commit();
             em.close();
             return routes;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        em.close();
         return null;
     }
 
     public List<Route> getDailyRoutes() {
+        EntityManager em = emf.createEntityManager();
         try {
-            EntityManager em = emf.createEntityManager();
             em.getTransaction().begin();
-//            List<Route> routes = em.createQuery("from Route where date >= :date", Route.class).setParameter("date", LocalDate.now()).getResultList();
             List<Route> routes = em.createQuery("from Route", Route.class).getResultList();
             routes.removeIf(r -> r.getRouteStatus().getStatusCode().equals("DELIVERED") && LocalDate.now().isAfter(r.getDate()));
             em.getTransaction().commit();
@@ -45,6 +46,7 @@ public class RouteDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        em.close();
         return null;
     }
 
@@ -67,11 +69,10 @@ public class RouteDao {
             r.setDate(date);
             em.merge(r);
             em.flush();
-            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
+        em.getTransaction().commit();
         em.close();
     }
 
@@ -87,11 +88,10 @@ public class RouteDao {
             route.setOrders(new HashSet<>(old));
             em.merge(route);
             em.flush();
-            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
+        em.getTransaction().commit();
         em.close();
     }
 
@@ -104,11 +104,10 @@ public class RouteDao {
             route.setTimeslot(time);
             em.merge(route);
             em.flush();
-            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
+        em.getTransaction().commit();
         em.close();
     }
 
@@ -125,27 +124,26 @@ public class RouteDao {
             route.setOrders(new HashSet<>(old));
             em.merge(route);
             em.flush();
-            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
+        em.getTransaction().commit();
         em.close();
     }
 
     public List<Route> getDriveableRoutes(Driver driver, LocalDate date) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
+            em.getTransaction().begin();
             List<Route> routes = em.createQuery("from Route where date = :date AND driver = :driver AND NOT status = :status", Route.class)
                     .setParameter("date", date)
                     .setParameter("driver", driver)
                     .setParameter("status", StatusDao.getRouteStatus("DELIVERED")).getResultList();
             em.getTransaction().commit();
+            em.close();
             return routes;
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
         em.close();
         return null;
@@ -159,11 +157,10 @@ public class RouteDao {
             route.setRouteStatus(status);
             em.merge(route);
             em.flush();
-            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
+        em.getTransaction().commit();
         em.close();
     }
 }

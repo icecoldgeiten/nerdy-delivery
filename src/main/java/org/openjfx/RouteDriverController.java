@@ -26,7 +26,6 @@ public class RouteDriverController {
     public TableColumn<Route, String> ID;
     public TableColumn<Route, String> timeSlotStart;
     public TableColumn<Route, String> timeSlotEnd;
-
     public TableColumn<Route, String> timeSlotName;
 
     @FXML
@@ -51,30 +50,34 @@ public class RouteDriverController {
 
 
     public void startRoute() {
-        Route route = routes.getSelectionModel().getSelectedItem();
-        final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.initOwner(App.getScene().getWindow());
-        if (route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY")) {
-            alert.setContentText("Weet je zeker dat je route " + route.getId() + " " + route.getTimeslot().getName() + " gaat vervolgen?");
-        } else {
-            alert.setContentText("Weet je zeker dat je route " + route.getId() + " " + route.getTimeslot().getName() + " gaat rijden?");
-        }
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                try {
-                    MainPageDriverController.setRoute(route);
-                    if (!route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY")) {
-                        for (Order d : route.getOrders()) {
-                            o.updateStatus("OUTFORDELIVERY", d);
-                        }
-                        r.setRouteStatus(route, "OUTFORDELIVERY");
-                    }
-                    App.setRoot("mainpage_driver");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        if (routes.getSelectionModel().getSelectedItem() != null) {
+            Route route = routes.getSelectionModel().getSelectedItem();
+            final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initOwner(App.getScene().getWindow());
+            if (route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY") || route.getRouteStatus().getStatusCode().equals("INTERRUPTED")) {
+                alert.setContentText("Weet je zeker dat je route " + route.getId() + " " + route.getTimeslot().getName() + " gaat vervolgen?");
+            } else {
+                alert.setContentText("Weet je zeker dat je route " + route.getId() + " " + route.getTimeslot().getName() + " gaat rijden?");
             }
-        });
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    try {
+                        MainPageDriverController.setRoute(route);
+                        if (!route.getRouteStatus().getStatusCode().equals("OUTFORDELIVERY")) {
+                            if (!route.getRouteStatus().getStatusCode().equals("INTERRUPTED")) {
+                                for (Order d : route.getOrders()) {
+                                    o.updateStatus("OUTFORDELIVERY", d);
+                                }
+                            }
+                            r.setRouteStatus(route, "OUTFORDELIVERY");
+                        }
+                        App.setRoot("mainpage_driver");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
     }
 
     public void logout() throws IOException {

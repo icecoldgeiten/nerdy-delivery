@@ -16,7 +16,7 @@ public class Route {
     @Column(name = "Duration")
     private int duration;
 
-    @ManyToOne(targetEntity = RouteStatus.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = RouteStatus.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "status")
     private RouteStatus routeStatus;
 

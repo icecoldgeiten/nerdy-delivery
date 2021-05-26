@@ -24,7 +24,7 @@ public class LoginAdministratorController {
     }
 
     @FXML
-    public void handleLoginButton(ActionEvent actionEvent) throws IOException {
+    public void handleLoginButton() throws IOException {
         if (admin.validate(username.getText(), password.getText())) {
             App.setRoot("sidebar");
         }

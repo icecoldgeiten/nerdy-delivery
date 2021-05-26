@@ -26,5 +26,5 @@
    <Button fx:id="remove" layoutX="517.0" layoutY="361.0" mnemonicParsing="false" onAction="#deleteSelected" text="Verwijder geselecteerde order" />
    <DatePicker fx:id="date" layoutX="14.0" layoutY="31.0" onAction="#checkDrivers" prefHeight="25.0" prefWidth="129.0" />
    <ComboBox fx:id="timeSlot" layoutX="150.0" layoutY="31.0" onAction="#checkDrivers" prefWidth="150.0" />
-   <Button fx:id="reset" layoutX="429.0" layoutY="361.0" mnemonicParsing="false" onAction="#resetRouteStatus" text="Reset status" />
+   <Button fx:id="reset" layoutX="429.0" layoutY="361.0" mnemonicParsing="false" onAction="#resetRouteStatus" text="Onderbreek" />
 </AnchorPane>

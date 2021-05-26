@@ -2,34 +2,33 @@ package com.dao;
 
 import com.entity.Administrator;
 import com.helpers.AES256;
+import com.helpers.CEntityManagerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 public class AdminDao {
     private final EntityManagerFactory emf;
     private static Administrator admin;
 
     public AdminDao() {
-        emf = Persistence.createEntityManagerFactory("ice-unit");
+        emf = CEntityManagerFactory.getEntityManagerFactory();
     }
 
     public boolean validate(String username, String password) {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         try {
-            em.getTransaction().begin();
             Administrator admin = em.createQuery("from Administrator D where D.username = :username", Administrator.class).setParameter("username", username).getSingleResult();
             if (admin != null && admin.getPassword().equals(AES256.encrypt(password))) {
                 setAdmin(admin);
                 return true;
             }
-            em.getTransaction().commit();
-            em.close();
         } catch (Exception e) {
-            em.close();
             e.printStackTrace();
         }
+        em.getTransaction().commit();
+        em.close();
         return false;
     }
 

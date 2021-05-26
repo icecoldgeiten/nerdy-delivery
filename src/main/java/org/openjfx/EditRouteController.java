@@ -54,7 +54,6 @@ public class EditRouteController {
     }
 
     private void Default() {
-        combo.setValue(route.getDriver());
         id.setText(route.getId().toString());
         tableView.getSortOrder().add(ID);
         tableView.setPlaceholder(new Label("Deze route heeft geen bestellingen"));
@@ -63,6 +62,7 @@ public class EditRouteController {
         remove.setDisable(false);
         date.setDisable(false);
         timeSlot.setDisable(false);
+        reset.setDisable(false);
     }
 
     private void update() {
@@ -76,7 +76,10 @@ public class EditRouteController {
     }
 
     private void checkStatus() {
-        if (!route.getRouteStatus().getStatusCode().equals("OPENFORDELIVERY")) {
+        if (!route.getRouteStatus().getStatusCode().equals("OPENFORDELIVERY") && !route.getRouteStatus().getStatusCode().equals("INTERRUPTED")) {
+            if (route.getRouteStatus().getStatusCode().equals("DELIVERED")) {
+                reset.setDisable(true);
+            }
             combo.setDisable(true);
             add.setDisable(true);
             remove.setDisable(true);
@@ -199,11 +202,11 @@ public class EditRouteController {
     public void resetRouteStatus() throws IOException {
         final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initOwner(App.getScene().getWindow());
-        alert.setContentText("Weet je zeker dat je de status van de route wilt aanpassen? De chauffeur is mogelijk aan het rijden");
+        alert.setContentText("Weet je zeker dat je de route wilt onderbreken? De chauffeur is mogelijk aan het rijden");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent()) {
             if (result.get() == ButtonType.OK) {
-                r.setRouteStatus(route, "OPENFORDELIVERY");
+                r.setRouteStatus(route, "INTERRUPTED");
                 App.setPage("routes");
             }
         }

@@ -8,6 +8,9 @@ import com.entity.Route;
 import com.google.CalculateRoute;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DirectionsStep;
+import com.sun.istack.Nullable;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +35,8 @@ import java.net.URL;
 
 
 public class MainPageDriverController {
+    private Dotenv env;
+
     private static Route route;
     private DirectionsRoute directionsRoute;
 
@@ -54,6 +59,7 @@ public class MainPageDriverController {
     public Button logout;
 
     public void initialize() {
+        env = Dotenv.configure().load();
         o = new OrderDao();
         r = new RouteDao();
         calculateRoute = new CalculateRoute();
@@ -68,7 +74,8 @@ public class MainPageDriverController {
     public void update() {
         tvDeliveries.getItems().clear();
         loadDeliveries();
-        loadRoute();
+        loadWebview();
+//        loadRoute();
     }
 
     public void loadDeliveries() {
@@ -87,7 +94,6 @@ public class MainPageDriverController {
         tcCustomerID.setCellValueFactory(new PropertyValueFactory<>("customer"));
         tCustomerAdress.setCellValueFactory(new PropertyValueFactory<>("customer"));
         tcStatus.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getOrderStatus().toString()));
-
         tcCustomerID.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Customer c, boolean bln) {
@@ -112,16 +118,18 @@ public class MainPageDriverController {
         try {
             directionsRoute = calculateRoute.RouteMaker(route.getOrders());
             setTimeIndication();
-            loadWebview(generateRouteUrl().toString());
+            System.out.println(generatePolylines().toString());
+//            loadWebview(generateRouteUrl().toString());
         } catch (RuntimeException ignored) {
         }
     }
 
-    public void loadWebview(String url) {
+    public void loadWebview() {
+        //TODO:: hier gaan we even fuifen eerst thee pakken
         WebEngine engine = webView.getEngine();
         engine.setJavaScriptEnabled(true);
 //        engine.executeScript();
-        engine.load(url);
+        engine.load("https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc:w}l_Iowbd@|@}APUNM&path=weight:10%7Cenc:wzl_Iq{bd@gAkHG}@&path=weight:10%7Cenc:g}l_I{fcd@?K@Mk@Em@EYEmB]&path=weight:10%7Cenc:gdm_Ieicd@OCMCAL?LAPANKbCI~AEl@Ev@KpAEh@AZGj@ATMtAi@`FIn@a@fDE`@ARADOlAOvACLE\\YhCKn@Kt@Ml@_@pBy@nCY|@k@`BQh@CFGRKZELGREPUv@Of@Un@a@hAWt@s@fBABYv@IRGPGRA@IVkBlFCHUb@ILONIFIBIBi@N&key=AIzaSyBUR1VVIeyacS7msWkyp8VO8BZ6vkK9Jx8");
     }
 
     public void setTimeIndication() {
@@ -134,6 +142,50 @@ public class MainPageDriverController {
         lDuration.setText(timeString + " min");
     }
 
+    public StringBuilder generatePolylines() {
+        String t = "https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc:w}l_Iowbd@|@}APUNM&path=weight:10%7Cenc:wzl_Iq{bd@gAkHG}@&path=weight:10%7Cenc:g}l_I{fcd@?K@Mk@Em@EYEmB]&path=weight:10%7Cenc:gdm_Ieicd@OCMCAL?LAPANKbCI~AEl@Ev@KpAEh@AZGj@ATMtAi@`FIn@a@fDE`@ARADOlAOvACLE\\YhCKn@Kt@Ml@_@pBy@nCY|@k@`BQh@CFGRKZELGREPUv@Of@Un@a@hAWt@s@fBABYv@IRGPGRA@IVkBlFCHUb@ILONIFIBIBi@N&key=AIzaSyBUR1VVIeyacS7msWkyp8VO8BZ6vkK9Jx8";
+        StringBuilder route = new StringBuilder();
+        route.append("https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc");
+        for (DirectionsLeg directionsLeg : directionsRoute.legs) {
+            for (DirectionsStep step : directionsLeg.steps) {
+                route.append(step.polyline);
+                route.append("&path=weight:10%7Cenc:");
+            }
+//            route.append(directionsLeg.startLocation);
+//            route.append("/");
+//            if (index == directionsRoute.legs.length) {
+//                route.append(directionsLeg.endLocation);
+//            }
+//            index++;
+        }
+        return route;
+    }
+
+    public StringBuilder generateRouteUrl() {
+        StringBuilder route = new StringBuilder();
+        int index = 1;
+        route.append("https://www.google.com/maps/dir/");
+        for (DirectionsLeg directionsLeg : directionsRoute.legs) {
+            route.append(directionsLeg.startLocation);
+            route.append("/");
+            if (index == directionsRoute.legs.length) {
+                route.append(directionsLeg.endLocation);
+            }
+            index++;
+        }
+        return route;
+    }
+
+    public void showMaps() {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().browse(new URI(generateRouteUrl().toString()));
+            } catch (IOException | URISyntaxException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
     private void showWindow() throws IOException {
         URL url = getClass().getResource("/org.openjfx/orderdetails.fxml");
         final FXMLLoader loader = new FXMLLoader(url);
@@ -143,6 +195,11 @@ public class MainPageDriverController {
         stage.setTitle("Orderdetails: " + doubleClickedOrder.getId());
         stage.setScene(scene);
         stage.show();
+    }
+
+    //Setter
+    public static void setRoute(Route route) {
+        MainPageDriverController.route = route;
     }
 
     @FXML
@@ -186,11 +243,6 @@ public class MainPageDriverController {
         update();
     }
 
-    //Setter
-    public static void setRoute(Route route) {
-        MainPageDriverController.route = route;
-    }
-
     @FXML
     public void finishRoute() throws IOException {
         for (Order order : route.getOrders()) {
@@ -209,33 +261,9 @@ public class MainPageDriverController {
         App.setRoot("route_driver");
     }
 
+    @FXML
     public void back() throws IOException {
         MainPageDriverController.setRoute(null);
         App.setRoot("route_driver");
-    }
-
-    public StringBuilder generateRouteUrl() {
-        StringBuilder route = new StringBuilder();
-        int index = 1;
-        route.append("https://www.google.com/maps/dir/");
-        for (DirectionsLeg directionsLeg : directionsRoute.legs) {
-            route.append(directionsLeg.startLocation);
-            route.append("/");
-            if (index == directionsRoute.legs.length) {
-                route.append(directionsLeg.endLocation);
-            }
-            index++;
-        }
-        return route;
-    }
-
-    public void showMaps() {
-        if (Desktop.isDesktopSupported()) {
-            try {
-                Desktop.getDesktop().browse(new URI(generateRouteUrl().toString()));
-            } catch (IOException | URISyntaxException e1) {
-                e1.printStackTrace();
-            }
-        }
     }
 }

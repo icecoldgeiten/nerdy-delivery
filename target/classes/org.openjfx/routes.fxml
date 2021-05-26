@@ -13,7 +13,7 @@
        <TableColumn fx:id="Driver" prefWidth="150.0" text="Driver" />
          <TableColumn fx:id="Status" minWidth="0.0" prefWidth="116.0" text="Status" />
          <TableColumn fx:id="Date" minWidth="0.0" prefWidth="116.0" text="Bezorg datum" />
-         <TableColumn fx:id="TimeSlot" minWidth="0.0" prefWidth="116.0" text="Tijd vak" />
+         <TableColumn fx:id="TimeSlot" minWidth="0.0" prefWidth="216.0" text="Tijd vak" />
      </columns>
    </TableView>
    <Button layoutX="595.0" layoutY="14.0" mnemonicParsing="false" onAction="#showHistory" prefHeight="25.0" prefWidth="98.0" text="Geschiedenis" />
