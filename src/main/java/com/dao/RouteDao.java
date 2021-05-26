@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -76,25 +77,6 @@ public class RouteDao {
         em.close();
     }
 
-    public void updateRoute(Route route, ObservableList<Order> orders) {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        try {
-            Set<Order> old = route.getOrders();
-            for (Order d : orders) {
-                d.setRoute(route);
-                old.add(d);
-            }
-            route.setOrders(new HashSet<>(old));
-            em.merge(route);
-            em.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        em.getTransaction().commit();
-        em.close();
-    }
-
     public void updateDriver(Route route, Driver driver, LocalDate date, Timeslot time) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -111,23 +93,38 @@ public class RouteDao {
         em.close();
     }
 
-    public void removeOrder(Route route, Order order) {
+    public void updateRoute(Route route, ObservableList<Order> orders) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
+            em.getTransaction().begin();
             Set<Order> old = route.getOrders();
-            for (Order d : old) {
-                if (d.equals(order)) {
-                    d.setRoute(null);
-                }
+            for (Order d : orders) {
+                d.setRoute(route);
+                old.add(d);
             }
             route.setOrders(new HashSet<>(old));
             em.merge(route);
             em.flush();
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        em.getTransaction().commit();
+        em.close();
+    }
+
+    public void removeOrder(Route route, Order order) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            route.getOrders().removeIf(value -> value.equals(order));
+            order.setRoute(null);
+            em.merge(order);
+            em.merge(route);
+            em.flush();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         em.close();
     }
 
