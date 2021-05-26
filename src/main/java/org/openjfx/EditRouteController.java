@@ -43,7 +43,6 @@ public class EditRouteController {
     public TableColumn<Order, String> Address;
     public TableColumn<Order, String> Status;
 
-
     @FXML
     private void initialize() {
         d = new DriverDao();
