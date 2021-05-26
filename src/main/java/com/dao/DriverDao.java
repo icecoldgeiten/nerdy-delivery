@@ -2,11 +2,10 @@ package com.dao;
 
 import com.entity.*;
 import com.helpers.AES256;
-
+import com.helpers.CEntityManagerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,28 +17,31 @@ public class DriverDao {
     private Driver driver;
 
     public DriverDao() {
-        emf = Persistence.createEntityManagerFactory("ice-unit");
+        emf = CEntityManagerFactory.getEntityManagerFactory();
     }
 
-    public List<Driver> getAllDrivers() {
+    public List<Driver> getAllActiveDrivers() {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
-            List<Driver> drivers = em.createQuery("from Driver", Driver.class).getResultList();
+            em.getTransaction().begin();
+            List<Driver> drivers = em.createQuery("from Driver D where D.active = 1", Driver.class).getResultList();
+            em.getTransaction().commit();
             em.close();
             return drivers;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        em.getTransaction().commit();
         em.close();
         return null;
     }
 
     public List<Driver> getAvailableDrivers(LocalDate date, Timeslot timeslot) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
-            List<Driver> drivers = em.createQuery("from Driver", Driver.class).getResultList();
+            em.getTransaction().begin();
+            List<Driver> drivers = em.createQuery("from Driver where active = 1", Driver.class).getResultList();
+            em.getTransaction().commit();
             em.close();
             return filterDrivers(drivers, date, timeslot);
         } catch (Exception e) {
@@ -83,13 +85,17 @@ public class DriverDao {
             em.getTransaction().commit();
 
         } catch (Exception e) {
-            System.out.println();
+            e.printStackTrace();
         }
         em.close();
     }
 
-    public void changeDriver(int clickedOn, String name, String ins, String sn, int phone, LocalDate bd) {
+    public void changeDriver(int clickedOn, String name, String ins, String sn, int phone, LocalDate bd, boolean vehicle, boolean license) {
         EntityManager em = emf.createEntityManager();
+
+        int veh = vehicle ? 1 :0;
+        int lic = license ? 1 :0;
+
         try {
             em.getTransaction().begin();
             driver = em.find(Driver.class, clickedOn);
@@ -99,35 +105,40 @@ public class DriverDao {
             driver.setSirname(sn);
             driver.setPhonenumber(phone);
             driver.setBirthdate(bd);
-
+            driver.setVehicle(veh);
+            driver.setLincenseNr(lic);
             em.getTransaction().commit();
-
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
+        em.close();
     }
 
     public Driver searchDriver(int clickedOn) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
-            return driver = em.find(Driver.class, clickedOn);
+            driver = em.find(Driver.class, clickedOn);
         } catch (Exception e) {
-            System.out.println(e);
-            return driver = null;
+            e.printStackTrace();
+            driver = null;
         }
+        em.getTransaction().commit();
+        em.close();
+        return driver;
     }
 
     public void rowDelete(int id) {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         try {
-            em.getTransaction().begin();
             driver = em.find(Driver.class, id);
-            em.remove(driver);
+            driver.setActive(false);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
+        em.close();
     }
 
     public boolean validate(String username, String password) {
@@ -137,15 +148,20 @@ public class DriverDao {
             Driver driver = em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
             if (driver != null && driver.getPassword().equals(AES256.encrypt(password))) {
                 LogedinDriver = driver;
+                em.getTransaction().commit();
+                em.close();
                 return true;
             }
             em.getTransaction().commit();
         } catch (NoResultException e) {
             e.printStackTrace();
         }
+        em.getTransaction().commit();
         em.close();
         return false;
     }
+
+
 
     public String randomPassword(int length) {
         String passwordSet = "ABCDEFGHIJKLMOPQRSRUVWXYZ0123456789!@#$%";
@@ -163,5 +179,19 @@ public class DriverDao {
     }
     public static void setLogedinDriver(Driver logedinDriver) {
         LogedinDriver = logedinDriver;
+    }
+
+    public void changePassword(String pw, int clickedOn) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            driver = em.find(Driver.class, clickedOn);
+            String EncryptedPW = AES256.encrypt(pw);
+            driver.setPassword(EncryptedPW);
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

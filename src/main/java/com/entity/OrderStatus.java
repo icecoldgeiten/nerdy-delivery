@@ -13,7 +13,7 @@ public class OrderStatus {
     @Column(name = "OrderStatusID", unique = true)
     private Long id;
 
-    @OneToMany
+    @OneToMany(targetEntity = OrderStatus.class)
     private Set<Order> orders = new HashSet<>();
 
     @Column(name = "name")

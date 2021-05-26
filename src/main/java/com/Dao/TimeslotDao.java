@@ -1,6 +1,8 @@
 package com.dao;
 
 import com.entity.Timeslot;
+import com.helpers.CEntityManagerFactory;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -11,14 +13,15 @@ public class TimeslotDao {
     private final EntityManagerFactory emf;
 
     public TimeslotDao() {
-        emf = Persistence.createEntityManagerFactory("ice-unit");
+        emf = CEntityManagerFactory.getEntityManagerFactory();
     }
 
     public List<Timeslot> getAllTimeslots() {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
+            em.getTransaction().begin();
             List<Timeslot> timeslots = em.createQuery("from Timeslot", Timeslot.class).getResultList();
+            em.getTransaction().commit();
             em.close();
             return timeslots;
         } catch (Exception e) {

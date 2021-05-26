@@ -1,5 +1,6 @@
 package org.openjfx;
 
+import com.helpers.CEntityManagerFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
+
 
 public class App extends Application {
     private static Scene scene;
@@ -15,6 +16,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("start_screen"));
+        CEntityManagerFactory.getEntityManagerFactory();
 
         stage.setTitle("Nerdy Delivery");
         stage.setScene(scene);

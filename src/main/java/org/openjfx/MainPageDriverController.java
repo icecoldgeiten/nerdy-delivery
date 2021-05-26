@@ -1,6 +1,5 @@
 package org.openjfx;
 
-import com.dao.AdminDao;
 import com.dao.OrderDao;
 import com.dao.RouteDao;
 import com.entity.Customer;
@@ -10,26 +9,36 @@ import com.google.CalculateRoute;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
+import com.sun.istack.Nullable;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
+
 
 public class MainPageDriverController {
+    private Dotenv env;
+
     private static Route route;
+    private DirectionsRoute directionsRoute;
 
     private OrderDao o;
     private RouteDao r;
@@ -38,16 +47,19 @@ public class MainPageDriverController {
     public static Order doubleClickedOrder;
 
     @FXML
+    private WebView webView;
+
+    @FXML
     public TableView<Order> tvDeliveries;
     public TableColumn<Order, String> tcOrderID, tcStatus;
     public TableColumn<Order, Customer> tcCustomerID, tCustomerAdress;
-    public ListView<DirectionsStep> directionsStep;
-    public Label lDuration, lETA;
+    public Label lDuration;
     public Button bDelivered, bNotHome;
     public Button submit;
     public Button logout;
 
     public void initialize() {
+        env = Dotenv.configure().load();
         o = new OrderDao();
         r = new RouteDao();
         calculateRoute = new CalculateRoute();
@@ -62,6 +74,7 @@ public class MainPageDriverController {
     public void update() {
         tvDeliveries.getItems().clear();
         loadDeliveries();
+        loadWebview();
 //        loadRoute();
     }
 
@@ -70,6 +83,7 @@ public class MainPageDriverController {
             ObservableList<Order> orderDriver = FXCollections.observableArrayList(route.getOrders());
             tvDeliveries.setItems(orderDriver);
             setCellValueColumns();
+
         } catch (NullPointerException ex) {
             tvDeliveries.setPlaceholder(new Label("Selecteer route om bezorgingen zichtbaar te maken."));
         }
@@ -80,7 +94,6 @@ public class MainPageDriverController {
         tcCustomerID.setCellValueFactory(new PropertyValueFactory<>("customer"));
         tCustomerAdress.setCellValueFactory(new PropertyValueFactory<>("customer"));
         tcStatus.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getOrderStatus().toString()));
-
         tcCustomerID.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Customer c, boolean bln) {
@@ -103,33 +116,73 @@ public class MainPageDriverController {
 
     public void loadRoute() {
         try {
-            DirectionsRoute directionsRoute = calculateRoute.RouteMaker(route.getOrders());
+            directionsRoute = calculateRoute.RouteMaker(route.getOrders());
+            setTimeIndication();
+            System.out.println(generatePolylines().toString());
+//            loadWebview(generateRouteUrl().toString());
+        } catch (RuntimeException ignored) {
+        }
+    }
 
-            lDuration.setText(route.getDuration() + " min");
-            lETA.setText(Integer.toString(directionsRoute.legs.length));
-            ;
-            ObservableList<DirectionsStep> steps = FXCollections.observableList(Arrays.asList(directionsRoute.legs[0].steps));
-            for (DirectionsLeg di : directionsRoute.legs) {
-                System.out.println(di.toString());
+    public void loadWebview() {
+        //TODO:: hier gaan we even fuifen eerst thee pakken
+        WebEngine engine = webView.getEngine();
+        engine.setJavaScriptEnabled(true);
+//        engine.executeScript();
+        engine.load("https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc:w}l_Iowbd@|@}APUNM&path=weight:10%7Cenc:wzl_Iq{bd@gAkHG}@&path=weight:10%7Cenc:g}l_I{fcd@?K@Mk@Em@EYEmB]&path=weight:10%7Cenc:gdm_Ieicd@OCMCAL?LAPANKbCI~AEl@Ev@KpAEh@AZGj@ATMtAi@`FIn@a@fDE`@ARADOlAOvACLE\\YhCKn@Kt@Ml@_@pBy@nCY|@k@`BQh@CFGRKZELGREPUv@Of@Un@a@hAWt@s@fBABYv@IRGPGRA@IVkBlFCHUb@ILONIFIBIBi@N&key=AIzaSyBUR1VVIeyacS7msWkyp8VO8BZ6vkK9Jx8");
+    }
+
+    public void setTimeIndication() {
+        long total = 0;
+        for (DirectionsLeg l : directionsRoute.legs) {
+            total = total + l.duration.inSeconds;
+        }
+        String timeString = String.format("%02d:%02d:%02d", total / 3600, (total % 3600) / 60, total % 60);
+
+        lDuration.setText(timeString + " min");
+    }
+
+    public StringBuilder generatePolylines() {
+        String t = "https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc:w}l_Iowbd@|@}APUNM&path=weight:10%7Cenc:wzl_Iq{bd@gAkHG}@&path=weight:10%7Cenc:g}l_I{fcd@?K@Mk@Em@EYEmB]&path=weight:10%7Cenc:gdm_Ieicd@OCMCAL?LAPANKbCI~AEl@Ev@KpAEh@AZGj@ATMtAi@`FIn@a@fDE`@ARADOlAOvACLE\\YhCKn@Kt@Ml@_@pBy@nCY|@k@`BQh@CFGRKZELGREPUv@Of@Un@a@hAWt@s@fBABYv@IRGPGRA@IVkBlFCHUb@ILONIFIBIBi@N&key=AIzaSyBUR1VVIeyacS7msWkyp8VO8BZ6vkK9Jx8";
+        StringBuilder route = new StringBuilder();
+        route.append("https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc");
+        for (DirectionsLeg directionsLeg : directionsRoute.legs) {
+            for (DirectionsStep step : directionsLeg.steps) {
+                route.append(step.polyline);
+                route.append("&path=weight:10%7Cenc:");
             }
+//            route.append(directionsLeg.startLocation);
+//            route.append("/");
+//            if (index == directionsRoute.legs.length) {
+//                route.append(directionsLeg.endLocation);
+//            }
+//            index++;
+        }
+        return route;
+    }
 
-            directionsStep.setItems(steps);
-            directionsStep.setCellFactory(new Callback<>() {
-                @Override
-                public ListCell<DirectionsStep> call(ListView<DirectionsStep> p) {
-                    return new ListCell<>() {
-                        @Override
-                        protected void updateItem(DirectionsStep t, boolean bln) {
-                            super.updateItem(t, bln);
-                            if (t != null) {
-                                setText(t.htmlInstructions);
-                            }
-                        }
-                    };
-                }
-            });
-        } catch (RuntimeException ex) {
-            directionsStep.setPlaceholder(new Label("WORK IN PROGRESS"));
+    public StringBuilder generateRouteUrl() {
+        StringBuilder route = new StringBuilder();
+        int index = 1;
+        route.append("https://www.google.com/maps/dir/");
+        for (DirectionsLeg directionsLeg : directionsRoute.legs) {
+            route.append(directionsLeg.startLocation);
+            route.append("/");
+            if (index == directionsRoute.legs.length) {
+                route.append(directionsLeg.endLocation);
+            }
+            index++;
+        }
+        return route;
+    }
+
+    public void showMaps() {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().browse(new URI(generateRouteUrl().toString()));
+            } catch (IOException | URISyntaxException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -142,6 +195,11 @@ public class MainPageDriverController {
         stage.setTitle("Orderdetails: " + doubleClickedOrder.getId());
         stage.setScene(scene);
         stage.show();
+    }
+
+    //Setter
+    public static void setRoute(Route route) {
+        MainPageDriverController.route = route;
     }
 
     @FXML
@@ -157,7 +215,8 @@ public class MainPageDriverController {
         }
         if (event.getClickCount() == 1) {
             selectedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
-            if (selectedOrder.getOrderStatus().getStatusCode().equals("NOTHOME") || selectedOrder.getOrderStatus().getStatusCode().equals("DELIVERED")) {
+            if (selectedOrder.getOrderStatus().getStatusCode().equals("NOTHOME") || selectedOrder.getOrderStatus().
+                    getStatusCode().equals("DELIVERED")) {
                 bNotHome.setDisable(true);
                 bDelivered.setDisable(true);
             } else {
@@ -185,11 +244,6 @@ public class MainPageDriverController {
         update();
     }
 
-    //Setter
-    public static void setRoute(Route route) {
-        MainPageDriverController.route = route;
-    }
-
     @FXML
     public void finishRoute() throws IOException {
         for (Order order : route.getOrders()) {
@@ -208,6 +262,7 @@ public class MainPageDriverController {
         App.setRoot("route_driver");
     }
 
+    @FXML
     public void back() throws IOException {
         MainPageDriverController.setRoute(null);
         App.setRoot("route_driver");

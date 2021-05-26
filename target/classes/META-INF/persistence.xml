@@ -10,10 +10,10 @@
         <class>com.entity.Driver</class>
         <class>com.entity.Employee</class>
         <class>com.entity.Order</class>
-        <class>com.entity.Orderline</class>
-        <class>com.entity.Person</class>
+        <class>com.entity.OrderLine</class>
         <class>com.entity.Route</class>
         <class>com.entity.RouteStatus</class>
+        <class>com.entity.OrderStatus</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
@@ -21,6 +21,14 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/nerdygadgets"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value=""/>
+
+            <property name="hibernate.c3p0.acquire_increment" value="1"/>
+            <property name="hibernate.c3p0.min_size" value="5"/>
+            <property name="hibernate.c3p0.max_size" value="100"/>
+            <property name="hibernate.c3p0.timeout" value="300"/>
+            <property name="hibernate.c3p0.autoCommitOnClose" value="true"/>
+            <property name="hibernate.c3p0.max_statements" value="50"/>
+            <property name="hibernate.c3p0.idle_test_period" value="3000"/>
         </properties>
     </persistence-unit>
 </persistence>

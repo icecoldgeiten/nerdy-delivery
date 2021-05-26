@@ -6,13 +6,10 @@ import com.entity.Driver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class ManagedriverController implements Initializable {
     private DriverDao driverDao;
-
+    DriverChangeDialog dcd;
     @FXML
     public ListView<Driver> lvDrivers;
     public Button bNew, bDelete, bChange;
@@ -41,7 +38,7 @@ public class ManagedriverController implements Initializable {
     }
 
     private void loadDrivers() {
-        ObservableList<Driver> observableList = FXCollections.observableList(driverDao.getAllDrivers());
+        ObservableList<Driver> observableList = FXCollections.observableList(driverDao.getAllActiveDrivers());
         lvDrivers.setItems(observableList);
         lvDrivers.setCellFactory(new Callback<>() {
             @Override
@@ -70,33 +67,30 @@ public class ManagedriverController implements Initializable {
     // When mouse clicked on list show details of driver!
     @FXML
     public void lvDriversOnMouseClicked() {
-        //Detecting mouse clicked
-        lvDrivers.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
                 //Check wich list index is selected then set txtContent value for that index
                 clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
-                for (Driver d : driverDao.getAllDrivers()) {
-                    String id = Integer.toString(d.getId());
+                for (Driver d : driverDao.getAllActiveDrivers()) {
                     if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
                         lName.setText(d.getName());
                         lInserts.setText(d.getInserts());
                         lSirname.setText(d.getSirname());
                         String bd = d.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                         lBirthday.setText(bd);
-                        lPhone.setText(Integer.toString(d.getPhonenumber()));
+                        try {
+                            lPhone.setText(Integer.toString(d.getPhonenumber()));
+                        }catch (NullPointerException ex){
+                            lPhone.setText("");
+                        }
                         lVehicle.setText(Integer.toString(d.getVehicle()));
                         lLicense.setText(Integer.toString(d.getLincenseNr()));
                     }
                 }
             }
-        });
-    }
 
     //Clicking on 'Bewerk..' button opens new dialog with textfiels to change the driver.
     @FXML
     void actionButtonChange(ActionEvent event) {
-        new DriverChangeDialog(clickedDriver);
+        dcd = new DriverChangeDialog(clickedDriver);
     }
 
     //GETTER
@@ -105,26 +99,41 @@ public class ManagedriverController implements Initializable {
     }
 
     public void rowDelete(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Verwijderen");
-        alert.setHeaderText("Verwijder Bezorger!");
-        alert.setContentText("Wilt u zeker dit verwijderen?");
+        Driver driver = driverDao.searchDriver(clickedDriver);
+        try {
+            if (driver.getRoutes().isEmpty()) {
+                System.out.println("Mag wel!" + driver.getName());
+                Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert1.setTitle("Verwijderen");
+                alert1.setHeaderText("Bezorger verwijderen?");
+                alert1.setContentText("Weet u zeker dat u deze bezorger wilt verwijderen?");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            // ... user chose OK
-            driverDao.rowDelete(clickedDriver);
+                Optional<ButtonType> result = alert1.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    // ... user chose OK
+                    driverDao.rowDelete(clickedDriver);
+                }
+                updateDrivers();
+            } else {
+                System.out.println("Mag niet!" + driver.getName());
+                Alert alert2 = new Alert(Alert.AlertType.WARNING);
+                alert2.setTitle("Waarschuwing!");
+                alert2.setHeaderText("Bezorger kan niet worden verwijderd!");
+                alert2.setContentText("Aan deze bezorger zitten routes gekoppeld.");
+                Optional<ButtonType> result = alert2.showAndWait();
 
+            }
+        }catch (Exception ex){
+            System.out.println(ex);
         }
-        else {
-            /* ... user chose CANCEL or closed the dialog */
-
-        }
-        updateDrivers();
     }
 
 
     public void newBezorger() throws IOException {
         App.setPage("register_driver");
+    }
+
+    public void refreshPage(ActionEvent event) {
+        updateDrivers();
     }
 }

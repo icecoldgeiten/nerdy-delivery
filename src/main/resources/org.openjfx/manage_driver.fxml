@@ -52,7 +52,7 @@
                      </children>
                   </GridPane>
                   <Button fx:id="bDelete" layoutX="513.0" layoutY="318.0" mnemonicParsing="false" onAction="#rowDelete" text="Verwijder" />
-                  <Button fx:id="bChange" layoutX="440.0" layoutY="318.0" mnemonicParsing="false" onAction="#actionButtonChange" text="Berwerk.." />
+                  <Button fx:id="bChange" layoutX="440.0" layoutY="318.0" mnemonicParsing="false" onAction="#actionButtonChange" text="Bewerk.." />
                   <Label layoutX="229.0" layoutY="40.0" text="Details:">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -65,6 +65,7 @@
                      </font>
                   </Label>
                   <Button fx:id="bNew" layoutX="366.0" layoutY="318.0" mnemonicParsing="false" onAction="#newBezorger" prefHeight="26.0" prefWidth="64.0" text="Nieuw " />
+                  <Button layoutX="14.0" layoutY="318.0" mnemonicParsing="false" text="Refresh" onAction="#refreshPage" />
                </children>
             </AnchorPane>
         </items>

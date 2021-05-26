@@ -2,6 +2,7 @@ package com.dao;
 
 import com.entity.Order;
 import com.entity.OrderStatus;
+import com.helpers.CEntityManagerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,7 +13,7 @@ public class OrderDao {
     private final EntityManagerFactory emf;
 
     public OrderDao() {
-        emf = Persistence.createEntityManagerFactory("ice-unit");
+        emf = CEntityManagerFactory.getEntityManagerFactory();
     }
 
     public List<Order> getOrders() {
@@ -20,11 +21,13 @@ public class OrderDao {
         try {
             em.getTransaction().begin();
             List<Order> orders = em.createQuery("from Order where route = NULL AND (orderStatus = :open OR orderStatus = :notHome)", Order.class).setParameter("open", StatusDao.getOrderStatus("OPENFORDELIVERY")).setParameter("notHome", StatusDao.getOrderStatus("NOTHOME")).getResultList();
+            em.getTransaction().commit();
             em.close();
             return orders;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        em.close();
         return null;
     }
 
@@ -39,7 +42,7 @@ public class OrderDao {
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            em.getTransaction().commit();
         }
         em.close();
     }
