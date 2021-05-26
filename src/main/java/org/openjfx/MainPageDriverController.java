@@ -59,7 +59,6 @@ public class MainPageDriverController {
     public Button logout;
 
     public void initialize() {
-        env = Dotenv.configure().load();
         o = new OrderDao();
         r = new RouteDao();
         calculateRoute = new CalculateRoute();
@@ -74,8 +73,8 @@ public class MainPageDriverController {
     public void update() {
         tvDeliveries.getItems().clear();
         loadDeliveries();
-        loadWebview();
-//        loadRoute();
+//        loadWebview();
+        loadRoute();
     }
 
     public void loadDeliveries() {
@@ -83,7 +82,6 @@ public class MainPageDriverController {
             ObservableList<Order> orderDriver = FXCollections.observableArrayList(route.getOrders());
             tvDeliveries.setItems(orderDriver);
             setCellValueColumns();
-
         } catch (NullPointerException ex) {
             tvDeliveries.setPlaceholder(new Label("Selecteer route om bezorgingen zichtbaar te maken."));
         }
@@ -118,19 +116,17 @@ public class MainPageDriverController {
         try {
             directionsRoute = calculateRoute.RouteMaker(route.getOrders());
             setTimeIndication();
-            System.out.println(generatePolylines().toString());
-//            loadWebview(generateRouteUrl().toString());
         } catch (RuntimeException ignored) {
         }
     }
 
-    public void loadWebview() {
-        //TODO:: hier gaan we even fuifen eerst thee pakken
-        WebEngine engine = webView.getEngine();
-        engine.setJavaScriptEnabled(true);
-//        engine.executeScript();
-        engine.load("https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc:w}l_Iowbd@|@}APUNM&path=weight:10%7Cenc:wzl_Iq{bd@gAkHG}@&path=weight:10%7Cenc:g}l_I{fcd@?K@Mk@Em@EYEmB]&path=weight:10%7Cenc:gdm_Ieicd@OCMCAL?LAPANKbCI~AEl@Ev@KpAEh@AZGj@ATMtAi@`FIn@a@fDE`@ARADOlAOvACLE\\YhCKn@Kt@Ml@_@pBy@nCY|@k@`BQh@CFGRKZELGREPUv@Of@Un@a@hAWt@s@fBABYv@IRGPGRA@IVkBlFCHUb@ILONIFIBIBi@N&key=AIzaSyBUR1VVIeyacS7msWkyp8VO8BZ6vkK9Jx8");
-    }
+//    public void loadWebview() throws URISyntaxException {
+//        //TODO:: hier gaan we even fuifen eerst thee pakken
+//        WebEngine engine = webView.getEngine();
+//        engine.setJavaScriptEnabled(true);
+////        engine.executeScript();
+//        engine.load(String.valueOf(new URI("https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc:w}l_Iowbd@|@}APUNM&path=weight:10%7Cenc:wzl_Iq{bd@gAkHG}@&path=weight:10%7Cenc:g}l_I{fcd@?K@Mk@Em@EYEmB]&path=weight:10%7Cenc:gdm_Ieicd@OCMCAL?LAPANKbCI~AEl@Ev@KpAEh@AZGj@ATMtAi@`FIn@a@fDE`@ARADOlAOvACLE\\YhCKn@Kt@Ml@_@pBy@nCY|@k@`BQh@CFGRKZELGREPUv@Of@Un@a@hAWt@s@fBABYv@IRGPGRA@IVkBlFCHUb@ILONIFIBIBi@N&key=AIzaSyBUR1VVIeyacS7msWkyp8VO8BZ6vkK9Jx8")));
+//    }
 
     public void setTimeIndication() {
         long total = 0;
@@ -140,25 +136,6 @@ public class MainPageDriverController {
         String timeString = String.format("%02d:%02d:%02d", total / 3600, (total % 3600) / 60, total % 60);
 
         lDuration.setText(timeString + " min");
-    }
-
-    public StringBuilder generatePolylines() {
-        String t = "https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc:w}l_Iowbd@|@}APUNM&path=weight:10%7Cenc:wzl_Iq{bd@gAkHG}@&path=weight:10%7Cenc:g}l_I{fcd@?K@Mk@Em@EYEmB]&path=weight:10%7Cenc:gdm_Ieicd@OCMCAL?LAPANKbCI~AEl@Ev@KpAEh@AZGj@ATMtAi@`FIn@a@fDE`@ARADOlAOvACLE\\YhCKn@Kt@Ml@_@pBy@nCY|@k@`BQh@CFGRKZELGREPUv@Of@Un@a@hAWt@s@fBABYv@IRGPGRA@IVkBlFCHUb@ILONIFIBIBi@N&key=AIzaSyBUR1VVIeyacS7msWkyp8VO8BZ6vkK9Jx8";
-        StringBuilder route = new StringBuilder();
-        route.append("https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc");
-        for (DirectionsLeg directionsLeg : directionsRoute.legs) {
-            for (DirectionsStep step : directionsLeg.steps) {
-                route.append(step.polyline);
-                route.append("&path=weight:10%7Cenc:");
-            }
-//            route.append(directionsLeg.startLocation);
-//            route.append("/");
-//            if (index == directionsRoute.legs.length) {
-//                route.append(directionsLeg.endLocation);
-//            }
-//            index++;
-        }
-        return route;
     }
 
     public StringBuilder generateRouteUrl() {
@@ -176,6 +153,7 @@ public class MainPageDriverController {
         return route;
     }
 
+    @FXML
     public void showMaps() {
         if (Desktop.isDesktopSupported()) {
             try {

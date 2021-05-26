@@ -71,16 +71,13 @@ public class DriverDao {
         String rp = randomPassword(10);
         try {
             driver = new Driver();
-
             driver.setName(name);
-            driver.setInserts(sn);
             driver.setInserts(ins);
             driver.setSirname(sn);
             driver.setPhonenumber(phone);
             driver.setBirthdate(bd);
             driver.setUsername(un);
             driver.setPassword(AES256.encrypt(rp));
-
             em.persist(driver);
             em.getTransaction().commit();
 
