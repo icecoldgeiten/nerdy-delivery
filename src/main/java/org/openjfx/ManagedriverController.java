@@ -62,31 +62,36 @@ public class ManagedriverController implements Initializable {
     @FXML
     public void lvDriversOnMouseClicked() {
         //Check wich list index is selected then set txtContent value for that index
-        clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
-        for (Driver d : driverDao.getAllActiveDrivers()) {
-            if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
-                lName.setText(d.getName());
-                lInserts.setText(d.getInserts());
-                lSirname.setText(d.getSirname());
-                String bd = d.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                lBirthday.setText(bd);
-                try {
-                    lPhone.setText(Integer.toString(d.getPhonenumber()));
-                }catch (NullPointerException ex){
-                    lPhone.setText("");
-                }
-                if(d.getVehicle() == 1){
-                    lVehicle.setText("Ja");
-                } else{
-                    lVehicle.setText("Nee");
-                }
-                if(d.getLincenseNr() == 1){
-                    lLicense.setText("Ja");
-                } else {
-                    lLicense.setText("Nee");
+        try {
+            clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
+            for (Driver d : driverDao.getAllActiveDrivers()) {
+                if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
+                    lName.setText(d.getName());
+                    lInserts.setText(d.getInserts());
+                    lSirname.setText(d.getSirname());
+                    String bd = d.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    lBirthday.setText(bd);
+                    try {
+                        lPhone.setText(Integer.toString(d.getPhonenumber()));
+                    }catch (NullPointerException ex){
+                        lPhone.setText("");
+                    }
+                    if(d.getVehicle() == 1){
+                        lVehicle.setText("Ja");
+                    } else{
+                        lVehicle.setText("Nee");
+                    }
+                    if(d.getLincenseNr() == 1){
+                        lLicense.setText("Ja");
+                    } else {
+                        lLicense.setText("Nee");
+                    }
                 }
             }
+        } catch (NullPointerException e) {
+            System.out.println("No result");
         }
+
     }
 
     //Clicking on 'Bewerk..' button opens new dialog with textfiels to change the driver.
