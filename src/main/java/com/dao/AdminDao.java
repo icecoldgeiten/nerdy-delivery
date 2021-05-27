@@ -6,6 +6,7 @@ import com.helpers.CEntityManagerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 
 public class AdminDao {
     private final EntityManagerFactory emf;
@@ -24,8 +25,8 @@ public class AdminDao {
                 setAdmin(admin);
                 return true;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoResultException e) {
+            System.out.println("No result");
         }
         em.getTransaction().commit();
         em.close();
