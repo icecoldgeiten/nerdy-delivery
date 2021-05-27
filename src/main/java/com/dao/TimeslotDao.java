@@ -1,5 +1,4 @@
 package com.dao;
-
 import com.entity.Timeslot;
 import com.helpers.CEntityManagerFactory;
 
