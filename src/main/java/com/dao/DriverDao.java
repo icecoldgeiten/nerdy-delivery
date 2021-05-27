@@ -64,7 +64,7 @@ public class DriverDao {
         return drivers;
     }
 
-    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un) {
+    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un, int veh, int lic) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         String rp = randomPassword(10);
@@ -79,13 +79,17 @@ public class DriverDao {
             driver.setUsername(un);
             driver.setPassword(AES256.encrypt(rp));
             driver.setActive(true);
-
+            driver.setVehicle(veh);
+            driver.setLincenseNr(lic);
             em.persist(driver);
             em.getTransaction().commit();
+
 
         } catch (Exception e) {
             System.out.println();
         }
+        System.out.println("** = Gebruiker aangemaakt voor bezorger = ** \n Gebruikersnaam: " + un
+                +  "\n Wachtwoord: " + rp);
         em.close();
     }
 
