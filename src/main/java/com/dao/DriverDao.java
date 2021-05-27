@@ -2,6 +2,8 @@ package com.dao;
 
 import com.entity.*;
 import com.helpers.AES256;
+import com.helpers.CEntityManagerFactory;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -17,7 +19,7 @@ public class DriverDao {
     private Driver driver;
 
     public DriverDao() {
-        emf = Persistence.createEntityManagerFactory("ice-unit");
+        emf = CEntityManagerFactory.getEntityManagerFactory();
     }
 
     public List<Driver> getAllActiveDrivers() {
