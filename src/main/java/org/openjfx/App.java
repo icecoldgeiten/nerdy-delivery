@@ -15,7 +15,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("manage_driver"));
+        scene = new Scene(loadFXML("start_screen"));
         CEntityManagerFactory.getEntityManagerFactory();
 
         stage.setTitle("Nerdy Delivery");

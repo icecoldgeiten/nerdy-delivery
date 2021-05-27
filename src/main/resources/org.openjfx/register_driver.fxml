@@ -1,53 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.RegisterDriverController">
-<!--   <children>-->
-      <Button fx:id="bBack" layoutX="27.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Terug" />
-      <Button fx:id="bReady" layoutX="518.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleReadyButtonAction" text="Gereed" />
-      <Label fx:id="lErrorGegevens" layoutX="340.0" layoutY="358.0" />
-      <Label layoutX="211.0" layoutY="31.0" text="Bezorger aanmaken">
-         <font>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.RegisterDriverController">
+    <Button fx:id="bBack" layoutX="27.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Terug" />
+    <Button fx:id="bReady" layoutX="518.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleReadyButtonAction" text="Gereed" />
+    <Label fx:id="lErrorGegevens" layoutX="340.0" layoutY="358.0" />
+    <Label layoutX="211.0" layoutY="31.0" text="Bezorger aanmaken">
+        <font>
             <Font name="System Bold" size="19.0" />
-         </font>
-      </Label>
-      <GridPane hgap="10.0" layoutX="32.0" layoutY="111.0" prefHeight="116.0" prefWidth="537.0">
+        </font>
+    </Label>
+    <GridPane hgap="10.0" layoutX="32.0" layoutY="111.0" prefHeight="116.0" prefWidth="537.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints />
-          <RowConstraints maxHeight="54.0" minHeight="3.0" prefHeight="24.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="115.0" minHeight="8.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints />
+            <RowConstraints maxHeight="54.0" minHeight="3.0" prefHeight="24.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="115.0" minHeight="8.0" prefHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="156.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
-         <RowConstraints maxHeight="156.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
-         <RowConstraints maxHeight="170.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="156.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="170.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
         </rowConstraints>
-<!--         <children>-->
-          <Label prefHeight="10.0" prefWidth="56.0" text="Voornaam" GridPane.rowIndex="1" />
-          <Label text="Tussenvoegsels" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-          <Label text="Achternaam" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-          <Label text="Telefoonnummer" GridPane.rowIndex="4" />
-          <Label alignment="BOTTOM_CENTER" prefHeight="30.0" prefWidth="85.0" text="Geboortedatum" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-          <Label alignment="BOTTOM_CENTER" prefHeight="27.0" prefWidth="29.0" text="Email" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-          <TextField fx:id="tfName" GridPane.rowIndex="2" />
-          <TextField fx:id="tfInserts" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-          <TextField fx:id="tfSirname" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-          <TextField fx:id="tfPhone" prefHeight="25.0" prefWidth="148.0" GridPane.rowIndex="5" />
-          <DatePicker fx:id="dpBirthday" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-          <TextField fx:id="tfEmail" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-<!--         </children>-->
-      </GridPane>
-<!--   </children>-->
+        <Label prefHeight="10.0" prefWidth="56.0" text="Voornaam" GridPane.rowIndex="1" />
+        <Label text="Tussenvoegsels" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label text="Achternaam" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <Label text="Telefoonnummer" GridPane.rowIndex="4" />
+        <Label alignment="BOTTOM_CENTER" prefHeight="30.0" prefWidth="85.0" text="Geboortedatum" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Label alignment="BOTTOM_CENTER" prefHeight="27.0" prefWidth="29.0" text="Email" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+        <TextField fx:id="tfName" GridPane.rowIndex="2" />
+        <TextField fx:id="tfInserts" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TextField fx:id="tfSirname" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <TextField fx:id="tfPhone" prefHeight="25.0" prefWidth="148.0" GridPane.rowIndex="5" />
+        <DatePicker fx:id="dpBirthday" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <TextField fx:id="tfEmail" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+    </GridPane>
+    <CheckBox fx:id="cbVehicle" layoutX="32.0" layoutY="259.0" mnemonicParsing="false" text="Heeft een voertuig? " />
+    <CheckBox fx:id="cbLicense" layoutX="215.0" layoutY="259.0" mnemonicParsing="false" text="Heeft een rijbewijs?" />
 </Pane>

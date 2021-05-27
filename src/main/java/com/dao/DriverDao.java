@@ -30,7 +30,6 @@ public class DriverDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        em.getTransaction().commit();
         em.close();
         return null;
     }
@@ -39,9 +38,7 @@ public class DriverDao {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
-            em.getTransaction().begin();
-            List<Driver> drivers = em.createQuery("from Driver where active = 1", Driver.class).getResultList();
-            em.getTransaction().commit();
+            List<Driver> drivers = em.createQuery("from Driver", Driver.class).getResultList();
             em.close();
             return filterDrivers(drivers, date, timeslot);
         } catch (Exception e) {
@@ -65,12 +62,13 @@ public class DriverDao {
         return drivers;
     }
 
-    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un) {
+    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un, int veh, int lic) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         String rp = randomPassword(10);
         try {
             driver = new Driver();
+
             driver.setName(name);
             driver.setInserts(ins);
             driver.setSirname(sn);
@@ -79,12 +77,17 @@ public class DriverDao {
             driver.setUsername(un);
             driver.setPassword(AES256.encrypt(rp));
             driver.setActive(true);
+            driver.setVehicle(veh);
+            driver.setLincenseNr(lic);
             em.persist(driver);
             em.getTransaction().commit();
+
 
         } catch (Exception e) {
             System.out.println();
         }
+        System.out.println("** = Gebruiker aangemaakt voor bezorger = ** \n Gebruikersnaam: " + un
+                +  "\n Wachtwoord: " + rp);
         em.close();
     }
 
@@ -138,16 +141,16 @@ public class DriverDao {
 
     public boolean validate(String username, String password) {
         EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
         try {
-            em.getTransaction().begin();
             Driver driver = em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
             if (driver != null && driver.getPassword().equals(AES256.encrypt(password))) {
                 LogedinDriver = driver;
                 return true;
             }
             em.getTransaction().commit();
-        } catch (NoResultException e) {
-            System.out.println("No user");
+        } catch (NoResultException e) { ;
+            e.printStackTrace();
         }
         em.close();
         return false;
@@ -184,4 +187,5 @@ public class DriverDao {
             System.out.println(e);
         }
     }
+
 }
