@@ -146,7 +146,7 @@ public class DriverDao {
             }
             em.getTransaction().commit();
         } catch (NoResultException e) { ;
-            e.printStackTrace();
+            System.out.println("No result");
         }
         em.close();
         return false;

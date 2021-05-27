@@ -175,11 +175,6 @@ public class MainPageDriverController {
         stage.show();
     }
 
-    //Setter
-    public static void setRoute(Route route) {
-        MainPageDriverController.route = route;
-    }
-
     @FXML
     public void OnMouseClickedCustomer(MouseEvent event) {
         if (event.getClickCount() == 2) {
@@ -244,5 +239,10 @@ public class MainPageDriverController {
     public void back() throws IOException {
         MainPageDriverController.setRoute(null);
         App.setRoot("route_driver");
+    }
+
+    //Setter
+    public static void setRoute(Route route) {
+        MainPageDriverController.route = route;
     }
 }
