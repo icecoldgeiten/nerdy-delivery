@@ -146,18 +146,10 @@ public class DriverChangeDialog {
                         bd = LocalDate.now();
                     }
                     driverDao.changeDriver(clickedOnName,tfName.getText(),tfInserts.getText(),tfSirname.getText(),phone,bd, cbVehicle.isSelected(), cbLicense.isSelected());
-                    driverDao.changePassword(pfChangePassword.getText(),clickedOnName);
-
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Dialog");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Gegevens van " + driver.getName() + " zijn gewijzigd!");
-
-                    alert.showAndWait();
-                    isChange = true;
+                    if(!pfChangePassword.getText().equals("")){
+                        driverDao.changePassword(pfChangePassword.getText(),clickedOnName);
+                    }
                     changeDialogStage.close();
-
-
                 } catch (NumberFormatException e){
                     lChangeAlert.setText("Graag de velden invullen!");
                 }
