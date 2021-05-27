@@ -45,6 +45,9 @@ public class Driver extends Employee {
     public Integer getLincenseNr() {
         return lincenseNr;
     }
+    public Boolean getActive() {
+        return active;
+    }
 
     //Setters
     public void setActive(boolean active){

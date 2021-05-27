@@ -7,7 +7,6 @@ import com.helpers.CEntityManagerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ public class DriverDao {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
-            List<Driver> drivers = em.createQuery("from Driver", Driver.class).getResultList();
+            List<Driver> drivers = em.createQuery("from Driver where active = 1", Driver.class).getResultList();
             em.close();
             return filterDrivers(drivers, date, timeslot);
         } catch (Exception e) {
@@ -146,7 +145,7 @@ public class DriverDao {
         em.getTransaction().begin();
         try {
             Driver driver = em.createQuery("from Driver D where D.username = :username", Driver.class).setParameter("username", username).getSingleResult();
-            if (driver != null && driver.getPassword().equals(AES256.encrypt(password))) {
+            if (driver != null && driver.getPassword().equals(AES256.encrypt(password)) && driver.getActive()) {
                 LogedinDriver = driver;
                 return true;
             }
@@ -189,5 +188,4 @@ public class DriverDao {
             System.out.println(e);
         }
     }
-
 }

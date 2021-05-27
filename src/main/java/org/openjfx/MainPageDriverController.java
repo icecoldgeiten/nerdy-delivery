@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
@@ -71,8 +72,7 @@ public class MainPageDriverController {
     public void update() {
         tvDeliveries.getItems().clear();
         loadDeliveries();
-//        loadWebview();
-//        loadRoute();
+        loadRoute();
     }
 
     public void loadDeliveries() {
@@ -114,17 +114,16 @@ public class MainPageDriverController {
         try {
             directionsRoute = calculateRoute.RouteMaker(route.getOrders());
             setTimeIndication();
+            loadWebview();
         } catch (RuntimeException ignored) {
         }
     }
 
-//    public void loadWebview() throws URISyntaxException {
-//        //TODO:: hier gaan we even fuifen eerst thee pakken
-//        WebEngine engine = webView.getEngine();
-//        engine.setJavaScriptEnabled(true);
-////        engine.executeScript();
-//        engine.load(String.valueOf(new URI("https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc:w}l_Iowbd@|@}APUNM&path=weight:10%7Cenc:wzl_Iq{bd@gAkHG}@&path=weight:10%7Cenc:g}l_I{fcd@?K@Mk@Em@EYEmB]&path=weight:10%7Cenc:gdm_Ieicd@OCMCAL?LAPANKbCI~AEl@Ev@KpAEh@AZGj@ATMtAi@`FIn@a@fDE`@ARADOlAOvACLE\\YhCKn@Kt@Ml@_@pBy@nCY|@k@`BQh@CFGRKZELGREPUv@Of@Un@a@hAWt@s@fBABYv@IRGPGRA@IVkBlFCHUb@ILONIFIBIBi@N&key=AIzaSyBUR1VVIeyacS7msWkyp8VO8BZ6vkK9Jx8")));
-//    }
+    public void loadWebview() {
+        WebEngine engine = webView.getEngine();
+        engine.setJavaScriptEnabled(true);
+        engine.load(generateRouteUrl().toString());
+    }
 
     public void setTimeIndication() {
         long total = 0;

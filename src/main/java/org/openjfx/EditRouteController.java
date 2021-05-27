@@ -209,7 +209,7 @@ public class EditRouteController {
     public void resetRouteStatus() throws IOException {
         final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initOwner(App.getScene().getWindow());
-        alert.setContentText("Weet je zeker dat je de route wilt onderbreken? De chauffeur is mogelijk aan het rijden");
+        alert.setContentText("Weet je zeker dat je de route wilt onderbreken? De chauffeur is mogelijk aan het rijden.");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent()) {
             if (result.get() == ButtonType.OK) {
