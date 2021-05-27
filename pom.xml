@@ -74,6 +74,11 @@
             <artifactId>charm-down-core</artifactId>
             <version>3.8.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.bbottema</groupId>
+            <artifactId>emailaddress-rfc2822</artifactId>
+            <version>2.3.0</version>
+        </dependency>
     </dependencies>
 
     <build>

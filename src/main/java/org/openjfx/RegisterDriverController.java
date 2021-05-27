@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator;
+
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -30,10 +32,19 @@ public class RegisterDriverController {
             LocalDate bd = dpBirthday.getValue();
             String ph = tfPhone.getText();
             int tel = Integer.parseInt(ph);
-            driver.addDriver(tfName.getText(), tfInserts.getText(), tfSirname.getText(), tel, bd, tfEmail.getText());
-            lErrorGegevens.setText("Bezorger is toegevoegd!");
+            boolean isValid = EmailAddressValidator.isValid(tfEmail.getText());
+            if(isValid) {
+                driver.addDriver(tfName.getText(), tfInserts.getText(), tfSirname.getText(), tel, bd, tfEmail.getText());
+                lErrorGegevens.setText("Bezorger is toegevoegd!");
+            } else {
+                lErrorGegevens.setText("Email adres klopt niet!");
+            }
         } catch (Exception e) {
-            lErrorGegevens.setText("Gegevens niet correct ingevuld!");
+            if(tfPhone.getLength() > 11){
+                lErrorGegevens.setText("Telefoonnummer is te lang!");
+            } else {
+                lErrorGegevens.setText("Gegevens niet correct ingevuld!");
+            }
         }
     }
 

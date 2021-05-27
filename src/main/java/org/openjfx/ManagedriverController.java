@@ -3,6 +3,7 @@ package org.openjfx;
 import com.dao.DriverDao;
 import com.dialog.DriverChangeDialog;
 import com.entity.Driver;
+import com.entity.Route;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -100,8 +102,17 @@ public class ManagedriverController implements Initializable {
 
     public void rowDelete(ActionEvent event) {
         Driver driver = driverDao.searchDriver(clickedDriver);
+        ArrayList<Route> deliveredRoutes = new ArrayList<>();
+        for(Route r : driver.getRoutes()){
+            if(r.getRouteStatus().getStatusCode().equals("DELIVERED")){
+                deliveredRoutes.add(r);
+            }
+            System.out.println("Routes bezorgd :"+ deliveredRoutes.size());
+            System.out.println("Routes bezorger :"+ driver.getRoutes().size());
+        }
         try {
-            if (driver.getRoutes().isEmpty()) {
+            if (driver.getRoutes().isEmpty() || (driver.getRoutes().size() == deliveredRoutes.size())) {
+
                 System.out.println("Mag wel!" + driver.getName());
                 Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert1.setTitle("Verwijderen");
@@ -113,6 +124,7 @@ public class ManagedriverController implements Initializable {
                     // ... user chose OK
                     driverDao.rowDelete(clickedDriver);
                 }
+
                 updateDrivers();
             } else {
                 System.out.println("Mag niet!" + driver.getName());
