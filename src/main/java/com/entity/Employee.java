@@ -15,6 +15,7 @@ public abstract class Employee {
     private LocalDate birthdate;
     @Column(name = "Phonenumber")
     private Integer phonenumber;
+
     @Column(name = "Username", nullable = false)
     private String username;
     @Column(name = "Password", nullable = false)
