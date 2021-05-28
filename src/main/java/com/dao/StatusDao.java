@@ -9,8 +9,8 @@ import javax.persistence.Persistence;
 
 public class StatusDao {
     public static OrderStatus getOrderStatus(String code) {
+        EntityManager em = CEntityManagerFactory.getEntityManagerFactory().createEntityManager();
         try {
-            EntityManager em = CEntityManagerFactory.getEntityManagerFactory().createEntityManager();
             em.getTransaction().begin();
             OrderStatus status = em.createQuery("from OrderStatus where statusCode = :status", OrderStatus.class).setParameter("status", code).getSingleResult();
             em.getTransaction().commit();
@@ -19,12 +19,13 @@ public class StatusDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        em.close();
         return null;
     }
 
     public static RouteStatus getRouteStatus(String code) {
+        EntityManager em = CEntityManagerFactory.getEntityManagerFactory().createEntityManager();
         try {
-            EntityManager em = CEntityManagerFactory.getEntityManagerFactory().createEntityManager();
             em.getTransaction().begin();
             RouteStatus status = em.createQuery("from RouteStatus where statusCode = :statusCode", RouteStatus.class).setParameter("statusCode", code).getSingleResult();
             em.getTransaction().commit();
@@ -33,6 +34,7 @@ public class StatusDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        em.close();
         return null;
     }
 }

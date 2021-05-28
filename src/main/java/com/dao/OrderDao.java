@@ -33,8 +33,8 @@ public class OrderDao {
 
     public void updateStatus(String code, Order order) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
+            em.getTransaction().begin();
             OrderStatus status = em.createQuery("from OrderStatus where statusCode = :status", OrderStatus.class).setParameter("status", code).getSingleResult();
             order.setOrderStatus(status);
             em.merge(order);
@@ -42,7 +42,6 @@ public class OrderDao {
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().commit();
         }
         em.close();
     }

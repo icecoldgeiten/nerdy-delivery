@@ -18,9 +18,11 @@ public class AdminDao {
 
     public boolean validate(String username, String password) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
+            em.getTransaction().begin();
             Administrator admin = em.createQuery("from Administrator D where D.username = :username", Administrator.class).setParameter("username", username).getSingleResult();
+            em.getTransaction().commit();
+            em.close();
             if (admin != null && admin.getPassword().equals(AES256.encrypt(password))) {
                 setAdmin(admin);
                 return true;
@@ -28,7 +30,6 @@ public class AdminDao {
         } catch (NoResultException e) {
             System.out.println("No result");
         }
-        em.getTransaction().commit();
         em.close();
         return false;
     }
