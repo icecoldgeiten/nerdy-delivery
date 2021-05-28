@@ -63,7 +63,7 @@ public class DriverDao {
         return drivers;
     }
 
-    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un, int veh, int lic) {
+    public void addDriver(String name, String ins, String sn, int phone, LocalDate bd, String un, int veh) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         String rp = randomPassword(10);
@@ -79,7 +79,7 @@ public class DriverDao {
             driver.setPassword(AES256.encrypt(rp));
             driver.setActive(true);
             driver.setVehicle(veh);
-            driver.setLincenseNr(lic);
+            driver.setLincenseNr(1);
             em.persist(driver);
             em.getTransaction().commit();
 
@@ -92,11 +92,10 @@ public class DriverDao {
         em.close();
     }
 
-    public void changeDriver(int clickedOn, String name, String ins, String sn, int phone, LocalDate bd, boolean vehicle, boolean license) {
+    public void changeDriver(int clickedOn, String name, String ins, String sn, int phone, LocalDate bd, boolean vehicle) {
         EntityManager em = emf.createEntityManager();
 
         int veh = vehicle ? 1 :0;
-        int lic = license ? 1 :0;
 
         try {
             em.getTransaction().begin();
@@ -108,7 +107,6 @@ public class DriverDao {
             driver.setPhonenumber(phone);
             driver.setBirthdate(bd);
             driver.setVehicle(veh);
-            driver.setLincenseNr(lic);
 
             em.getTransaction().commit();
 
