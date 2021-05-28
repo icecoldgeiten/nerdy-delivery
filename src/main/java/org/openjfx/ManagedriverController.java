@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.util.Callback;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -62,30 +63,30 @@ public class ManagedriverController implements Initializable {
     @FXML
     public void lvDriversOnMouseClicked() {
         //Check wich list index is selected then set txtContent value for that index
-      try {
-        clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
-        for (Driver d : driverDao.getAllActiveDrivers()) {
-            if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
-                lName.setText(d.getName());
-                lInserts.setText(d.getInserts());
-                lSirname.setText(d.getSirname());
-                String bd = d.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                lBirthday.setText(bd);
-                try {
-                    lPhone.setText(Integer.toString(d.getPhonenumber()));
-                }catch (NullPointerException ex){
-                    lPhone.setText("");
-                }
-                if(d.getVehicle() == 1){
-                    lVehicle.setText("Ja");
-                } else{
-                    lVehicle.setText("Nee");
+        try {
+            clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
+            for (Driver d : driverDao.getAllActiveDrivers()) {
+                if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
+                    lName.setText(d.getName());
+                    lInserts.setText(d.getInserts());
+                    lSirname.setText(d.getSirname());
+                    String bd = d.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    lBirthday.setText(bd);
+                    try {
+                        lPhone.setText(Integer.toString(d.getPhonenumber()));
+                    } catch (NullPointerException ex) {
+                        lPhone.setText("");
+                    }
+                    if (d.getVehicle() == 1) {
+                        lVehicle.setText("Ja");
+                    } else {
+                        lVehicle.setText("Nee");
+                    }
                 }
             }
         } catch (NullPointerException e) {
             System.out.println("No result");
         }
-
     }
 
     //Clicking on 'Bewerk..' button opens new dialog with textfiels to change the driver.
@@ -102,8 +103,8 @@ public class ManagedriverController implements Initializable {
     public void rowDelete(ActionEvent event) {
         Driver driver = driverDao.searchDriver(clickedDriver);
         ArrayList<Route> deliveredRoutes = new ArrayList<>();
-        for(Route r : driver.getRoutes()){
-            if(r.getRouteStatus().getStatusCode().equals("DELIVERED")){
+        for (Route r : driver.getRoutes()) {
+            if (r.getRouteStatus().getStatusCode().equals("DELIVERED")) {
                 deliveredRoutes.add(r);
             }
         }
@@ -129,7 +130,7 @@ public class ManagedriverController implements Initializable {
                 Optional<ButtonType> result = alert2.showAndWait();
 
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex);
         }
     }
