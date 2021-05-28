@@ -4,10 +4,7 @@ import com.dao.DriverDao;
 import com.dao.RouteDao;
 import com.dao.StatusDao;
 import com.dao.TimeslotDao;
-import com.entity.Driver;
-import com.entity.Order;
-import com.entity.Route;
-import com.entity.Timeslot;
+import com.entity.*;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,11 +34,15 @@ public class EditRouteController {
     public DatePicker date;
     public ComboBox<Timeslot> timeSlot;
     public ComboBox<Driver> combo;
+
+    @FXML
     public TableView<Order> tableView;
     public TableColumn<Order, String> ID;
     public TableColumn<Order, String> Customer;
     public TableColumn<Order, String> Address;
     public TableColumn<Order, String> Status;
+    public TableColumn<Order, String> Packages;
+
 
     @FXML
     private void initialize() {
@@ -113,6 +114,7 @@ public class EditRouteController {
         Customer.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getCustomername()));
         Address.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCustomer().getAddres()));
         Status.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getOrderStatus().toString()));
+        Packages.setCellValueFactory(v -> new ReadOnlyStringWrapper(String.valueOf(v.getValue().getOrderlines().stream().mapToLong(OrderLine::getQuantity).sum())));
         tableView.getItems().setAll(route.getOrders());
     }
 
