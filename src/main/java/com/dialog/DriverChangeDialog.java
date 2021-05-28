@@ -45,64 +45,49 @@ public class DriverChangeDialog {
         changeDialogStage.setHeight(360);
         changeDialogStage.setWidth(340);
         try {
-            //new textfields.
-            tfName = new TextField(driver.getName());
-            tfInserts = new TextField(driver.getInserts());
-            tfSirname = new TextField(driver.getSirname());
-            tfBirthday = new TextField(driver.getBirthdate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            tfPhone = new TextField(Integer.toString(driver.getPhonenumber()));
-            tfVehicle = new TextField(Integer.toString(driver.getVehicle()));
+            driver = driverDao.searchDriver(clickedOnName);
+            changeDialogStage.setTitle("Bewerk bezorger " + driver.getName());
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        //Password field
-        pfChangePassword = new PasswordField();
-        pfChangePassword.setPromptText("Nieuw wachtwoord..");
+            //Nieuwe root pane
+            BorderPane root = new BorderPane();
 
+            //Nieuwe pane's maken voor in de root:
+            FlowPane fp1 = new FlowPane();
+            BorderPane.setMargin(fp1, new Insets(10));
 
-        //BUTTON
-        bBack = new Button("Terug");
-        bChange = new Button("Bewerk");
+            GridPane gp = new GridPane();
+            gp.setHgap(20);
+            gp.setVgap(10);
 
-        //CHECKBOX
-        cbVehicle = new CheckBox("Voertuig");
-        if(driver.getVehicle() == 1){
-            cbVehicle.setSelected(true);
-        }
+            FlowPane fp2 = new FlowPane();
+            fp2.setVgap(10);
+            fp2.setHgap(30);
+            BorderPane.setMargin(fp2, new Insets(20));
 
-        //toevoegen elementen top:
-        fp1.getChildren().add(lIntro);
+            //panes toevoegen aan root.
+            root.setTop(fp1);
+            root.setCenter(gp);
+            root.setBottom(fp2);
 
-        //toevoegen elementen center:
-        gp.add(new Label("Naam"),1,0);
-        gp.add(tfName,2,0);
-        gp.add(new Label("Tussenvoegsels"),1,1);
-        gp.add(tfInserts,2,1);
-        gp.add(new Label("Achternaam"),1,2);
-        gp.add(tfSirname,2,2);
-        gp.add(new Label("Geboortedatum"),1,3);
-        gp.add(tfBirthday,2,3);
-        gp.add(new Label("Telefoonnummer"),1,4);
-        gp.add(tfPhone,2,4);
-        gp.add(new Label("Wachtwoord"),1,5);
-        gp.add(pfChangePassword,2,5);
-        gp.add(cbVehicle,2,6);
+            //initialeren elementen:
 
-        //toevoegen elementen bottom:
-        fp2.getChildren().add(bBack);
-        fp2.getChildren().add(bChange);
-        fp2.getChildren().add(lChangeAlert);
+            //LABEL
+            lIntro = new Label("Vul onderstaande velden in:");
+            lIntro.setFont(new Font("Segoe UI", 16));
+            lChangeAlert = new Label("");
 
-        //root toevoegen aan scene en scene toevoegen aan dialog, dialog zichtbaar maken:
-        scene.setRoot(root);
-        changeDialogStage.setScene(scene);
-        changeDialogStage.show();
+            //TEXTFIELD
+            try {
+                //new textfields.
+                tfName = new TextField(driver.getName());
+                tfInserts = new TextField(driver.getInserts());
+                tfSirname = new TextField(driver.getSirname());
+                tfBirthday = new TextField(driver.getBirthdate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                tfPhone = new TextField(Integer.toString(driver.getPhonenumber()));
+                tfVehicle = new TextField(Integer.toString(driver.getVehicle()));
 
-        bBack.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeDialogStage.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             //Password field
             pfChangePassword = new PasswordField();
@@ -115,6 +100,9 @@ public class DriverChangeDialog {
 
             //CHECKBOX
             cbVehicle = new CheckBox("Voertuig");
+            if (driver.getVehicle() == 1) {
+                cbVehicle.setSelected(true);
+            }
 
             //toevoegen elementen top:
             fp1.getChildren().add(lIntro);
