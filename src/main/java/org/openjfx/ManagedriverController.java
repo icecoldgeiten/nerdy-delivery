@@ -80,11 +80,6 @@ public class ManagedriverController implements Initializable {
                 } else{
                     lVehicle.setText("Nee");
                 }
-                if(d.getLincenseNr() == 1){
-                    lLicense.setText("Ja");
-                } else {
-                    lLicense.setText("Nee");
-                }
             }
         }
     }

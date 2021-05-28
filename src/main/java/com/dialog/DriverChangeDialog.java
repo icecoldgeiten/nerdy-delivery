@@ -14,7 +14,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -25,10 +24,10 @@ public class DriverChangeDialog {
     Boolean isChange = false;
 
     @FXML Button bBack, bChange;
-    @FXML TextField tfName, tfInserts, tfSirname, tfBirthday, tfPhone, tfVehicle, tfLicense;
+    @FXML TextField tfName, tfInserts, tfSirname, tfBirthday, tfPhone, tfVehicle;
     @FXML PasswordField pfChangePassword;
     @FXML Label lIntro,lChangeAlert;
-    @FXML CheckBox cbVehicle, cbLicense;
+    @FXML CheckBox cbVehicle;
 
     public DriverChangeDialog(int clickedOnName){
         driverDao = new DriverDao();
@@ -79,7 +78,6 @@ public class DriverChangeDialog {
             tfBirthday = new TextField(driver.getBirthdate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             tfPhone = new TextField(Integer.toString(driver.getPhonenumber()));
             tfVehicle = new TextField(Integer.toString(driver.getVehicle()));
-            tfLicense = new TextField(Integer.toString(driver.getLincenseNr()));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -95,7 +93,6 @@ public class DriverChangeDialog {
 
         //CHECKBOX
         cbVehicle = new CheckBox("Voertuig");
-        cbLicense = new CheckBox("Rijbewijs");
 
         //toevoegen elementen top:
         fp1.getChildren().add(lIntro);
@@ -113,7 +110,6 @@ public class DriverChangeDialog {
         gp.add(tfPhone,2,4);
         gp.add(new Label("Wachtwoord"),1,5);
         gp.add(pfChangePassword,2,5);
-        gp.add(cbLicense,1,6);
         gp.add(cbVehicle,2,6);
 
         //toevoegen elementen bottom:
@@ -145,7 +141,7 @@ public class DriverChangeDialog {
                     }catch (Exception e){
                         bd = LocalDate.now();
                     }
-                    driverDao.changeDriver(clickedOnName,tfName.getText(),tfInserts.getText(),tfSirname.getText(),phone,bd, cbVehicle.isSelected(), cbLicense.isSelected());
+                    driverDao.changeDriver(clickedOnName,tfName.getText(),tfInserts.getText(),tfSirname.getText(),phone,bd, cbVehicle.isSelected());
                     if(!pfChangePassword.getText().equals("")){
                         driverDao.changePassword(pfChangePassword.getText(),clickedOnName);
                     }

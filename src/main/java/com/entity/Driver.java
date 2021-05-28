@@ -46,15 +46,14 @@ public class Driver extends Employee {
         return lincenseNr;
     }
 
+
     //Setters
     public void setActive(boolean active){
         this.active = active;
     }
-
     public void setVehicle(Integer vehicle) {
         this.vehicle = vehicle;
     }
-
     public void setLincenseNr(Integer lincenseNr) {
         this.lincenseNr = lincenseNr;
     }
