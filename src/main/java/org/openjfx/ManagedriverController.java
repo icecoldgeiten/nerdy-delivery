@@ -126,7 +126,7 @@ public class ManagedriverController implements Initializable {
                 Alert alert2 = new Alert(Alert.AlertType.WARNING);
                 alert2.setTitle("Waarschuwing!");
                 alert2.setHeaderText("Bezorger kan niet worden verwijderd!");
-                alert2.setContentText("Aan deze bezorger zitten routes gekoppeld.");
+                alert2.setContentText("Aan deze bezorger zitten actieve routes gekoppeld.");
                 Optional<ButtonType> result = alert2.showAndWait();
 
             }
