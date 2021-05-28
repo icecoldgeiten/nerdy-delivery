@@ -62,6 +62,7 @@ public class ManagedriverController implements Initializable {
     @FXML
     public void lvDriversOnMouseClicked() {
         //Check wich list index is selected then set txtContent value for that index
+      try {
         clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
         for (Driver d : driverDao.getAllActiveDrivers()) {
             if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
@@ -81,7 +82,10 @@ public class ManagedriverController implements Initializable {
                     lVehicle.setText("Nee");
                 }
             }
+        } catch (NullPointerException e) {
+            System.out.println("No result");
         }
+
     }
 
     //Clicking on 'Bewerk..' button opens new dialog with textfiels to change the driver.
