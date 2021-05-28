@@ -41,5 +41,4 @@
         <TextField fx:id="tfEmail" GridPane.columnIndex="2" GridPane.rowIndex="5" />
     </GridPane>
     <CheckBox fx:id="cbVehicle" layoutX="32.0" layoutY="259.0" mnemonicParsing="false" text="Heeft een voertuig? " />
-    <CheckBox fx:id="cbLicense" layoutX="215.0" layoutY="259.0" mnemonicParsing="false" text="Heeft een rijbewijs?" />
 </Pane>

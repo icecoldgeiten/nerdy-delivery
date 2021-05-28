@@ -20,6 +20,7 @@
        <TableColumn fx:id="Customer" prefWidth="227.20001220703125" text="Klant" />
          <TableColumn fx:id="Address" minWidth="6.4000244140625" prefWidth="180.79998779296875" text="Adres" />
          <TableColumn fx:id="Status" minWidth="6.4000244140625" text="Status" />
+         <TableColumn fx:id="Packages" prefWidth="128.00003051757812" text="Aantal pakketjes" />
      </columns>
    </TableView>
    <Button fx:id="add" layoutX="590.0" layoutY="31.0" mnemonicParsing="false" onAction="#addOrders" text="Voeg orders toe" />

@@ -53,8 +53,8 @@ public class RouteDao {
 
     public void generateRoute(Driver driver, ObservableList<Order> orders, LocalDate date, Timeslot timeslot) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
+            em.getTransaction().begin();
             Route r = new Route();
             RouteStatus status = em.createQuery("from RouteStatus R where R.statusCode = :status", RouteStatus.class).setParameter("status", "OPENFORDELIVERY").getSingleResult();
 
@@ -70,26 +70,26 @@ public class RouteDao {
             r.setDate(date);
             em.merge(r);
             em.flush();
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        em.getTransaction().commit();
         em.close();
     }
 
     public void updateDriver(Route route, Driver driver, LocalDate date, Timeslot time) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
+            em.getTransaction().begin();
             route.setDriver(driver);
             route.setDate(date);
             route.setTimeslot(time);
             em.merge(route);
             em.flush();
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        em.getTransaction().commit();
         em.close();
     }
 
@@ -114,8 +114,8 @@ public class RouteDao {
 
     public void removeNotHome(Route route, Order order) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
+            em.getTransaction().begin();
             Set<Order> old  = route.getOrders();
             for (Order d : old) {
                 if (d.equals(order)) {
@@ -128,7 +128,6 @@ public class RouteDao {
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
         }
         em.close();
     }
@@ -172,16 +171,16 @@ public class RouteDao {
 
     public void setRouteStatus(Route route, String statusCode) {
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         try {
+            em.getTransaction().begin();
             RouteStatus status = em.createQuery("from RouteStatus where statusCode = :status", RouteStatus.class).setParameter("status", statusCode).getSingleResult();
             route.setRouteStatus(status);
             em.merge(route);
             em.flush();
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        em.getTransaction().commit();
         em.close();
     }
 }

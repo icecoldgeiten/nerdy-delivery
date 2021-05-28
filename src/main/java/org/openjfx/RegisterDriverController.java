@@ -16,7 +16,7 @@ public class RegisterDriverController {
     public TextField tfName, tfInserts, tfSirname, tfPhone, tfEmail;
     public Label lErrorGegevens;
     public DatePicker dpBirthday;
-    public CheckBox cbVehicle, cbLicense;
+    public CheckBox cbVehicle;
     private DriverDao driver;
 
     @FXML
@@ -31,7 +31,7 @@ public class RegisterDriverController {
             int tel = Integer.parseInt(ph);
             boolean isValid = EmailAddressValidator.isValid(tfEmail.getText());
             int veh = cbVehicle.isSelected() ? 1 :0;
-            int lic = cbLicense.isSelected() ? 1 :0;
+
 
             //check op wachtwoord en op geboortedatum
             if(!isValid) {
@@ -41,7 +41,7 @@ public class RegisterDriverController {
             } else if(dpBirthday.getValue().isAfter(LocalDate.now()) || dpBirthday.getValue().equals(LocalDate.now())){
                 lErrorGegevens.setText("Vul juiste geboortedatum in!");
             } else {
-                driver.addDriver(tfName.getText(), tfInserts.getText(), tfSirname.getText(), tel, dpBirthday.getValue(), tfEmail.getText(),veh,lic);
+                driver.addDriver(tfName.getText(), tfInserts.getText(), tfSirname.getText(), tel, dpBirthday.getValue(), tfEmail.getText(),veh);
                 App.setPage("manage_driver");
             }
         } catch (Exception e) {

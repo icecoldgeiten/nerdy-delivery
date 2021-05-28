@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.util.Callback;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -73,25 +74,19 @@ public class ManagedriverController implements Initializable {
                     lBirthday.setText(bd);
                     try {
                         lPhone.setText(Integer.toString(d.getPhonenumber()));
-                    }catch (NullPointerException ex){
+                    } catch (NullPointerException ex) {
                         lPhone.setText("");
                     }
-                    if(d.getVehicle() == 1){
+                    if (d.getVehicle() == 1) {
                         lVehicle.setText("Ja");
-                    } else{
-                        lVehicle.setText("Nee");
-                    }
-                    if(d.getLincenseNr() == 1){
-                        lLicense.setText("Ja");
                     } else {
-                        lLicense.setText("Nee");
+                        lVehicle.setText("Nee");
                     }
                 }
             }
         } catch (NullPointerException e) {
             System.out.println("No result");
         }
-
     }
 
     //Clicking on 'Bewerk..' button opens new dialog with textfiels to change the driver.
@@ -108,8 +103,8 @@ public class ManagedriverController implements Initializable {
     public void rowDelete(ActionEvent event) {
         Driver driver = driverDao.searchDriver(clickedDriver);
         ArrayList<Route> deliveredRoutes = new ArrayList<>();
-        for(Route r : driver.getRoutes()){
-            if(r.getRouteStatus().getStatusCode().equals("DELIVERED")){
+        for (Route r : driver.getRoutes()) {
+            if (r.getRouteStatus().getStatusCode().equals("DELIVERED")) {
                 deliveredRoutes.add(r);
             }
         }
@@ -131,11 +126,11 @@ public class ManagedriverController implements Initializable {
                 Alert alert2 = new Alert(Alert.AlertType.WARNING);
                 alert2.setTitle("Waarschuwing!");
                 alert2.setHeaderText("Bezorger kan niet worden verwijderd!");
-                alert2.setContentText("Aan deze bezorger zitten routes gekoppeld.");
+                alert2.setContentText("Aan deze bezorger zitten actieve routes gekoppeld.");
                 Optional<ButtonType> result = alert2.showAndWait();
 
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex);
         }
     }

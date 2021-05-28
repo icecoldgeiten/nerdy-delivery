@@ -12,7 +12,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="885.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.Sidebar">
    <AnchorPane prefHeight="47.0" prefWidth="885.0" style="-fx-background-color: #191970;">
       <Label fx:id="user" layoutX="708.0" layoutY="15.0" prefHeight="17.0" prefWidth="100.0" textAlignment="RIGHT" textFill="WHITE" />
-      <Text fill="WHITE" layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nerdy delivery">
+      <Text fill="WHITE" layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nerdy Delivery">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
