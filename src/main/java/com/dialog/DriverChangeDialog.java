@@ -93,6 +93,9 @@ public class DriverChangeDialog {
 
         //CHECKBOX
         cbVehicle = new CheckBox("Voertuig");
+        if(driver.getVehicle() == 1){
+            cbVehicle.setSelected(true);
+        }
 
         //toevoegen elementen top:
         fp1.getChildren().add(lIntro);
