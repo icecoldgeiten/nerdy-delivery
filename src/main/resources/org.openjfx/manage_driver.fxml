@@ -38,17 +38,17 @@
                         <Label text="Naam" GridPane.rowIndex="1" />
                         <Label text="Tussenvoegsels" GridPane.rowIndex="2" />
                         <Label text="Achternaam" GridPane.rowIndex="3" />
-                        <Label fx:id="lName" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label fx:id="lInserts" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label fx:id="lSirname" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="lName" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="lInserts" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="lSirname" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label text="Geboortedatum" GridPane.rowIndex="4" />
                         <Label text="Telefoonnummer" GridPane.rowIndex="5" />
                         <Label text="Voertuig" GridPane.rowIndex="6" />
                         <Label text="Rijbewijs" GridPane.rowIndex="7" />
-                        <Label fx:id="lBirthday" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label fx:id="lPhone" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label fx:id="lVehicle" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Label fx:id="lLicense" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Label fx:id="lBirthday" text="" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label fx:id="lPhone" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label fx:id="lVehicle" text="" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Label fx:id="lLicense" text="" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                      </children>
                   </GridPane>
                   <Button fx:id="bDelete" layoutX="513.0" layoutY="318.0" mnemonicParsing="false" onAction="#rowDelete" text="Verwijder" />

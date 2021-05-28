@@ -32,7 +32,7 @@ public class Order {
     @Column(name = "ExpectedDeliveryDate")
     private String expectedDeliveryDate;
 
-    @OneToMany
+    @OneToMany(targetEntity = OrderLine.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "OrderID")
     private Set<OrderLine> orderLines;
 

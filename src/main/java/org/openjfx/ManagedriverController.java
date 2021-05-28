@@ -3,6 +3,7 @@ package org.openjfx;
 import com.dao.DriverDao;
 import com.dialog.DriverChangeDialog;
 import com.entity.Driver;
+import com.entity.Route;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -54,38 +56,43 @@ public class ManagedriverController implements Initializable {
                 };
             }
         });
-        //Before clicking on mouse labels are empty
-        lName.setText("");
-        lInserts.setText("");
-        lSirname.setText("");
-        lBirthday.setText("");
-        lPhone.setText("");
-        lVehicle.setText("");
-        lLicense.setText("");
     }
 
     // When mouse clicked on list show details of driver!
     @FXML
     public void lvDriversOnMouseClicked() {
-                //Check wich list index is selected then set txtContent value for that index
-                clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
-                for (Driver d : driverDao.getAllActiveDrivers()) {
-                    if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
-                        lName.setText(d.getName());
-                        lInserts.setText(d.getInserts());
-                        lSirname.setText(d.getSirname());
-                        String bd = d.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                        lBirthday.setText(bd);
-                        try {
-                            lPhone.setText(Integer.toString(d.getPhonenumber()));
-                        }catch (NullPointerException ex){
-                            lPhone.setText("");
-                        }
-                        lVehicle.setText(Integer.toString(d.getVehicle()));
-                        lLicense.setText(Integer.toString(d.getLincenseNr()));
+        //Check wich list index is selected then set txtContent value for that index
+        try {
+            clickedDriver = (lvDrivers.getSelectionModel().getSelectedItem().getId());
+            for (Driver d : driverDao.getAllActiveDrivers()) {
+                if (lvDrivers.getSelectionModel().getSelectedItem().getId() == d.getId()) {
+                    lName.setText(d.getName());
+                    lInserts.setText(d.getInserts());
+                    lSirname.setText(d.getSirname());
+                    String bd = d.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    lBirthday.setText(bd);
+                    try {
+                        lPhone.setText(Integer.toString(d.getPhonenumber()));
+                    }catch (NullPointerException ex){
+                        lPhone.setText("");
+                    }
+                    if(d.getVehicle() == 1){
+                        lVehicle.setText("Ja");
+                    } else{
+                        lVehicle.setText("Nee");
+                    }
+                    if(d.getLincenseNr() == 1){
+                        lLicense.setText("Ja");
+                    } else {
+                        lLicense.setText("Nee");
                     }
                 }
             }
+        } catch (NullPointerException e) {
+            System.out.println("No result");
+        }
+
+    }
 
     //Clicking on 'Bewerk..' button opens new dialog with textfiels to change the driver.
     @FXML
@@ -100,9 +107,14 @@ public class ManagedriverController implements Initializable {
 
     public void rowDelete(ActionEvent event) {
         Driver driver = driverDao.searchDriver(clickedDriver);
+        ArrayList<Route> deliveredRoutes = new ArrayList<>();
+        for(Route r : driver.getRoutes()){
+            if(r.getRouteStatus().getStatusCode().equals("DELIVERED")){
+                deliveredRoutes.add(r);
+            }
+        }
         try {
-            if (driver.getRoutes().isEmpty()) {
-                System.out.println("Mag wel!" + driver.getName());
+            if (driver.getRoutes().isEmpty() || (driver.getRoutes().size() == deliveredRoutes.size())) {
                 Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert1.setTitle("Verwijderen");
                 alert1.setHeaderText("Bezorger verwijderen?");
@@ -113,9 +125,9 @@ public class ManagedriverController implements Initializable {
                     // ... user chose OK
                     driverDao.rowDelete(clickedDriver);
                 }
+
                 updateDrivers();
             } else {
-                System.out.println("Mag niet!" + driver.getName());
                 Alert alert2 = new Alert(Alert.AlertType.WARNING);
                 alert2.setTitle("Waarschuwing!");
                 alert2.setHeaderText("Bezorger kan niet worden verwijderd!");

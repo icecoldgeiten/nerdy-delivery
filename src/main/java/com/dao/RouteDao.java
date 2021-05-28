@@ -112,12 +112,36 @@ public class RouteDao {
         em.close();
     }
 
+    public void removeNotHome(Route route, Order order) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        try {
+            Set<Order> old  = route.getOrders();
+            for (Order d : old) {
+                if (d.equals(order)) {
+                    d.setRoute(null);
+                }
+            }
+            route.setOrders(new HashSet<>(old));
+            em.merge(route);
+            em.flush();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            em.getTransaction().rollback();
+        }
+        em.close();
+    }
+
     public void removeOrder(Route route, Order order) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            route.getOrders().removeIf(value -> value.equals(order));
             order.setRoute(null);
+            if(!order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
+                order.setOrderStatus(StatusDao.getOrderStatus("OPENFORDELIVERY"));
+            }
+            route.getOrders().removeIf(value -> value.equals(order));
             em.merge(order);
             em.merge(route);
             em.flush();

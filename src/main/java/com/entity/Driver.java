@@ -15,12 +15,6 @@ public class Driver extends Employee {
     @JoinColumn(name = "DriverID")
     private Set<Route> routes;
 
-    @Column(name = "Password")
-    private String password;
-
-    @Column(name = "Username")
-    private String username;
-
     @Column(name = "Vehicle")
     private Integer vehicle;
 
@@ -51,6 +45,9 @@ public class Driver extends Employee {
     public Integer getLincenseNr() {
         return lincenseNr;
     }
+    public Boolean getActive() {
+        return active;
+    }
 
     //Setters
     public void setActive(boolean active){
@@ -65,18 +62,4 @@ public class Driver extends Employee {
         this.lincenseNr = lincenseNr;
     }
 
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
 }

@@ -8,8 +8,6 @@ import com.entity.Route;
 import com.google.CalculateRoute;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
-import com.google.maps.model.DirectionsStep;
-import com.sun.istack.Nullable;
 import io.github.cdimascio.dotenv.Dotenv;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -26,12 +24,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Set;
 
 
 public class MainPageDriverController {
@@ -73,7 +72,6 @@ public class MainPageDriverController {
     public void update() {
         tvDeliveries.getItems().clear();
         loadDeliveries();
-//        loadWebview();
         loadRoute();
     }
 
@@ -116,17 +114,16 @@ public class MainPageDriverController {
         try {
             directionsRoute = calculateRoute.RouteMaker(route.getOrders());
             setTimeIndication();
+            loadWebview();
         } catch (RuntimeException ignored) {
         }
     }
 
-//    public void loadWebview() throws URISyntaxException {
-//        //TODO:: hier gaan we even fuifen eerst thee pakken
-//        WebEngine engine = webView.getEngine();
-//        engine.setJavaScriptEnabled(true);
-////        engine.executeScript();
-//        engine.load(String.valueOf(new URI("https://maps.googleapis.com/maps/api/staticmap?sensor=false&size=400x400&path=weight:10%7Cenc:w}l_Iowbd@|@}APUNM&path=weight:10%7Cenc:wzl_Iq{bd@gAkHG}@&path=weight:10%7Cenc:g}l_I{fcd@?K@Mk@Em@EYEmB]&path=weight:10%7Cenc:gdm_Ieicd@OCMCAL?LAPANKbCI~AEl@Ev@KpAEh@AZGj@ATMtAi@`FIn@a@fDE`@ARADOlAOvACLE\\YhCKn@Kt@Ml@_@pBy@nCY|@k@`BQh@CFGRKZELGREPUv@Of@Un@a@hAWt@s@fBABYv@IRGPGRA@IVkBlFCHUb@ILONIFIBIBi@N&key=AIzaSyBUR1VVIeyacS7msWkyp8VO8BZ6vkK9Jx8")));
-//    }
+    public void loadWebview() {
+        WebEngine engine = webView.getEngine();
+        engine.setJavaScriptEnabled(true);
+        engine.load(generateRouteUrl().toString());
+    }
 
     public void setTimeIndication() {
         long total = 0;
@@ -175,11 +172,6 @@ public class MainPageDriverController {
         stage.show();
     }
 
-    //Setter
-    public static void setRoute(Route route) {
-        MainPageDriverController.route = route;
-    }
-
     @FXML
     public void OnMouseClickedCustomer(MouseEvent event) {
         if (event.getClickCount() == 2) {
@@ -192,15 +184,20 @@ public class MainPageDriverController {
             return;
         }
         if (event.getClickCount() == 1) {
-            selectedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
-            if (selectedOrder.getOrderStatus().getStatusCode().equals("NOTHOME") || selectedOrder.getOrderStatus().
-                    getStatusCode().equals("DELIVERED")) {
-                bNotHome.setDisable(true);
-                bDelivered.setDisable(true);
-            } else {
-                bNotHome.setDisable(false);
-                bDelivered.setDisable(false);
+            try {
+                selectedOrder = tvDeliveries.getSelectionModel().getSelectedItem();
+                if (selectedOrder.getOrderStatus().getStatusCode().equals("NOTHOME") || selectedOrder.getOrderStatus().
+                        getStatusCode().equals("DELIVERED")) {
+                    bNotHome.setDisable(true);
+                    bDelivered.setDisable(true);
+                } else {
+                    bNotHome.setDisable(false);
+                    bDelivered.setDisable(false);
+                }
+            } catch (NullPointerException e) {
+                System.out.println("No click");
             }
+
         }
     }
 
@@ -224,25 +221,43 @@ public class MainPageDriverController {
 
     @FXML
     public void finishRoute() throws IOException {
-        for (Order order : route.getOrders()) {
-            if (!order.getOrderStatus().getStatusCode().equals("DELIVERED") && !order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
-                final Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.initOwner(App.getScene().getWindow());
-                alert.setContentText("Status van bestelling(en) is niet juist");
-                alert.show();
-                return;
-            }
-            if (order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
-                r.removeOrder( route,order);
-            }
+        if (!checkOrders(route.getOrders())) {
+            final Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(App.getScene().getWindow());
+            alert.setContentText("Status van bestelling(en) is niet juist");
+            alert.show();
+            return;
         }
+        removeOrders();
         r.setRouteStatus(route, "DELIVERED");
         App.setRoot("route_driver");
+    }
+
+    public void removeOrders() {
+        for (Order or : route.getOrders()) {
+            if (or.getOrderStatus().getStatusCode().equals("NOTHOME")) {
+                r.removeNotHome(route, or);
+            }
+        }
+    }
+
+    public Boolean checkOrders(Set<Order> orders) {
+        for (Order order : orders) {
+            if (!order.getOrderStatus().getStatusCode().equals("DELIVERED") && !order.getOrderStatus().getStatusCode().equals("NOTHOME")) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @FXML
     public void back() throws IOException {
         MainPageDriverController.setRoute(null);
         App.setRoot("route_driver");
+    }
+
+    //Setter
+    public static void setRoute(Route route) {
+        MainPageDriverController.route = route;
     }
 }

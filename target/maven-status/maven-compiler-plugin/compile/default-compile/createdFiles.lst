@@ -1,4 +1,3 @@
-org\openjfx\RouteHistoryController.class
 org\openjfx\RouteDriverController.class
 com\dao\RouteDao.class
 com\dialog\DriverChangeDialog.class
@@ -12,7 +11,6 @@ com\dao\StatusDao.class
 com\entity\RouteStatus.class
 org\openjfx\EditRouteController$2.class
 com\entity\Timeslot.class
-org\openjfx\AddRouteController.class
 org\openjfx\MainPageDriverController.class
 com\entity\OrderLine.class
 org\openjfx\OrderDetailsController.class
@@ -20,7 +18,6 @@ org\openjfx\AddRouteController$3.class
 org\openjfx\MainPageDriverController$2.class
 com\entity\Employee.class
 org\openjfx\RouteController.class
-org\openjfx\Sidebar.class
 org\openjfx\ManagedriverController$1.class
 org\openjfx\AdminHomeController.class
 com\dialog\DriverChangeDialog$1.class
@@ -32,7 +29,6 @@ org\openjfx\LoginAdministratorController.class
 org\openjfx\EditRouteAddOrderController.class
 org\openjfx\ManagedriverController.class
 org\openjfx\AddRouteController$2.class
-com\helpers\AES256.class
 com\dialog\DriverChangeDialog$2.class
 com\dao\DriverDao.class
 com\entity\Driver.class
